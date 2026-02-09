@@ -1,15 +1,13 @@
 import Link from 'next/link';
-import { supabaseAdmin } from '@/lib/supabase/admin';
 import { ProductDetailClient } from '@/components/ProductDetailClient';
 
 export const dynamic = 'force-dynamic';
 
 export default async function ProductoDetallePage({ params }: { params: { id: string } }) {
-  const { data: product } = await supabaseAdmin
-    .from('products')
-    .select('*')
-    .eq('id', params.id)
-    .single();
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://srshaper-app-tv3i.vercel.app';
+  const res = await fetch(`${baseUrl}/api/product?id=${params.id}`, { cache: 'no-store' });
+  const json = await res.json();
+  const product = json.product;
 
   if (!product || !product.active) {
     return (
