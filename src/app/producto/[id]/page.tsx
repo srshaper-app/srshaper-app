@@ -9,6 +9,7 @@ export default async function ProductoDetallePage({ params }: { params: { id: st
     .from('products')
     .select('*')
     .eq('id', params.id)
+    .eq('active', true)
     .single();
 
   if (!product) {

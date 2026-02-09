@@ -560,6 +560,8 @@ img {
   display: grid;
   gap: 16px;
   overflow-y: auto;
+  align-content: start;
+  grid-auto-rows: auto;
 }
 
 .cart-item {

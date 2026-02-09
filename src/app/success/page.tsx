@@ -1,6 +1,16 @@
+'use client';
+
 import Link from 'next/link';
+import { useEffect } from 'react';
+import { useCart } from '@/components/CartContext';
 
 export default function SuccessPage() {
+  const { clear } = useCart();
+
+  useEffect(() => {
+    clear();
+  }, [clear]);
+
   return (
     <main>
       <section className="page-hero">

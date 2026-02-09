@@ -21,7 +21,7 @@ const formatMoney = (value: number, currency = 'EUR') => {
 };
 
 export function ProductCard({ id, name, description, price_cents, currency, image_url }: ProductCardProps) {
-  const { addItem } = useCart();
+  const { addItem, openCart } = useCart();
 
   return (
     <article className="card">
@@ -33,15 +33,16 @@ export function ProductCard({ id, name, description, price_cents, currency, imag
       <span className="price">{formatMoney(price_cents, currency)}</span>
       <button
         className="btn btn-ghost"
-        onClick={() =>
+        onClick={() => {
           addItem({
             id,
             name,
             price_cents,
             currency,
             image_url,
-          })
-        }
+          });
+          openCart();
+        }}
       >
         Agregar al carrito
       </button>

@@ -3,24 +3,23 @@
 import { useState } from 'react';
 import { useCart } from './CartContext';
 
-const formatMoney = (value: number, currency = 'USD') => {
+const formatMoney = (value: number) => {
   return new Intl.NumberFormat('es-ES', {
     style: 'currency',
-    currency,
+    currency: 'EUR',
     maximumFractionDigits: 0,
   }).format(value / 100);
 };
 
 export function CartButton() {
-  const { count } = useCart();
-  const [open, setOpen] = useState(false);
+  const { count, isOpen, openCart, closeCart } = useCart();
 
   return (
     <>
-      <button className="btn btn-outline" onClick={() => setOpen(true)}>
+      <button className="btn btn-outline" onClick={openCart}>
         Carrito (<span>{count}</span>)
       </button>
-      <CartDrawer open={open} onClose={() => setOpen(false)} />
+      <CartDrawer open={isOpen} onClose={closeCart} />
     </>
   );
 }
@@ -59,7 +58,7 @@ export function CartDrawer({ open, onClose }: { open: boolean; onClose: () => vo
               <img src={item.image_url || '/logo-srshaper.svg'} alt={item.name} />
               <div>
                 <h4>{item.name}</h4>
-                <p>{formatMoney(item.price_cents, item.currency)} · Cantidad {item.quantity}</p>
+                <p>{formatMoney(item.price_cents)} · Cantidad {item.quantity}</p>
               </div>
               <button onClick={() => removeItem(item.id)}>Quitar</button>
             </div>

@@ -18,6 +18,9 @@ type CartContextValue = {
   clear: () => void;
   count: number;
   totalCents: number;
+  isOpen: boolean;
+  openCart: () => void;
+  closeCart: () => void;
 };
 
 const CartContext = createContext<CartContextValue | undefined>(undefined);
@@ -26,6 +29,7 @@ const CART_KEY = 'srshaper_cart_v2';
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([]);
+  const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     const stored = localStorage.getItem(CART_KEY);
@@ -59,6 +63,8 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   };
 
   const clear = () => setItems([]);
+  const openCart = () => setIsOpen(true);
+  const closeCart = () => setIsOpen(false);
 
   const count = useMemo(() => items.reduce((sum, item) => sum + item.quantity, 0), [items]);
   const totalCents = useMemo(
@@ -67,8 +73,8 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   );
 
   const value = useMemo(
-    () => ({ items, addItem, removeItem, clear, count, totalCents }),
-    [items, count, totalCents]
+    () => ({ items, addItem, removeItem, clear, count, totalCents, isOpen, openCart, closeCart }),
+    [items, count, totalCents, isOpen]
   );
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;

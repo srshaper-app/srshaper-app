@@ -11,20 +11,21 @@ type Props = {
 };
 
 export function ProductDetailClient({ id, name, price_cents, currency, image_url }: Props) {
-  const { addItem } = useCart();
+  const { addItem, openCart } = useCart();
 
   return (
     <button
       className="btn"
-      onClick={() =>
+      onClick={() => {
         addItem({
           id,
           name,
           price_cents,
           currency,
           image_url,
-        })
-      }
+        });
+        openCart();
+      }}
     >
       Añadir al carrito
     </button>
