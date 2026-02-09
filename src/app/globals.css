@@ -686,12 +686,16 @@ img {
 }
 
 .admin-sidebar {
+  position: sticky;
+  top: 0;
+  height: 100vh;
   background: #0a0b10;
   color: white;
   padding: 28px 22px;
-  display: grid;
-  grid-template-rows: auto 1fr auto;
+  display: flex;
+  flex-direction: column;
   gap: 24px;
+  overflow: hidden;
 }
 
 .admin-brand {
@@ -718,16 +722,19 @@ img {
 .admin-sidebar nav {
   display: grid;
   gap: 10px;
+  align-content: start;
 }
 
 .admin-sidebar nav a {
-  padding: 12px 14px;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.06);
+  padding: 14px 16px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.08);
   color: white;
   font-size: 13px;
   text-transform: uppercase;
   letter-spacing: 1px;
+  min-height: 48px;
+  align-items: center;
 }
 
 .admin-sidebar nav a.active {
@@ -735,12 +742,17 @@ img {
 }
 
 .admin-logout {
-  justify-self: start;
-  background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  margin-top: auto;
+  align-self: flex-start;
+  background: #11151b;
+  border: 1px solid rgba(255, 255, 255, 0.4);
   color: white;
-  padding: 10px 14px;
+  padding: 12px 18px;
   border-radius: 999px;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  opacity: 0.95;
 }
 
 .admin-content {
@@ -950,7 +962,7 @@ img {
   background: #0a6f73;
   color: white;
   border: none;
-  padding: 10px 16px;
+  padding: 12px 18px;
   border-radius: 999px;
   font-size: 12px;
   text-transform: uppercase;
