@@ -4,13 +4,14 @@ import { ProductDetailClient } from '@/components/ProductDetailClient';
 
 export const dynamic = 'force-dynamic';
 
-export default async function ProductoDetallePage({ params }: { params: { id: string } }) {
+export default async function ProductoDetallePage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   const hdrs = await headers();
   const host = hdrs.get('x-forwarded-host') || hdrs.get('host');
   const proto = hdrs.get('x-forwarded-proto') || 'https';
   const baseUrl = host ? `${proto}://${host}` : 'https://srshaper-app-tv3i.vercel.app';
 
-  const res = await fetch(`${baseUrl}/api/product?id=${params.id}`, { cache: 'no-store' });
+  const res = await fetch(`${baseUrl}/api/product?id=${id}`, { cache: 'no-store' });
   const json = await res.json().catch(() => ({}));
   const product = json.product;
 
@@ -20,7 +21,7 @@ export default async function ProductoDetallePage({ params }: { params: { id: st
         <section className="page-hero">
           <p className="breadcrumb">Producto no encontrado</p>
           <h1>No encontramos este producto.</h1>
-          <p className="lead">ID: {params.id}</p>
+          <p className="lead">ID: {id}</p>
           {json?.error && <p className="lead">Error: {json.error}</p>}
           <Link className="btn" href="/">Volver al inicio</Link>
         </section>
