@@ -1,0 +1,43 @@
+export default function CreaTuTablaPage() {
+  return (
+    <main>
+      <section className="page-hero">
+        <p className="breadcrumb">Inicio / Tablas / Crea tu tabla</p>
+        <h1>Diseña tu tabla a medida.</h1>
+        <p className="lead">Completa tu perfil de surf, olas favoritas y estilo para que nuestro shaper diseñe el outline perfecto.</p>
+        <details className="category-drop" open>
+          <summary>Opciones de tablas</summary>
+          <div className="subnav">
+            <a href="/tablas/catalogo">Catálogo</a>
+            <a href="/tablas/crea-tu-tabla">Crea tu tabla a medida</a>
+          </div>
+        </details>
+      </section>
+
+      <section className="section wave">
+        <div className="section-head">
+          <h2>Brief de shaping</h2>
+          <p>Te respondemos en 24h con propuesta de diseño y tiempos.</p>
+        </div>
+        <form className="form">
+          <input type="text" placeholder="Nombre" />
+          <input type="email" placeholder="Email" />
+          <select>
+            <option>Tipo de ola preferida</option>
+            <option>Beach break</option>
+            <option>Point break</option>
+            <option>Reef break</option>
+          </select>
+          <select>
+            <option>Nivel actual</option>
+            <option>Principiante</option>
+            <option>Intermedio</option>
+            <option>Avanzado</option>
+          </select>
+          <textarea placeholder="Cuéntanos tu estilo, medidas y objetivo"></textarea>
+          <button className="btn" type="submit">Enviar brief</button>
+        </form>
+      </section>
+    </main>
+  );
+}

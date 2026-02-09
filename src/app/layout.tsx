@@ -1,5 +1,7 @@
 import './globals.css';
 import Script from 'next/script';
+import { CartProvider } from '@/components/CartContext';
+import { SiteHeader, SiteFooter } from '@/components/Layout';
 
 export const metadata = {
   title: 'Sr.Shaper',
@@ -29,7 +31,15 @@ export default function RootLayout({
           `}
         </Script>
       </head>
-      <body>{children}</body>
+      <body>
+        <CartProvider>
+          <div className="page">
+            <SiteHeader />
+            {children}
+            <SiteFooter />
+          </div>
+        </CartProvider>
+      </body>
     </html>
   );
 }
