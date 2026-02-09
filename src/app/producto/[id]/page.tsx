@@ -9,15 +9,15 @@ export default async function ProductoDetallePage({ params }: { params: { id: st
     .from('products')
     .select('*')
     .eq('id', params.id)
-    .eq('active', true)
     .single();
 
-  if (!product) {
+  if (!product || !product.active) {
     return (
       <main>
         <section className="page-hero">
           <p className="breadcrumb">Producto no encontrado</p>
           <h1>No encontramos este producto.</h1>
+          <p className="lead">ID: {params.id}</p>
           <Link className="btn" href="/">Volver al inicio</Link>
         </section>
       </main>

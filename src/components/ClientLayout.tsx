@@ -3,6 +3,7 @@
 import { usePathname } from 'next/navigation';
 import { CartProvider } from '@/components/CartContext';
 import { SiteHeader, SiteFooter } from '@/components/Layout';
+import { CartOverlay } from '@/components/CartDrawer';
 
 export function ClientLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -19,6 +20,7 @@ export function ClientLayout({ children }: { children: React.ReactNode }) {
         {children}
         <SiteFooter />
       </div>
+      <CartOverlay />
     </CartProvider>
   );
 }

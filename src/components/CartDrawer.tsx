@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { useCart } from './CartContext';
 
 const formatMoney = (value: number) => {
@@ -12,20 +12,32 @@ const formatMoney = (value: number) => {
 };
 
 export function CartButton() {
-  const { count, isOpen, openCart, closeCart } = useCart();
+  const { count, openCart } = useCart();
 
   return (
-    <>
-      <button className="btn btn-outline" onClick={openCart}>
-        Carrito (<span>{count}</span>)
-      </button>
-      <CartDrawer open={isOpen} onClose={closeCart} />
-    </>
+    <button className="btn btn-outline" onClick={openCart}>
+      Carrito (<span>{count}</span>)
+    </button>
   );
 }
 
-export function CartDrawer({ open, onClose }: { open: boolean; onClose: () => void }) {
-  const { items, removeItem, clear, totalCents } = useCart();
+export function CartOverlay() {
+  const { items, removeItem, clear, totalCents, isOpen, closeCart } = useCart();
+  const drawerRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const handler = (event: MouseEvent) => {
+      if (!drawerRef.current) return;
+      if (!drawerRef.current.contains(event.target as Node)) {
+        closeCart();
+      }
+    };
+    document.addEventListener('mousedown', handler);
+    return () => {
+      document.removeEventListener('mousedown', handler);
+    };
+  }, [isOpen, closeCart]);
 
   const handleCheckout = async () => {
     const res = await fetch('/api/checkout', {
@@ -43,15 +55,11 @@ export function CartDrawer({ open, onClose }: { open: boolean; onClose: () => vo
 
   return (
     <>
-      <div
-        className={`cart-backdrop ${open ? 'open' : ''}`}
-        onClick={onClose}
-        onMouseDown={onClose}
-      />
-      <aside className={`cart-drawer ${open ? 'open' : ''}`}>
+      <div className={`cart-backdrop ${isOpen ? 'open' : ''}`} />
+      <aside className={`cart-drawer ${isOpen ? 'open' : ''}`} ref={drawerRef}>
         <div className="cart-header">
           <h3>Tu carrito</h3>
-          <button className="cart-close" type="button" onClick={onClose}>
+          <button className="cart-close" type="button" onClick={closeCart}>
             Cerrar
           </button>
         </div>
