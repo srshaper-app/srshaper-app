@@ -46,6 +46,17 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     localStorage.setItem(CART_KEY, JSON.stringify(items));
   }, [items]);
 
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isOpen]);
+
   const addItem = (item: Omit<CartItem, 'quantity'>) => {
     setItems((prev) => {
       const existing = prev.find((p) => p.id === item.id);

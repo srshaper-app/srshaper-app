@@ -526,6 +526,7 @@ img {
   z-index: 40;
   display: grid;
   grid-template-rows: auto 1fr auto;
+  overflow: hidden;
 }
 
 .cart-drawer.open {
