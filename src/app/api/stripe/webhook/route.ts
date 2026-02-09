@@ -1,9 +1,10 @@
 import { NextResponse } from 'next/server';
-import { stripe } from '@/lib/stripe';
+import { getStripe } from '@/lib/stripe';
 import { supabaseAdmin } from '@/lib/supabase/admin';
 import type Stripe from 'stripe';
 
 export async function POST(request: Request) {
+  const stripe = getStripe();
   const signature = request.headers.get('stripe-signature');
   if (!signature) {
     return NextResponse.json({ error: 'Falta firma' }, { status: 400 });
