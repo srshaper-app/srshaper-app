@@ -51,8 +51,8 @@ export function ConsentBanner({ gaId }: Props) {
           <div>
             <strong>Cookies y privacidad</strong>
             <p>
-              Usamos cookies para mejorar la experiencia y medir estadísticas básicas.
-              Puedes aceptar o rechazar el uso de cookies no esenciales.
+              Usamos cookies técnicas y, si aceptas, cookies analíticas de GA4 para medir
+              visitas. Puedes aceptar o rechazar las cookies no esenciales.
             </p>
             <div className="cookie-links">
               <Link href="/cookies">Política de cookies</Link>
