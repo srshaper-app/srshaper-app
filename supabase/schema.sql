@@ -51,11 +51,21 @@ create table if not exists public.metrics_daily (
   created_at timestamptz not null default now()
 );
 
+create table if not exists public.newsletter_subscribers (
+  id uuid primary key default uuid_generate_v4(),
+  name text,
+  email text unique not null,
+  created_at timestamptz not null default now()
+);
+
+create index if not exists idx_newsletter_created_at on public.newsletter_subscribers (created_at desc);
+
 alter table public.products enable row level security;
 alter table public.orders enable row level security;
 alter table public.order_items enable row level security;
 alter table public.admins enable row level security;
 alter table public.metrics_daily enable row level security;
+alter table public.newsletter_subscribers enable row level security;
 
 create policy "Public read active products"
   on public.products for select
@@ -83,3 +93,11 @@ create policy "Admin manage admins"
   on public.admins for all
   using (exists (select 1 from public.admins where user_id = auth.uid()))
   with check (exists (select 1 from public.admins where user_id = auth.uid()));
+
+create policy "Admin read newsletter"
+  on public.newsletter_subscribers for select
+  using (exists (select 1 from public.admins where user_id = auth.uid()));
+
+create policy "Public insert newsletter"
+  on public.newsletter_subscribers for insert
+  with check (email is not null);

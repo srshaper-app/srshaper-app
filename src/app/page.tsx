@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { supabasePublic } from '@/lib/supabase/public';
 import { ProductCard } from '@/components/ProductCard';
+import { NewsletterForm } from '@/components/NewsletterForm';
 
 export const dynamic = 'force-dynamic';
 
@@ -138,11 +139,7 @@ export default async function Home() {
       <section className="newsletter">
         <h2>Únete a la comunidad Sr.Shaper</h2>
         <p>Noticias, drops y tips de entrenamiento directo a tu correo.</p>
-        <form className="form">
-          <input type="text" placeholder="Nombre" />
-          <input type="email" placeholder="Email" />
-          <button className="btn" type="submit">Suscribirme</button>
-        </form>
+        <NewsletterForm />
       </section>
     </main>
   );
