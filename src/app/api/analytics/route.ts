@@ -33,7 +33,11 @@ export async function GET() {
     });
   } catch (error: any) {
     return NextResponse.json(
-      { error: error?.message || 'Error al consultar GA4' },
+      {
+        error: error?.message || 'Error al consultar GA4',
+        propertyId: process.env.GA4_PROPERTY_ID || null,
+        clientEmail: process.env.GA4_CLIENT_EMAIL || null,
+      },
       { status: 500 }
     );
   }
