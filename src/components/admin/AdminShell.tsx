@@ -99,6 +99,9 @@ export function AdminShell({ children, title }: AdminShellProps) {
             Pedidos
           </Link>
         </nav>
+        <Link className="admin-store-link" href="/" target="_blank" rel="noreferrer">
+          Ver tienda
+        </Link>
         <button className="admin-logout" onClick={handleLogout}>Cerrar sesión</button>
       </aside>
       <section className="admin-content">
