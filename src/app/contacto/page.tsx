@@ -26,9 +26,9 @@ export default function ContactoPage() {
           <h2>Visítanos</h2>
           <p>Showroom y taller de shaping abierto de lunes a sábado.</p>
           <div className="badges">
-            <span className="badge">Av. Costera 120</span>
-            <span className="badge">+54 9 11 5555 1111</span>
-            <span className="badge">hola@srshaper.com</span>
+            <span className="badge">Calle Mary Sanchez 41 bajo</span>
+            <span className="badge">603 124 611</span>
+            <span className="badge">sr.shapersurfboards@gmail.com</span>
           </div>
         </div>
         <div className="media-banner">
