@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useCart } from './CartContext';
 
 type ProductCardProps = {
@@ -11,7 +12,7 @@ type ProductCardProps = {
   image_url?: string | null;
 };
 
-const formatMoney = (value: number, currency = 'USD') => {
+const formatMoney = (value: number, currency = 'EUR') => {
   return new Intl.NumberFormat('es-ES', {
     style: 'currency',
     currency,
@@ -24,7 +25,9 @@ export function ProductCard({ id, name, description, price_cents, currency, imag
 
   return (
     <article className="card">
-      <img src={image_url || '/logo-srshaper.svg'} alt={name} />
+      <Link href={`/producto/${id}`}>
+        <img src={image_url || '/logo-srshaper.svg'} alt={name} />
+      </Link>
       <h3>{name}</h3>
       {description && <p>{description}</p>}
       <span className="price">{formatMoney(price_cents, currency)}</span>
@@ -42,6 +45,9 @@ export function ProductCard({ id, name, description, price_cents, currency, imag
       >
         Agregar al carrito
       </button>
+      <Link className="card-link" href={`/producto/${id}`}>
+        Ver detalle
+      </Link>
     </article>
   );
 }

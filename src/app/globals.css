@@ -291,7 +291,7 @@ img {
 }
 
 .cards {
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .card {
@@ -311,6 +311,13 @@ img {
   border-radius: 16px;
   height: 180px;
   object-fit: cover;
+}
+
+.card-link {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--reef);
 }
 
 .price {
@@ -635,6 +642,18 @@ img {
   .newsletter {
     margin: 0 4vw 60px;
     padding: 36px;
+  }
+}
+
+@media (min-width: 980px) {
+  .cards {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1200px) {
+  .cards {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }
 
