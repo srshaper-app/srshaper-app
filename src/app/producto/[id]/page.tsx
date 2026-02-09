@@ -5,7 +5,7 @@ import { ProductDetailClient } from '@/components/ProductDetailClient';
 export const dynamic = 'force-dynamic';
 
 export default async function ProductoDetallePage({ params }: { params: { id: string } }) {
-  const hdrs = headers();
+  const hdrs = await headers();
   const host = hdrs.get('x-forwarded-host') || hdrs.get('host');
   const proto = hdrs.get('x-forwarded-proto') || 'https';
   const baseUrl = host ? `${proto}://${host}` : 'https://srshaper-app-tv3i.vercel.app';
