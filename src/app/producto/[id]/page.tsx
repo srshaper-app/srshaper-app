@@ -1,10 +1,15 @@
 import Link from 'next/link';
+import { headers } from 'next/headers';
 import { ProductDetailClient } from '@/components/ProductDetailClient';
 
 export const dynamic = 'force-dynamic';
 
 export default async function ProductoDetallePage({ params }: { params: { id: string } }) {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://srshaper-app-tv3i.vercel.app';
+  const hdrs = headers();
+  const host = hdrs.get('x-forwarded-host') || hdrs.get('host');
+  const proto = hdrs.get('x-forwarded-proto') || 'https';
+  const baseUrl = host ? `${proto}://${host}` : 'https://srshaper-app-tv3i.vercel.app';
+
   const res = await fetch(`${baseUrl}/api/product?id=${params.id}`, { cache: 'no-store' });
   const json = await res.json();
   const product = json.product;
