@@ -17,7 +17,7 @@ export async function GET() {
       metrics: [
         { name: 'activeUsers' },
         { name: 'screenPageViews' },
-        { name: 'averageEngagementTime' },
+        { name: 'averageSessionDuration' },
         { name: 'sessions' },
       ],
     });
