@@ -43,7 +43,11 @@ export function CartDrawer({ open, onClose }: { open: boolean; onClose: () => vo
 
   return (
     <>
-      <div className={`cart-backdrop ${open ? 'open' : ''}`} onClick={onClose} />
+      <div
+        className={`cart-backdrop ${open ? 'open' : ''}`}
+        onClick={onClose}
+        onMouseDown={onClose}
+      />
       <aside className={`cart-drawer ${open ? 'open' : ''}`}>
         <div className="cart-header">
           <h3>Tu carrito</h3>
