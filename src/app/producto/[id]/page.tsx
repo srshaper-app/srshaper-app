@@ -11,7 +11,7 @@ export default async function ProductoDetallePage({ params }: { params: { id: st
   const baseUrl = host ? `${proto}://${host}` : 'https://srshaper-app-tv3i.vercel.app';
 
   const res = await fetch(`${baseUrl}/api/product?id=${params.id}`, { cache: 'no-store' });
-  const json = await res.json();
+  const json = await res.json().catch(() => ({}));
   const product = json.product;
 
   if (!product || !product.active) {
@@ -21,6 +21,7 @@ export default async function ProductoDetallePage({ params }: { params: { id: st
           <p className="breadcrumb">Producto no encontrado</p>
           <h1>No encontramos este producto.</h1>
           <p className="lead">ID: {params.id}</p>
+          {json?.error && <p className="lead">Error: {json.error}</p>}
           <Link className="btn" href="/">Volver al inicio</Link>
         </section>
       </main>
