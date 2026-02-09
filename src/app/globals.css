@@ -614,11 +614,11 @@ img {
 .cart-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(7, 44, 58, 0.3);
+  background: rgba(7, 44, 58, 0.45);
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.3s ease;
-  z-index: 30;
+  z-index: 35;
 }
 
 .cart-backdrop.open {
