@@ -3,6 +3,11 @@
 import { useEffect, useMemo, useState } from 'react';
 import { createSupabaseBrowserClient } from '@/lib/supabase/client';
 
+const SUBCATEGORY_OPTIONS: Record<string, string[]> = {
+  Accesorios: ['Quillas', 'Wax', 'Fundas', 'Cuerdas amarres', 'Grips'],
+  Tablas: ['Catalogo', 'Crea tu tabla'],
+};
+
 type Product = {
   id: string;
   name: string;
@@ -28,6 +33,7 @@ export function ProductsPanel() {
   const supabase = useMemo(() => createSupabaseBrowserClient(), []);
   const [products, setProducts] = useState<Product[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [uploading, setUploading] = useState(false);
 
   const [newProduct, setNewProduct] = useState({
     name: '',
@@ -60,6 +66,27 @@ export function ProductsPanel() {
     };
     load();
   }, [supabase]);
+
+  const uploadImage = async (file: File) => {
+    setUploading(true);
+    const fileExt = file.name.split('.').pop();
+    const fileName = `${crypto.randomUUID()}.${fileExt}`;
+    const filePath = `products/${fileName}`;
+
+    const { error: uploadError } = await supabase.storage
+      .from('product-images')
+      .upload(filePath, file, { upsert: true });
+
+    if (uploadError) {
+      setError(uploadError.message);
+      setUploading(false);
+      return '';
+    }
+
+    const { data } = supabase.storage.from('product-images').getPublicUrl(filePath);
+    setUploading(false);
+    return data.publicUrl;
+  };
 
   const handleAddProduct = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -136,40 +163,79 @@ export function ProductsPanel() {
       <section className="admin-card">
         <h2>Crear producto</h2>
         <form className="admin-form" onSubmit={handleAddProduct}>
-          <input
-            placeholder="Nombre"
-            value={newProduct.name}
-            onChange={(event) => setNewProduct({ ...newProduct, name: event.target.value })}
-            required
-          />
-          <input
-            placeholder="Descripción"
-            value={newProduct.description}
-            onChange={(event) => setNewProduct({ ...newProduct, description: event.target.value })}
-          />
-          <select
-            value={newProduct.category}
-            onChange={(event) => setNewProduct({ ...newProduct, category: event.target.value })}
-          >
-            <option>Accesorios</option>
-            <option>Tablas</option>
-          </select>
-          <input
-            placeholder="Subcategoría"
-            value={newProduct.subcategory}
-            onChange={(event) => setNewProduct({ ...newProduct, subcategory: event.target.value })}
-          />
-          <input
-            placeholder="Precio (centavos)"
-            type="number"
-            value={newProduct.price_cents}
-            onChange={(event) => setNewProduct({ ...newProduct, price_cents: Number(event.target.value) })}
-          />
-          <input
-            placeholder="URL imagen"
-            value={newProduct.image_url}
-            onChange={(event) => setNewProduct({ ...newProduct, image_url: event.target.value })}
-          />
+          <div className="admin-form-row">
+            <label>Nombre</label>
+            <input
+              placeholder="Nombre"
+              value={newProduct.name}
+              onChange={(event) => setNewProduct({ ...newProduct, name: event.target.value })}
+              required
+            />
+          </div>
+          <div className="admin-form-row">
+            <label>Descripción</label>
+            <textarea
+              placeholder="Descripción"
+              value={newProduct.description}
+              onChange={(event) => setNewProduct({ ...newProduct, description: event.target.value })}
+            />
+          </div>
+          <div className="admin-form-grid">
+            <div className="admin-form-row">
+              <label>Categoría</label>
+              <select
+                value={newProduct.category}
+                onChange={(event) => setNewProduct({ ...newProduct, category: event.target.value })}
+              >
+                <option>Accesorios</option>
+                <option>Tablas</option>
+              </select>
+            </div>
+            <div className="admin-form-row">
+              <label>Subcategoría</label>
+              <select
+                value={newProduct.subcategory}
+                onChange={(event) => setNewProduct({ ...newProduct, subcategory: event.target.value })}
+              >
+                {(SUBCATEGORY_OPTIONS[newProduct.category] || []).map((opt) => (
+                  <option key={opt}>{opt}</option>
+                ))}
+              </select>
+            </div>
+          </div>
+          <div className="admin-form-grid">
+            <div className="admin-form-row">
+              <label>Precio (centavos)</label>
+              <input
+                type="number"
+                value={newProduct.price_cents}
+                onChange={(event) => setNewProduct({ ...newProduct, price_cents: Number(event.target.value) })}
+              />
+            </div>
+            <div className="admin-form-row">
+              <label>Moneda</label>
+              <input
+                value={newProduct.currency}
+                onChange={(event) => setNewProduct({ ...newProduct, currency: event.target.value })}
+              />
+            </div>
+          </div>
+          <div className="admin-form-row">
+            <label>Imagen</label>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={async (event) => {
+                const file = event.target.files?.[0];
+                if (!file) return;
+                const url = await uploadImage(file);
+                if (url) {
+                  setNewProduct({ ...newProduct, image_url: url });
+                }
+              }}
+            />
+            {uploading && <span>Subiendo imagen...</span>}
+          </div>
           <button type="submit">Agregar producto</button>
         </form>
       </section>
@@ -181,40 +247,78 @@ export function ProductsPanel() {
             <div key={product.id} className="admin-list-item">
               {editingId === product.id ? (
                 <form className="admin-form" onSubmit={handleUpdateProduct}>
-                  <input
-                    placeholder="Nombre"
-                    value={editProduct.name}
-                    onChange={(event) => setEditProduct({ ...editProduct, name: event.target.value })}
-                    required
-                  />
-                  <input
-                    placeholder="Descripción"
-                    value={editProduct.description}
-                    onChange={(event) => setEditProduct({ ...editProduct, description: event.target.value })}
-                  />
-                  <select
-                    value={editProduct.category}
-                    onChange={(event) => setEditProduct({ ...editProduct, category: event.target.value })}
-                  >
-                    <option>Accesorios</option>
-                    <option>Tablas</option>
-                  </select>
-                  <input
-                    placeholder="Subcategoría"
-                    value={editProduct.subcategory}
-                    onChange={(event) => setEditProduct({ ...editProduct, subcategory: event.target.value })}
-                  />
-                  <input
-                    placeholder="Precio (centavos)"
-                    type="number"
-                    value={editProduct.price_cents}
-                    onChange={(event) => setEditProduct({ ...editProduct, price_cents: Number(event.target.value) })}
-                  />
-                  <input
-                    placeholder="URL imagen"
-                    value={editProduct.image_url}
-                    onChange={(event) => setEditProduct({ ...editProduct, image_url: event.target.value })}
-                  />
+                  <div className="admin-form-row">
+                    <label>Nombre</label>
+                    <input
+                      placeholder="Nombre"
+                      value={editProduct.name}
+                      onChange={(event) => setEditProduct({ ...editProduct, name: event.target.value })}
+                      required
+                    />
+                  </div>
+                  <div className="admin-form-row">
+                    <label>Descripción</label>
+                    <textarea
+                      placeholder="Descripción"
+                      value={editProduct.description}
+                      onChange={(event) => setEditProduct({ ...editProduct, description: event.target.value })}
+                    />
+                  </div>
+                  <div className="admin-form-grid">
+                    <div className="admin-form-row">
+                      <label>Categoría</label>
+                      <select
+                        value={editProduct.category}
+                        onChange={(event) => setEditProduct({ ...editProduct, category: event.target.value })}
+                      >
+                        <option>Accesorios</option>
+                        <option>Tablas</option>
+                      </select>
+                    </div>
+                    <div className="admin-form-row">
+                      <label>Subcategoría</label>
+                      <select
+                        value={editProduct.subcategory}
+                        onChange={(event) => setEditProduct({ ...editProduct, subcategory: event.target.value })}
+                      >
+                        {(SUBCATEGORY_OPTIONS[editProduct.category] || []).map((opt) => (
+                          <option key={opt}>{opt}</option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+                  <div className="admin-form-grid">
+                    <div className="admin-form-row">
+                      <label>Precio (centavos)</label>
+                      <input
+                        type="number"
+                        value={editProduct.price_cents}
+                        onChange={(event) => setEditProduct({ ...editProduct, price_cents: Number(event.target.value) })}
+                      />
+                    </div>
+                    <div className="admin-form-row">
+                      <label>Moneda</label>
+                      <input
+                        value={editProduct.currency}
+                        onChange={(event) => setEditProduct({ ...editProduct, currency: event.target.value })}
+                      />
+                    </div>
+                  </div>
+                  <div className="admin-form-row">
+                    <label>Imagen</label>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={async (event) => {
+                        const file = event.target.files?.[0];
+                        if (!file) return;
+                        const url = await uploadImage(file);
+                        if (url) {
+                          setEditProduct({ ...editProduct, image_url: url });
+                        }
+                      }}
+                    />
+                  </div>
                   <label className="admin-checkbox">
                     <input
                       type="checkbox"

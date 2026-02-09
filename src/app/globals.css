@@ -859,3 +859,39 @@ img {
     grid-template-rows: auto auto auto;
   }
 }
+
+
+.admin-form-row {
+  display: grid;
+  gap: 6px;
+}
+
+.admin-form-row label {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #4a5b63;
+}
+
+.admin-form-grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+
+.admin-form input[type='file'] {
+  padding: 10px;
+  border: 1px dashed #cbd5da;
+  background: #f7fbfb;
+}
+
+.admin-order {
+  align-items: flex-start;
+}
+
+.admin-order-items {
+  display: grid;
+  gap: 4px;
+  font-size: 12px;
+  color: #4a5b63;
+}

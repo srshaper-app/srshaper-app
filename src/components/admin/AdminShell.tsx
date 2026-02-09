@@ -95,6 +95,9 @@ export function AdminShell({ children, title }: AdminShellProps) {
           <Link className={pathname === '/admin/productos' ? 'active' : ''} href="/admin/productos">
             Productos
           </Link>
+          <Link className={pathname === '/admin/pedidos' ? 'active' : ''} href="/admin/pedidos">
+            Pedidos
+          </Link>
         </nav>
         <button className="admin-logout" onClick={handleLogout}>Cerrar sesión</button>
       </aside>
