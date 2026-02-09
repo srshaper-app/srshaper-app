@@ -1,6 +1,6 @@
 import './globals.css';
-import Script from 'next/script';
 import { ClientLayout } from '@/components/ClientLayout';
+import { ConsentBanner } from '@/components/ConsentBanner';
 
 export const metadata = {
   title: 'Sr.Shaper',
@@ -16,21 +16,8 @@ export default function RootLayout({
 
   return (
     <html lang="es">
-      <head>
-        <Script
-          src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}
-          strategy="afterInteractive"
-        />
-        <Script id="ga4" strategy="afterInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', '${gaId}');
-          `}
-        </Script>
-      </head>
       <body>
+        <ConsentBanner gaId={gaId} />
         <ClientLayout>{children}</ClientLayout>
       </body>
     </html>

@@ -1182,3 +1182,59 @@ img {
 .admin-btn.danger:hover {
   filter: brightness(1.05);
 }
+
+.legal ul {
+  list-style: disc;
+  padding-left: 20px;
+  display: grid;
+  gap: 8px;
+}
+
+.cookie-banner {
+  position: fixed;
+  bottom: 24px;
+  left: 24px;
+  right: 24px;
+  background: white;
+  border-radius: 18px;
+  padding: 18px 20px;
+  box-shadow: 0 20px 50px rgba(8, 12, 20, 0.2);
+  border: 1px solid rgba(8, 12, 20, 0.08);
+  display: grid;
+  gap: 12px;
+  z-index: 1200;
+}
+
+.cookie-banner strong {
+  display: block;
+  margin-bottom: 6px;
+}
+
+.cookie-banner p {
+  font-size: 13px;
+  color: #415058;
+}
+
+.cookie-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.cookie-links {
+  display: flex;
+  gap: 16px;
+  font-size: 12px;
+  margin-top: 8px;
+}
+
+@media (max-width: 640px) {
+  .cookie-banner {
+    left: 16px;
+    right: 16px;
+    bottom: 16px;
+  }
+  .cookie-actions {
+    flex-direction: column;
+  }
+}

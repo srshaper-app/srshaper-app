@@ -55,6 +55,9 @@ export function SiteFooter() {
         <Link href="/academia">Academia</Link>
         <Link href="/sobre-nosotros">Sobre nosotros</Link>
         <Link href="/contacto">Contacto</Link>
+        <Link href="/terminos">Términos y condiciones</Link>
+        <Link href="/privacidad">Privacidad</Link>
+        <Link href="/cookies">Cookies</Link>
       </div>
       <div className="footer-note">© 2026 Sr.Shaper Surfboards. Hecho con sal y madera.</div>
     </footer>
