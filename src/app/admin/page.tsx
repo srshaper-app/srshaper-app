@@ -60,6 +60,17 @@ export default function AdminPage() {
     currency: 'USD',
     image_url: '',
   });
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [editProduct, setEditProduct] = useState({
+    name: '',
+    description: '',
+    category: 'Accesorios',
+    subcategory: 'Quillas',
+    price_cents: 0,
+    currency: 'USD',
+    image_url: '',
+    active: true,
+  });
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
@@ -139,6 +150,44 @@ export default function AdminPage() {
       return;
     }
     setProducts(products.filter((product) => product.id !== id));
+  };
+
+  const startEdit = (product: Product) => {
+    setEditingId(product.id);
+    setEditProduct({
+      name: product.name,
+      description: product.description || '',
+      category: product.category || 'Accesorios',
+      subcategory: product.subcategory || '',
+      price_cents: product.price_cents,
+      currency: product.currency,
+      image_url: product.image_url || '',
+      active: product.active,
+    });
+  };
+
+  const cancelEdit = () => {
+    setEditingId(null);
+  };
+
+  const handleUpdateProduct = async (event: React.FormEvent) => {
+    event.preventDefault();
+    if (!editingId) return;
+    const { data, error } = await supabase
+      .from('products')
+      .update({
+        ...editProduct,
+        price_cents: Number(editProduct.price_cents),
+      })
+      .eq('id', editingId)
+      .select('*')
+      .single();
+    if (error) {
+      setError(error.message);
+      return;
+    }
+    setProducts((prev) => prev.map((p) => (p.id === editingId ? data : p)));
+    setEditingId(null);
   };
 
   if (!session) {
@@ -242,6 +291,13 @@ export default function AdminPage() {
             value={newProduct.subcategory}
             onChange={(event) => setNewProduct({ ...newProduct, subcategory: event.target.value })}
           />
+          <select
+            value={newProduct.category}
+            onChange={(event) => setNewProduct({ ...newProduct, category: event.target.value })}
+          >
+            <option>Accesorios</option>
+            <option>Tablas</option>
+          </select>
           <input
             placeholder="Precio (centavos)"
             type="number"
@@ -258,13 +314,69 @@ export default function AdminPage() {
 
         <div style={{ display: 'grid', gap: 12 }}>
           {products.map((product) => (
-            <div key={product.id} style={{ padding: 16, borderRadius: 12, border: '1px solid #e1e1e1', display: 'flex', justifyContent: 'space-between' }}>
-              <div>
-                <strong>{product.name}</strong>
-                <p>{product.category} · {product.subcategory}</p>
-                <small>{formatMoney(product.price_cents, product.currency)}</small>
-              </div>
-              <button onClick={() => handleDeleteProduct(product.id)}>Eliminar</button>
+            <div key={product.id} style={{ padding: 16, borderRadius: 12, border: '1px solid #e1e1e1' }}>
+              {editingId === product.id ? (
+                <form onSubmit={handleUpdateProduct} style={{ display: 'grid', gap: 8 }}>
+                  <input
+                    placeholder="Nombre"
+                    value={editProduct.name}
+                    onChange={(event) => setEditProduct({ ...editProduct, name: event.target.value })}
+                    required
+                  />
+                  <input
+                    placeholder="Descripción"
+                    value={editProduct.description}
+                    onChange={(event) => setEditProduct({ ...editProduct, description: event.target.value })}
+                  />
+                  <select
+                    value={editProduct.category}
+                    onChange={(event) => setEditProduct({ ...editProduct, category: event.target.value })}
+                  >
+                    <option>Accesorios</option>
+                    <option>Tablas</option>
+                  </select>
+                  <input
+                    placeholder="Subcategoría"
+                    value={editProduct.subcategory}
+                    onChange={(event) => setEditProduct({ ...editProduct, subcategory: event.target.value })}
+                  />
+                  <input
+                    placeholder="Precio (centavos)"
+                    type="number"
+                    value={editProduct.price_cents}
+                    onChange={(event) => setEditProduct({ ...editProduct, price_cents: Number(event.target.value) })}
+                  />
+                  <input
+                    placeholder="URL imagen"
+                    value={editProduct.image_url}
+                    onChange={(event) => setEditProduct({ ...editProduct, image_url: event.target.value })}
+                  />
+                  <label style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+                    <input
+                      type="checkbox"
+                      checked={editProduct.active}
+                      onChange={(event) => setEditProduct({ ...editProduct, active: event.target.checked })}
+                    />
+                    Activo en tienda
+                  </label>
+                  <div style={{ display: 'flex', gap: 10 }}>
+                    <button type="submit">Guardar</button>
+                    <button type="button" onClick={cancelEdit}>Cancelar</button>
+                  </div>
+                </form>
+              ) : (
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <div>
+                    <strong>{product.name}</strong>
+                    <p>{product.category} · {product.subcategory}</p>
+                    <small>{formatMoney(product.price_cents, product.currency)}</small>
+                  </div>
+                  <div style={{ display: 'flex', gap: 8 }}>
+                    <button onClick={() => startEdit(product)}>Editar</button>
+                    <button onClick={() => handleDeleteProduct(product.id)}>Eliminar</button>
+                  </div>
+                </div>
+              )}
             </div>
           ))}
         </div>
