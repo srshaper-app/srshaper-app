@@ -8,6 +8,8 @@ const SUBCATEGORY_OPTIONS: Record<string, string[]> = {
   Tablas: ['Catalogo', 'Crea tu tabla'],
 };
 
+const CURRENCY = 'EUR';
+
 type Product = {
   id: string;
   name: string;
@@ -20,11 +22,11 @@ type Product = {
   active: boolean;
 };
 
-const formatMoney = (value: number, currency: string) => {
+const formatMoney = (value: number) => {
   const amount = value / 100;
   return new Intl.NumberFormat('es-ES', {
     style: 'currency',
-    currency,
+    currency: CURRENCY,
     maximumFractionDigits: 0,
   }).format(amount);
 };
@@ -40,8 +42,7 @@ export function ProductsPanel() {
     description: '',
     category: 'Accesorios',
     subcategory: 'Quillas',
-    price_cents: 0,
-    currency: 'USD',
+    price_eur: 0,
     image_url: '',
   });
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -50,8 +51,7 @@ export function ProductsPanel() {
     description: '',
     category: 'Accesorios',
     subcategory: 'Quillas',
-    price_cents: 0,
-    currency: 'USD',
+    price_eur: 0,
     image_url: '',
     active: true,
   });
@@ -69,13 +69,17 @@ export function ProductsPanel() {
 
   const uploadImage = async (file: File) => {
     setUploading(true);
+    setError(null);
     const fileExt = file.name.split('.').pop();
     const fileName = `${crypto.randomUUID()}.${fileExt}`;
     const filePath = `products/${fileName}`;
 
     const { error: uploadError } = await supabase.storage
       .from('product-images')
-      .upload(filePath, file, { upsert: true });
+      .upload(filePath, file, {
+        upsert: true,
+        contentType: file.type || 'image/jpeg',
+      });
 
     if (uploadError) {
       setError(uploadError.message);
@@ -93,8 +97,13 @@ export function ProductsPanel() {
     const { data, error } = await supabase
       .from('products')
       .insert({
-        ...newProduct,
-        price_cents: Number(newProduct.price_cents),
+        name: newProduct.name,
+        description: newProduct.description,
+        category: newProduct.category,
+        subcategory: newProduct.subcategory,
+        price_cents: Math.round(Number(newProduct.price_eur) * 100),
+        currency: CURRENCY,
+        image_url: newProduct.image_url,
       })
       .select('*');
     if (error) {
@@ -107,8 +116,7 @@ export function ProductsPanel() {
       description: '',
       category: 'Accesorios',
       subcategory: 'Quillas',
-      price_cents: 0,
-      currency: 'USD',
+      price_eur: 0,
       image_url: '',
     });
   };
@@ -129,8 +137,7 @@ export function ProductsPanel() {
       description: product.description || '',
       category: product.category || 'Accesorios',
       subcategory: product.subcategory || '',
-      price_cents: product.price_cents,
-      currency: product.currency,
+      price_eur: product.price_cents / 100,
       image_url: product.image_url || '',
       active: product.active,
     });
@@ -144,8 +151,14 @@ export function ProductsPanel() {
     const { data, error } = await supabase
       .from('products')
       .update({
-        ...editProduct,
-        price_cents: Number(editProduct.price_cents),
+        name: editProduct.name,
+        description: editProduct.description,
+        category: editProduct.category,
+        subcategory: editProduct.subcategory,
+        price_cents: Math.round(Number(editProduct.price_eur) * 100),
+        currency: CURRENCY,
+        image_url: editProduct.image_url,
+        active: editProduct.active,
       })
       .eq('id', editingId)
       .select('*')
@@ -205,19 +218,17 @@ export function ProductsPanel() {
           </div>
           <div className="admin-form-grid">
             <div className="admin-form-row">
-              <label>Precio (centavos)</label>
+              <label>Precio (EUR)</label>
               <input
                 type="number"
-                value={newProduct.price_cents}
-                onChange={(event) => setNewProduct({ ...newProduct, price_cents: Number(event.target.value) })}
+                step="0.01"
+                value={newProduct.price_eur}
+                onChange={(event) => setNewProduct({ ...newProduct, price_eur: Number(event.target.value) })}
               />
             </div>
             <div className="admin-form-row">
               <label>Moneda</label>
-              <input
-                value={newProduct.currency}
-                onChange={(event) => setNewProduct({ ...newProduct, currency: event.target.value })}
-              />
+              <input value={CURRENCY} disabled />
             </div>
           </div>
           <div className="admin-form-row">
@@ -289,19 +300,17 @@ export function ProductsPanel() {
                   </div>
                   <div className="admin-form-grid">
                     <div className="admin-form-row">
-                      <label>Precio (centavos)</label>
+                      <label>Precio (EUR)</label>
                       <input
                         type="number"
-                        value={editProduct.price_cents}
-                        onChange={(event) => setEditProduct({ ...editProduct, price_cents: Number(event.target.value) })}
+                        step="0.01"
+                        value={editProduct.price_eur}
+                        onChange={(event) => setEditProduct({ ...editProduct, price_eur: Number(event.target.value) })}
                       />
                     </div>
                     <div className="admin-form-row">
                       <label>Moneda</label>
-                      <input
-                        value={editProduct.currency}
-                        onChange={(event) => setEditProduct({ ...editProduct, currency: event.target.value })}
-                      />
+                      <input value={CURRENCY} disabled />
                     </div>
                   </div>
                   <div className="admin-form-row">
@@ -337,7 +346,7 @@ export function ProductsPanel() {
                   <div>
                     <strong>{product.name}</strong>
                     <p>{product.category} · {product.subcategory}</p>
-                    <span>{formatMoney(product.price_cents, product.currency)}</span>
+                    <span>{formatMoney(product.price_cents)}</span>
                   </div>
                   <div className="admin-actions">
                     <button onClick={() => startEdit(product)}>Editar</button>
