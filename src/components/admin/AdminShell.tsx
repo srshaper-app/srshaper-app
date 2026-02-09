@@ -99,7 +99,7 @@ export function AdminShell({ children, title }: AdminShellProps) {
             Pedidos
           </Link>
         </nav>
-        <button className="admin-btn ghost" onClick={handleLogout}>Cerrar sesión</button>
+        <button className="admin-logout" onClick={handleLogout}>Cerrar sesión</button>
       </aside>
       <section className="admin-content">
         <header className="admin-topbar">

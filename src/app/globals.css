@@ -694,7 +694,9 @@ img {
   padding: 28px 22px;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 20px;
+  align-items: stretch;
+  justify-content: flex-start;
   overflow: hidden;
 }
 
@@ -721,20 +723,24 @@ img {
 
 .admin-sidebar nav {
   display: grid;
-  gap: 10px;
+  gap: 12px;
   align-content: start;
+  flex: 0 0 auto;
 }
 
 .admin-sidebar nav a {
-  padding: 14px 16px;
-  border-radius: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 12px 14px;
+  border-radius: 14px;
   background: rgba(255, 255, 255, 0.08);
   color: white;
-  font-size: 13px;
+  font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 1px;
-  min-height: 48px;
-  align-items: center;
+  min-height: 44px;
+  width: 100%;
 }
 
 .admin-sidebar nav a.active {
@@ -743,16 +749,23 @@ img {
 
 .admin-logout {
   margin-top: auto;
-  align-self: flex-start;
-  background: #11151b;
-  border: 1px solid rgba(255, 255, 255, 0.4);
+  align-self: stretch;
+  background: #0d131a;
+  border: 1px solid rgba(255, 255, 255, 0.35);
   color: white;
-  padding: 12px 18px;
+  padding: 12px 16px;
   border-radius: 999px;
   font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 1px;
-  opacity: 0.95;
+  opacity: 0.98;
+  transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.admin-logout:hover {
+  transform: translateY(-1px);
+  border-color: rgba(255, 255, 255, 0.65);
+  background: #111a22;
 }
 
 .admin-content {
