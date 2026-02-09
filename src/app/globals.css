@@ -523,7 +523,7 @@ img {
   box-shadow: -20px 0 50px rgba(8, 12, 20, 0.2);
   transform: translateX(100%);
   transition: transform 0.3s ease;
-  z-index: 40;
+  z-index: 1000;
   display: grid;
   grid-template-rows: auto 1fr auto;
   overflow: hidden;
@@ -614,11 +614,11 @@ img {
 .cart-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(7, 44, 58, 0.45);
+  background: rgba(7, 44, 58, 0.5);
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.3s ease;
-  z-index: 35;
+  z-index: 999;
 }
 
 .cart-backdrop.open {

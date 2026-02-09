@@ -1,11 +1,11 @@
 import Link from 'next/link';
-import { supabasePublic } from '@/lib/supabase/public';
+import { supabaseAdmin } from '@/lib/supabase/admin';
 import { ProductDetailClient } from '@/components/ProductDetailClient';
 
 export const dynamic = 'force-dynamic';
 
 export default async function ProductoDetallePage({ params }: { params: { id: string } }) {
-  const { data: product } = await supabasePublic
+  const { data: product } = await supabaseAdmin
     .from('products')
     .select('*')
     .eq('id', params.id)
