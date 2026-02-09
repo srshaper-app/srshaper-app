@@ -104,6 +104,7 @@ export function ProductsPanel() {
         price_cents: Math.round(Number(newProduct.price_eur) * 100),
         currency: CURRENCY,
         image_url: newProduct.image_url,
+        active: true,
       })
       .select('*');
     if (error) {
@@ -246,6 +247,9 @@ export function ProductsPanel() {
               }}
             />
             {uploading && <span>Subiendo imagen...</span>}
+            {newProduct.image_url && (
+              <img className="admin-image-preview" src={newProduct.image_url} alt="Preview" />
+            )}
           </div>
           <button type="submit">Agregar producto</button>
         </form>
@@ -327,6 +331,9 @@ export function ProductsPanel() {
                         }
                       }}
                     />
+                    {editProduct.image_url && (
+                      <img className="admin-image-preview" src={editProduct.image_url} alt="Preview" />
+                    )}
                   </div>
                   <label className="admin-checkbox">
                     <input
