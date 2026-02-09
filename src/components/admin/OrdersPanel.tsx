@@ -1,7 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
-import { createSupabaseBrowserClient } from '@/lib/supabase/client';
+import { useEffect, useState } from 'react';
 
 type Order = {
   id: string;
@@ -30,30 +29,30 @@ const formatMoney = (value: number, currency: string) => {
 };
 
 export function OrdersPanel() {
-  const supabase = useMemo(() => createSupabaseBrowserClient(), []);
   const [orders, setOrders] = useState<Order[]>([]);
   const [items, setItems] = useState<OrderItem[]>([]);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const load = async () => {
-      const { data: ordersData } = await supabase
-        .from('orders')
-        .select('*')
-        .order('created_at', { ascending: false });
-      setOrders(ordersData || []);
-
-      const { data: itemsData } = await supabase
-        .from('order_items')
-        .select('*');
-      setItems(itemsData || []);
+      const res = await fetch('/api/orders');
+      if (!res.ok) {
+        const json = await res.json().catch(() => ({}));
+        setError(json.error || 'No se pudieron cargar pedidos');
+        return;
+      }
+      const json = await res.json();
+      setOrders(json.orders || []);
+      setItems(json.items || []);
     };
     load();
-  }, [supabase]);
+  }, []);
 
   return (
     <div className="admin-grid">
       <section className="admin-card">
         <h2>Pedidos recientes</h2>
+        {error && <p className="admin-error">{error}</p>}
         <div className="admin-list">
           {orders.length === 0 && <p>No hay pedidos registrados.</p>}
           {orders.map((order) => (

@@ -1,7 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
-import { createSupabaseBrowserClient } from '@/lib/supabase/client';
+import { useEffect, useState } from 'react';
 
 type Analytics = {
   uniqueVisitors: number;
@@ -29,7 +28,6 @@ const formatMoney = (value: number, currency: string) => {
 };
 
 export function StatsPanel() {
-  const supabase = useMemo(() => createSupabaseBrowserClient(), []);
   const [analytics, setAnalytics] = useState<Analytics | null>(null);
   const [analyticsError, setAnalyticsError] = useState<string | null>(null);
   const [orders, setOrders] = useState<Order[]>([]);
@@ -46,14 +44,14 @@ export function StatsPanel() {
         setAnalyticsError(err.error || 'GA4 no configurado en Vercel');
       }
 
-      const { data: ordersData } = await supabase
-        .from('orders')
-        .select('*')
-        .order('created_at', { ascending: false });
-      setOrders(ordersData || []);
+      const ordersRes = await fetch('/api/orders');
+      if (ordersRes.ok) {
+        const json = await ordersRes.json();
+        setOrders(json.orders || []);
+      }
     };
     load();
-  }, [supabase]);
+  }, []);
 
   return (
     <div className="admin-grid">

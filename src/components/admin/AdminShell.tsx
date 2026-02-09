@@ -70,7 +70,7 @@ export function AdminShell({ children, title }: AdminShellProps) {
               onChange={(event) => setPassword(event.target.value)}
               required
             />
-            <button type="submit">Entrar</button>
+            <button type="submit" className="admin-btn">Entrar</button>
             {error && <span className="admin-error">{error}</span>}
           </form>
         </div>
@@ -99,7 +99,7 @@ export function AdminShell({ children, title }: AdminShellProps) {
             Pedidos
           </Link>
         </nav>
-        <button className="admin-logout" onClick={handleLogout}>Cerrar sesión</button>
+        <button className="admin-btn ghost" onClick={handleLogout}>Cerrar sesión</button>
       </aside>
       <section className="admin-content">
         <header className="admin-topbar">
