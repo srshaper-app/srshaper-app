@@ -31,6 +31,7 @@ const formatMoney = (value: number, currency: string) => {
 export function StatsPanel() {
   const supabase = useMemo(() => createSupabaseBrowserClient(), []);
   const [analytics, setAnalytics] = useState<Analytics | null>(null);
+  const [analyticsError, setAnalyticsError] = useState<string | null>(null);
   const [orders, setOrders] = useState<Order[]>([]);
 
   useEffect(() => {
@@ -39,6 +40,10 @@ export function StatsPanel() {
       if (analyticsRes.ok) {
         const analyticsJson = await analyticsRes.json();
         setAnalytics(analyticsJson);
+        setAnalyticsError(null);
+      } else {
+        const err = await analyticsRes.json().catch(() => ({}));
+        setAnalyticsError(err.error || 'GA4 no configurado en Vercel');
       }
 
       const { data: ordersData } = await supabase
@@ -74,14 +79,19 @@ export function StatsPanel() {
             </div>
           </div>
         ) : (
-          <p>Conecta GA4 para ver estadísticas.</p>
+          <p>{analyticsError || 'Cargando estadísticas...'}</p>
         )}
       </section>
 
       <section className="admin-card">
         <h2>Ventas recientes</h2>
         <div className="admin-list">
-          {orders.length === 0 && <p>No hay ventas registradas todavía.</p>}
+          {orders.length === 0 && (
+            <p>
+              No hay ventas registradas todavía. Verifica el webhook de Stripe y
+              que el pago se complete en modo test.
+            </p>
+          )}
           {orders.map((order) => (
             <div key={order.id} className="admin-list-item">
               <div>
