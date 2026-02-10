@@ -988,7 +988,7 @@ img {
 
 .admin-table-row {
   display: grid;
-  grid-template-columns: minmax(120px, 1fr) minmax(180px, 1.2fr) minmax(100px, 140px);
+  grid-template-columns: minmax(120px, 1fr) minmax(160px, 0.8fr) minmax(160px, 1fr);
   gap: 12px;
   padding: 12px 14px;
   border-radius: 14px;

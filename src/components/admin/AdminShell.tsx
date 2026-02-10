@@ -101,6 +101,9 @@ export function AdminShell({ children, title }: AdminShellProps) {
           <Link className={pathname === '/admin/newsletter' ? 'active' : ''} href="/admin/newsletter">
             Newsletter
           </Link>
+          <Link className={pathname === '/admin/cupones' ? 'active' : ''} href="/admin/cupones">
+            Cupones
+          </Link>
         </nav>
         <Link className="admin-store-link" href="/" target="_blank" rel="noreferrer">
           Ver tienda

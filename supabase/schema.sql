@@ -60,12 +60,29 @@ create table if not exists public.newsletter_subscribers (
 
 create index if not exists idx_newsletter_created_at on public.newsletter_subscribers (created_at desc);
 
+create table if not exists public.coupons (
+  id uuid primary key default uuid_generate_v4(),
+  code text unique not null,
+  name text,
+  type text not null default 'percent',
+  percent_off integer,
+  amount_off_cents integer,
+  max_redemptions integer,
+  starts_at date,
+  ends_at date,
+  active boolean not null default true,
+  created_at timestamptz not null default now()
+);
+
+create index if not exists idx_coupons_created_at on public.coupons (created_at desc);
+
 alter table public.products enable row level security;
 alter table public.orders enable row level security;
 alter table public.order_items enable row level security;
 alter table public.admins enable row level security;
 alter table public.metrics_daily enable row level security;
 alter table public.newsletter_subscribers enable row level security;
+alter table public.coupons enable row level security;
 
 create policy "Public read active products"
   on public.products for select
@@ -101,3 +118,8 @@ create policy "Admin read newsletter"
 create policy "Public insert newsletter"
   on public.newsletter_subscribers for insert
   with check (email is not null);
+
+create policy "Admin manage coupons"
+  on public.coupons for all
+  using (exists (select 1 from public.admins where user_id = auth.uid()))
+  with check (exists (select 1 from public.admins where user_id = auth.uid()));
