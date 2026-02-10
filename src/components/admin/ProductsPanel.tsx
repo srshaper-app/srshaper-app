@@ -20,6 +20,7 @@ type Product = {
   currency: string;
   image_url: string | null;
   active: boolean;
+  stock: number | null;
 };
 
 const formatMoney = (value: number) => {
@@ -44,6 +45,7 @@ export function ProductsPanel() {
     subcategory: 'Quillas',
     price_eur: 0,
     image_url: '',
+    stock: 0,
   });
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editProduct, setEditProduct] = useState({
@@ -54,6 +56,7 @@ export function ProductsPanel() {
     price_eur: 0,
     image_url: '',
     active: true,
+    stock: 0,
   });
 
   useEffect(() => {
@@ -105,6 +108,7 @@ export function ProductsPanel() {
         currency: CURRENCY,
         image_url: newProduct.image_url,
         active: true,
+        stock: Number(newProduct.stock) || 0,
       })
       .select('*');
     if (error) {
@@ -119,6 +123,7 @@ export function ProductsPanel() {
       subcategory: 'Quillas',
       price_eur: 0,
       image_url: '',
+      stock: 0,
     });
   };
 
@@ -141,6 +146,7 @@ export function ProductsPanel() {
       price_eur: product.price_cents / 100,
       image_url: product.image_url || '',
       active: product.active,
+      stock: product.stock ?? 0,
     });
   };
 
@@ -160,6 +166,7 @@ export function ProductsPanel() {
         currency: CURRENCY,
         image_url: editProduct.image_url,
         active: editProduct.active,
+        stock: Number(editProduct.stock) || 0,
       })
       .eq('id', editingId)
       .select('*')
@@ -231,6 +238,16 @@ export function ProductsPanel() {
               <label>Moneda</label>
               <input value={CURRENCY} disabled />
             </div>
+            <div className="admin-form-row">
+              <label>Stock</label>
+              <input
+                type="number"
+                min="0"
+                step="1"
+                value={newProduct.stock}
+                onChange={(event) => setNewProduct({ ...newProduct, stock: Number(event.target.value) })}
+              />
+            </div>
           </div>
           <div className="admin-form-row">
             <label>Imagen</label>
@@ -251,7 +268,7 @@ export function ProductsPanel() {
               <img className="admin-image-preview" src={newProduct.image_url} alt="Preview" />
             )}
           </div>
-          <button type="submit">Agregar producto</button>
+          <button type="submit" className="admin-btn">Agregar producto</button>
         </form>
       </section>
 
@@ -316,6 +333,16 @@ export function ProductsPanel() {
                       <label>Moneda</label>
                       <input value={CURRENCY} disabled />
                     </div>
+                    <div className="admin-form-row">
+                      <label>Stock</label>
+                      <input
+                        type="number"
+                        min="0"
+                        step="1"
+                        value={editProduct.stock}
+                        onChange={(event) => setEditProduct({ ...editProduct, stock: Number(event.target.value) })}
+                      />
+                    </div>
                   </div>
                   <div className="admin-form-row">
                     <label>Imagen</label>
@@ -344,8 +371,8 @@ export function ProductsPanel() {
                     Activo en tienda
                   </label>
                   <div className="admin-actions">
-                    <button type="submit">Guardar</button>
-                    <button type="button" onClick={cancelEdit} className="ghost">Cancelar</button>
+                    <button type="submit" className="admin-btn">Guardar</button>
+                    <button type="button" onClick={cancelEdit} className="admin-btn ghost">Cancelar</button>
                   </div>
                 </form>
               ) : (
@@ -354,10 +381,11 @@ export function ProductsPanel() {
                     <strong>{product.name}</strong>
                     <p>{product.category} · {product.subcategory}</p>
                     <span>{formatMoney(product.price_cents)}</span>
+                    <p>Stock: {product.stock ?? 0}</p>
                   </div>
                   <div className="admin-actions">
-                    <button onClick={() => startEdit(product)}>Editar</button>
-                    <button className="danger" onClick={() => handleDeleteProduct(product.id)}>Eliminar</button>
+                    <button className="admin-btn ghost" onClick={() => startEdit(product)}>Editar</button>
+                    <button className="admin-btn danger" onClick={() => handleDeleteProduct(product.id)}>Eliminar</button>
                   </div>
                 </div>
               )}

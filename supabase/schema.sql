@@ -9,6 +9,7 @@ create table if not exists public.products (
   price_cents integer not null,
   currency text not null default 'USD',
   image_url text,
+  stock integer not null default 0,
   active boolean not null default true,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
