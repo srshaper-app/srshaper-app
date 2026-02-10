@@ -14,6 +14,43 @@ export async function GET() {
   return NextResponse.json({ coupons: data || [] });
 }
 
+export async function PUT(request: Request) {
+  const body = await request.json().catch(() => ({}));
+  const code = typeof body.code === 'string' ? body.code.trim().toUpperCase() : null;
+  if (!code) {
+    return NextResponse.json({ error: 'Código requerido' }, { status: 400 });
+  }
+
+  const { data: coupon } = await supabaseAdmin
+    .from('coupons')
+    .select('*')
+    .eq('code', code)
+    .eq('active', true)
+    .maybeSingle();
+
+  if (!coupon) {
+    return NextResponse.json({ valid: false, error: 'Cupón no válido' });
+  }
+
+  const now = new Date();
+  const startsAt = coupon.starts_at ? new Date(coupon.starts_at) : null;
+  const endsAt = coupon.ends_at ? new Date(coupon.ends_at) : null;
+  if ((startsAt && startsAt > now) || (endsAt && endsAt < now)) {
+    return NextResponse.json({ valid: false, error: 'Cupón fuera de fecha' });
+  }
+
+  return NextResponse.json({
+    valid: true,
+    coupon: {
+      code: coupon.code,
+      name: coupon.name,
+      type: coupon.type,
+      percent_off: coupon.percent_off,
+      amount_off_cents: coupon.amount_off_cents,
+    },
+  });
+}
+
 export async function POST(request: Request) {
   const body = await request.json().catch(() => ({}));
   const code = typeof body.code === 'string' ? body.code.trim().toUpperCase() : null;

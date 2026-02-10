@@ -8,22 +8,63 @@ export default function CheckoutPage() {
   const [pickup, setPickup] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [discountCents, setDiscountCents] = useState(0);
+  const [couponStatus, setCouponStatus] = useState<'idle' | 'ok' | 'error'>('idle');
+  const [couponMessage, setCouponMessage] = useState('');
   const [form, setForm] = useState({
     firstName: '',
     lastName: '',
     email: '',
     phone: '',
-    address: '',
+    addressLine1: '',
+    addressLine2: '',
+    city: '',
+    region: '',
+    postalCode: '',
+    country: 'ES',
     coupon: '',
   });
 
   const totalFormatted = useMemo(() => {
+    const amount = Math.max(totalCents - discountCents, 0);
     return new Intl.NumberFormat('es-ES', {
       style: 'currency',
       currency: 'EUR',
       maximumFractionDigits: 0,
-    }).format(totalCents / 100);
-  }, [totalCents]);
+    }).format(amount / 100);
+  }, [totalCents, discountCents]);
+
+  const validateCoupon = async () => {
+    if (!form.coupon.trim()) {
+      setDiscountCents(0);
+      setCouponStatus('idle');
+      setCouponMessage('');
+      return;
+    }
+    const res = await fetch('/api/coupons', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ code: form.coupon.trim() }),
+    });
+    const data = await res.json();
+    if (!data.valid) {
+      setDiscountCents(0);
+      setCouponStatus('error');
+      setCouponMessage(data.error || 'Cupón no válido');
+      return;
+    }
+
+    let discount = 0;
+    if (data.coupon.type === 'percent') {
+      discount = Math.round(totalCents * (data.coupon.percent_off / 100));
+    }
+    if (data.coupon.type === 'fixed') {
+      discount = Math.min(totalCents, data.coupon.amount_off_cents || 0);
+    }
+    setDiscountCents(discount);
+    setCouponStatus('ok');
+    setCouponMessage(`Cupón aplicado: ${data.coupon.code}`);
+  };
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -32,12 +73,13 @@ export default function CheckoutPage() {
       setError('Tu carrito está vacío.');
       return;
     }
-    if (!pickup && !form.address.trim()) {
-      setError('Introduce la dirección de envío o selecciona recogida en tienda.');
+    if (!pickup && (!form.addressLine1.trim() || !form.city.trim() || !form.region.trim() || !form.postalCode.trim())) {
+      setError('Completa todos los campos de envío o selecciona recogida en tienda.');
       return;
     }
     setLoading(true);
     try {
+      await validateCoupon();
       const res = await fetch('/api/checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -50,7 +92,16 @@ export default function CheckoutPage() {
           },
           shipping: {
             pickup,
-            address: pickup ? null : form.address.trim(),
+            address: pickup
+              ? null
+              : {
+                  line1: form.addressLine1.trim(),
+                  line2: form.addressLine2.trim() || null,
+                  city: form.city.trim(),
+                  region: form.region.trim(),
+                  postalCode: form.postalCode.trim(),
+                  country: form.country.trim(),
+                },
           },
           coupon: form.coupon.trim(),
         }),
@@ -124,14 +175,58 @@ export default function CheckoutPage() {
             Recoger en tienda
           </label>
           {!pickup && (
-            <div className="checkout-field">
-              <label>Dirección de envío</label>
-              <textarea
-                value={form.address}
-                onChange={(event) => setForm({ ...form, address: event.target.value })}
-                required={!pickup}
-              />
-            </div>
+            <>
+              <div className="checkout-field">
+                <label>Dirección</label>
+                <input
+                  value={form.addressLine1}
+                  onChange={(event) => setForm({ ...form, addressLine1: event.target.value })}
+                  required={!pickup}
+                />
+              </div>
+              <div className="checkout-field">
+                <label>Dirección (opcional)</label>
+                <input
+                  value={form.addressLine2}
+                  onChange={(event) => setForm({ ...form, addressLine2: event.target.value })}
+                />
+              </div>
+              <div className="checkout-row">
+                <div className="checkout-field">
+                  <label>Ciudad</label>
+                  <input
+                    value={form.city}
+                    onChange={(event) => setForm({ ...form, city: event.target.value })}
+                    required={!pickup}
+                  />
+                </div>
+                <div className="checkout-field">
+                  <label>Provincia</label>
+                  <input
+                    value={form.region}
+                    onChange={(event) => setForm({ ...form, region: event.target.value })}
+                    required={!pickup}
+                  />
+                </div>
+              </div>
+              <div className="checkout-row">
+                <div className="checkout-field">
+                  <label>Código postal</label>
+                  <input
+                    value={form.postalCode}
+                    onChange={(event) => setForm({ ...form, postalCode: event.target.value })}
+                    required={!pickup}
+                  />
+                </div>
+                <div className="checkout-field">
+                  <label>País</label>
+                  <input
+                    value={form.country}
+                    onChange={(event) => setForm({ ...form, country: event.target.value })}
+                  />
+                </div>
+              </div>
+            </>
           )}
           <div className="checkout-row">
             <div className="checkout-field">
@@ -142,7 +237,16 @@ export default function CheckoutPage() {
                 placeholder="SURF10"
               />
             </div>
+            <div className="checkout-field checkout-actions">
+              <label>&nbsp;</label>
+              <button className="btn btn-ghost" type="button" onClick={validateCoupon}>
+                Validar cupón
+              </button>
+            </div>
           </div>
+          {couponMessage && (
+            <p className={`form-message ${couponStatus}`}>{couponMessage}</p>
+          )}
           {error && <p className="admin-error">{error}</p>}
           <button className="btn" type="submit" disabled={loading}>
             {loading ? 'Redirigiendo...' : 'Continuar al pago'}
@@ -160,6 +264,12 @@ export default function CheckoutPage() {
                 </span>
               </div>
             ))}
+            {discountCents > 0 && (
+              <div className="checkout-item">
+                <span>Descuento</span>
+                <span>-€{(discountCents / 100).toFixed(0)}</span>
+              </div>
+            )}
             <div className="checkout-total">
               <strong>Total actual</strong>
               <strong>{totalFormatted}</strong>

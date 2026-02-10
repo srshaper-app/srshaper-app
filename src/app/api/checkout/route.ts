@@ -12,7 +12,7 @@ export async function POST(request: Request) {
   if (!customer?.name || !customer?.email || !customer?.phone) {
     return NextResponse.json({ error: 'Datos de cliente incompletos' }, { status: 400 });
   }
-  if (!shipping?.pickup && !shipping?.address) {
+  if (!shipping?.pickup && !shipping?.address?.line1) {
     return NextResponse.json({ error: 'Dirección de envío requerida' }, { status: 400 });
   }
 
@@ -104,7 +104,9 @@ export async function POST(request: Request) {
       customer_name: customer.name,
       customer_phone: customer.phone,
       pickup: shipping?.pickup ? 'true' : 'false',
-      shipping_address: shipping?.pickup ? 'RECOGIDA EN TIENDA' : shipping?.address || '',
+      shipping_address: shipping?.pickup
+        ? 'RECOGIDA EN TIENDA'
+        : `${shipping?.address?.line1 || ''} ${shipping?.address?.line2 || ''}, ${shipping?.address?.city || ''}, ${shipping?.address?.region || ''}, ${shipping?.address?.postalCode || ''}, ${shipping?.address?.country || ''}`,
       coupon_code: couponCode || '',
       discount_cents: String(discountCents),
       subtotal_cents: String(subtotalCents),
