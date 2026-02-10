@@ -21,7 +21,7 @@ export default async function Home() {
           <h1>Sr.Shaper nace en el agua. Tablas hechas para tu ola.</h1>
           <p className="lead">
             Diseñamos surfboards a medida, seleccionamos accesorios premium y
-            formamos riders en nuestra academia. Todo con estilo surfero,
+            compartimos conocimiento y asesoría. Todo con estilo surfero,
             funcional y auténtico.
           </p>
           <div className="hero-actions">
@@ -115,19 +115,19 @@ export default async function Home() {
 
       <section className="section split">
         <div>
-          <h2>Academia Sr.Shaper</h2>
+          <h2>Recursos Sr.Shaper</h2>
           <p>
-            Clases para todos los niveles, clinics de maniobras y entrenamientos
-            en el agua con coaches certificados.
+            Guías, recomendaciones y contenido práctico sobre shaping,
+            mantenimiento y elección de tablas.
           </p>
           <div className="badges">
-            <span className="badge">Principiantes</span>
-            <span className="badge">Intermedio</span>
-            <span className="badge">Competencia</span>
+            <span className="badge">Guías de shaping</span>
+            <span className="badge">Cuidado de tablas</span>
+            <span className="badge">Performance</span>
           </div>
           <div className="hero-actions">
-            <Link className="btn" href="/academia">Ver programas</Link>
-            <Link className="btn btn-outline" href="/contacto">Agendar clase</Link>
+            <Link className="btn" href="/academia">Ver contenidos</Link>
+            <Link className="btn btn-outline" href="/contacto">Contactar</Link>
           </div>
         </div>
         <div className="quote">

@@ -4,7 +4,7 @@ export default function ContactoPage() {
       <section className="page-hero">
         <p className="breadcrumb">Inicio / Contacto</p>
         <h1>Hablemos de tu próxima sesión.</h1>
-        <p className="lead">Escríbenos para cotizar tablas, clases o asesoría personalizada.</p>
+        <p className="lead">Escríbenos para cotizar tablas o asesoría personalizada.</p>
       </section>
 
       <section className="section wave">
