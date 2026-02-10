@@ -179,7 +179,7 @@ export default function CheckoutPage() {
           {!pickup && (
             <>
               <div className="checkout-field">
-                <label>Dirección</label>
+                <label>Dirección (calle y número)</label>
                 <input
                   value={form.addressLine1}
                   onChange={(event) => setForm({ ...form, addressLine1: event.target.value })}
@@ -187,7 +187,7 @@ export default function CheckoutPage() {
                 />
               </div>
               <div className="checkout-field">
-                <label>Dirección (opcional)</label>
+                <label>Piso / puerta (opcional)</label>
                 <input
                   value={form.addressLine2}
                   onChange={(event) => setForm({ ...form, addressLine2: event.target.value })}
