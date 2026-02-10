@@ -26,6 +26,7 @@ create table if not exists public.orders (
   coupon_code text,
   discount_cents integer not null default 0,
   subtotal_cents integer not null default 0,
+  fulfillment_status text not null default 'preparando',
   status text not null default 'pending',
   total_cents integer not null,
   currency text not null default 'USD',

@@ -21,3 +21,20 @@ export async function GET() {
 
   return NextResponse.json({ orders: orders || [], items: items || [] });
 }
+
+export async function PATCH(request: Request) {
+  const body = await request.json().catch(() => ({}));
+  if (!body.id || !body.status) {
+    return NextResponse.json({ error: 'Datos incompletos' }, { status: 400 });
+  }
+  const { error } = await supabaseAdmin
+    .from('orders')
+    .update({ fulfillment_status: body.status })
+    .eq('id', body.id);
+
+  if (error) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+
+  return NextResponse.json({ ok: true });
+}

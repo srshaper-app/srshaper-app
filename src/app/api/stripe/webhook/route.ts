@@ -52,11 +52,23 @@ export async function POST(request: Request) {
         status: 'paid',
         total_cents: total,
         currency,
+        fulfillment_status: 'preparando',
       })
       .select('*')
       .single();
 
     if (!error && order) {
+      if (meta.subscribe === 'true' && session.customer_details?.email) {
+        await supabaseAdmin
+          .from('newsletter_subscribers')
+          .upsert(
+            {
+              name: meta.customer_name || null,
+              email: session.customer_details.email,
+            },
+            { onConflict: 'email' }
+          );
+      }
       const items = lineItems.data.map((item) => {
         const product = item.price?.product as Stripe.Product | null;
         return {

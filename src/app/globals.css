@@ -1273,6 +1273,25 @@ img {
   align-items: flex-start;
 }
 
+.admin-order-main {
+  display: grid;
+  gap: 12px;
+}
+
+.admin-order-status {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.admin-order-status select {
+  border-radius: 999px;
+  border: 1px solid #d8e2e7;
+  padding: 8px 12px;
+  font-size: 12px;
+}
+
 .admin-order-items {
   display: grid;
   gap: 4px;

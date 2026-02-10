@@ -23,6 +23,7 @@ export default function CheckoutPage() {
     postalCode: '',
     country: 'ES',
     coupon: '',
+    subscribe: false,
   });
 
   const totalFormatted = useMemo(() => {
@@ -104,6 +105,7 @@ export default function CheckoutPage() {
                 },
           },
           coupon: form.coupon.trim(),
+          subscribe: form.subscribe,
         }),
       });
       const data = await res.json();
@@ -244,6 +246,14 @@ export default function CheckoutPage() {
               </button>
             </div>
           </div>
+          <label className="checkout-checkbox">
+            <input
+              type="checkbox"
+              checked={form.subscribe}
+              onChange={(event) => setForm({ ...form, subscribe: event.target.checked })}
+            />
+            Quiero suscribirme a la newsletter
+          </label>
           {couponMessage && (
             <p className={`form-message ${couponStatus}`}>{couponMessage}</p>
           )}

@@ -4,7 +4,7 @@ import { supabaseAdmin } from '@/lib/supabase/admin';
 
 export async function POST(request: Request) {
   const stripe = getStripe();
-  const { items, customer, shipping, coupon } = await request.json();
+  const { items, customer, shipping, coupon, subscribe } = await request.json();
 
   if (!items || !Array.isArray(items)) {
     return NextResponse.json({ error: 'Items inválidos' }, { status: 400 });
@@ -93,7 +93,7 @@ export async function POST(request: Request) {
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://srshaper-app-tv3i.vercel.app';
 
-  const session = await stripe.checkout.sessions.create({
+    const session = await stripe.checkout.sessions.create({
     mode: 'payment',
     line_items: lineItems,
     discounts: stripeCouponId ? [{ coupon: stripeCouponId }] : undefined,
@@ -110,6 +110,7 @@ export async function POST(request: Request) {
       coupon_code: couponCode || '',
       discount_cents: String(discountCents),
       subtotal_cents: String(subtotalCents),
+      subscribe: subscribe ? 'true' : 'false',
     },
   });
 
