@@ -1025,6 +1025,82 @@ img {
   color: #d13a3a;
 }
 
+.checkout-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+.checkout-card {
+  background: white;
+  padding: 24px;
+  border-radius: 20px;
+  box-shadow: 0 18px 40px rgba(8, 12, 20, 0.12);
+  display: grid;
+  gap: 16px;
+}
+
+.checkout-row {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+
+.checkout-field {
+  display: grid;
+  gap: 6px;
+}
+
+.checkout-field label {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #4a5b63;
+}
+
+.checkout-field input,
+.checkout-field textarea {
+  border-radius: 12px;
+  border: 1px solid #d8e2e7;
+  padding: 12px 14px;
+  background: #ffffff;
+}
+
+.checkout-field textarea {
+  min-height: 100px;
+}
+
+.checkout-checkbox {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  font-size: 13px;
+}
+
+.checkout-summary {
+  display: grid;
+  gap: 12px;
+}
+
+.checkout-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+}
+
+.checkout-total {
+  display: flex;
+  justify-content: space-between;
+  font-size: 16px;
+  border-top: 1px solid rgba(8, 12, 20, 0.08);
+  padding-top: 12px;
+}
+
+.checkout-note {
+  font-size: 12px;
+  color: #4a5b63;
+}
+
 .admin-metrics {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));

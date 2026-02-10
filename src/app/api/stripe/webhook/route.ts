@@ -32,6 +32,9 @@ export async function POST(request: Request) {
 
     const total = session.amount_total || 0;
     const currency = (session.currency || 'usd').toUpperCase();
+    const meta = session.metadata || {};
+    const discountCents = Number(meta.discount_cents || 0);
+    const subtotalCents = Number(meta.subtotal_cents || 0);
 
     const { data: order, error } = await supabaseAdmin
       .from('orders')
@@ -39,6 +42,13 @@ export async function POST(request: Request) {
         stripe_session_id: session.id,
         stripe_payment_intent_id: session.payment_intent as string,
         customer_email: session.customer_details?.email,
+        customer_name: meta.customer_name || null,
+        customer_phone: meta.customer_phone || null,
+        shipping_address: meta.shipping_address || null,
+        pickup: meta.pickup === 'true',
+        coupon_code: meta.coupon_code || null,
+        discount_cents: discountCents || 0,
+        subtotal_cents: subtotalCents || total,
         status: 'paid',
         total_cents: total,
         currency,

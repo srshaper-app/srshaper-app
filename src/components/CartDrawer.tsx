@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import { useRouter } from 'next/navigation';
 import { useCart } from './CartContext';
 
 const formatMoney = (value: number) => {
@@ -24,6 +25,7 @@ export function CartButton() {
 export function CartOverlay() {
   const { items, removeItem, clear, totalCents, isOpen, closeCart } = useCart();
   const drawerRef = useRef<HTMLDivElement | null>(null);
+  const router = useRouter();
 
   useEffect(() => {
     if (!isOpen) return;
@@ -39,18 +41,9 @@ export function CartOverlay() {
     };
   }, [isOpen, closeCart]);
 
-  const handleCheckout = async () => {
-    const res = await fetch('/api/checkout', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        items: items.map((item) => ({ id: item.id, quantity: item.quantity })),
-      }),
-    });
-    const data = await res.json();
-    if (data.url) {
-      window.location.href = data.url;
-    }
+  const handleCheckout = () => {
+    closeCart();
+    router.push('/checkout');
   };
 
   return (

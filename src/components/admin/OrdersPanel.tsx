@@ -4,7 +4,14 @@ import { useEffect, useState } from 'react';
 
 type Order = {
   id: string;
+  customer_name: string | null;
   customer_email: string | null;
+  customer_phone: string | null;
+  shipping_address: string | null;
+  pickup: boolean | null;
+  coupon_code: string | null;
+  discount_cents: number | null;
+  subtotal_cents: number | null;
   status: string;
   total_cents: number;
   currency: string;
@@ -59,7 +66,12 @@ export function OrdersPanel() {
             <div key={order.id} className="admin-list-item admin-order">
               <div>
                 <strong>{formatMoney(order.total_cents, order.currency)}</strong>
-                <p>{order.customer_email || 'Cliente sin email'} · {order.status}</p>
+                <p>{order.customer_name || 'Cliente'} · {order.customer_email || 'Sin email'}</p>
+                <p>{order.customer_phone || 'Sin teléfono'} · {order.status}</p>
+                <p>{order.pickup ? 'Recogida en tienda' : order.shipping_address || 'Sin dirección'}</p>
+                {order.coupon_code ? (
+                  <p>Cupón: {order.coupon_code} · Descuento {formatMoney(order.discount_cents || 0, order.currency)}</p>
+                ) : null}
                 <small>{new Date(order.created_at).toLocaleString()}</small>
               </div>
               <div className="admin-order-items">
