@@ -41,7 +41,6 @@ export function OrdersPanel() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [items, setItems] = useState<OrderItem[]>([]);
   const [error, setError] = useState<string | null>(null);
-  const [updating, setUpdating] = useState<string | null>(null);
 
   const load = async () => {
     const res = await fetch('/api/orders');
@@ -59,16 +58,6 @@ export function OrdersPanel() {
     load();
   }, []);
 
-  const updateStatus = async (id: string, status: string) => {
-    setUpdating(id);
-    await fetch('/api/orders', {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id, status }),
-    });
-    await load();
-    setUpdating(null);
-  };
 
   return (
     <div className="admin-grid">
@@ -83,25 +72,10 @@ export function OrdersPanel() {
                 <div>
                   <strong>{formatMoney(order.total_cents, order.currency)}</strong>
                   <p>{order.customer_name || 'Cliente'} · {order.customer_email || 'Sin email'}</p>
-                  <p>{order.customer_phone || 'Sin teléfono'}</p>
-                  <p>{order.pickup ? 'Recogida en tienda' : order.shipping_address || 'Sin dirección'}</p>
-                  {order.coupon_code ? (
-                    <p>Cupón: {order.coupon_code} · Descuento {formatMoney(order.discount_cents || 0, order.currency)}</p>
-                  ) : null}
                   <small>{new Date(order.created_at).toLocaleString()}</small>
                 </div>
                 <div className="admin-order-status">
                   <span className="admin-pill">{order.status}</span>
-                  <select
-                    value={order.fulfillment_status || 'preparando'}
-                    onChange={(event) => updateStatus(order.id, event.target.value)}
-                    disabled={updating === order.id}
-                    onClick={(event) => event.preventDefault()}
-                  >
-                    <option value="preparando">Preparando</option>
-                    <option value="listo">Listo</option>
-                    <option value="enviado">Enviado</option>
-                  </select>
                 </div>
               </div>
               <div className="admin-order-items">

@@ -40,6 +40,7 @@ export function OrderDetail({ orderId }: { orderId: string }) {
   const [order, setOrder] = useState<Order | null>(null);
   const [items, setItems] = useState<OrderItem[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [updating, setUpdating] = useState(false);
 
   useEffect(() => {
     if (!orderId || orderId === 'undefined') {
@@ -58,6 +59,23 @@ export function OrderDetail({ orderId }: { orderId: string }) {
     };
     load();
   }, [orderId]);
+
+  const updateStatus = async (status: string) => {
+    if (!order) return;
+    setUpdating(true);
+    await fetch('/api/orders', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id: order.id, status }),
+    });
+    setUpdating(false);
+    const res = await fetch(`/api/orders?id=${order.id}`);
+    const data = await res.json();
+    if (res.ok) {
+      setOrder(data.order);
+      setItems(data.items || []);
+    }
+  };
 
   if (error) {
     return (
@@ -92,7 +110,18 @@ export function OrderDetail({ orderId }: { orderId: string }) {
           <div>
             <h3>Envío</h3>
             <p>{order.pickup ? 'Recogida en tienda' : order.shipping_address || 'Sin dirección'}</p>
-            <p>Estado: {order.fulfillment_status || 'preparando'}</p>
+            <div className="admin-order-status">
+              <span>Estado:</span>
+              <select
+                value={order.fulfillment_status || 'preparando'}
+                onChange={(event) => updateStatus(event.target.value)}
+                disabled={updating}
+              >
+                <option value="preparando">Preparando</option>
+                <option value="listo">Listo</option>
+                <option value="enviado">Enviado</option>
+              </select>
+            </div>
           </div>
           <div>
             <h3>Pago</h3>
