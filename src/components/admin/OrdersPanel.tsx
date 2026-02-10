@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 
 type Order = {
   id: string;
@@ -77,7 +78,7 @@ export function OrdersPanel() {
         <div className="admin-list">
           {orders.length === 0 && <p>No hay pedidos registrados.</p>}
           {orders.map((order) => (
-            <div key={order.id} className="admin-list-item admin-order">
+            <Link key={order.id} className="admin-list-item admin-order admin-order-card" href={`/admin/pedidos/${order.id}`}>
               <div className="admin-order-main">
                 <div>
                   <strong>{formatMoney(order.total_cents, order.currency)}</strong>
@@ -95,6 +96,7 @@ export function OrdersPanel() {
                     value={order.fulfillment_status || 'preparando'}
                     onChange={(event) => updateStatus(order.id, event.target.value)}
                     disabled={updating === order.id}
+                    onClick={(event) => event.preventDefault()}
                   >
                     <option value="preparando">Preparando</option>
                     <option value="listo">Listo</option>
@@ -111,7 +113,7 @@ export function OrdersPanel() {
                     </span>
                   ))}
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </section>
