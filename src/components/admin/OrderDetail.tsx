@@ -42,6 +42,10 @@ export function OrderDetail({ orderId }: { orderId: string }) {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    if (!orderId || orderId === 'undefined') {
+      setError('ID de pedido inválido.');
+      return;
+    }
     const load = async () => {
       const res = await fetch(`/api/orders?id=${orderId}`);
       const data = await res.json();

@@ -6,6 +6,9 @@ export async function GET(request: Request) {
   const id = searchParams.get('id');
 
   if (id) {
+    if (id === 'undefined') {
+      return NextResponse.json({ error: 'ID inválido' }, { status: 400 });
+    }
     const { data: order, error } = await supabaseAdmin
       .from('orders')
       .select('*')
