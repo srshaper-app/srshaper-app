@@ -47,6 +47,10 @@ export default async function ProductoDetallePage({ params }: { params: Promise<
           <div className="badges">
             <span className="badge">{product.category}</span>
             <span className="badge">{product.subcategory}</span>
+            {product.stock === 0 && <span className="badge danger">Agotado</span>}
+            {product.stock > 0 && product.stock < 3 && (
+              <span className="badge warn">Quedan pocas unidades</span>
+            )}
           </div>
           <div className="hero-actions">
             <span className="price">€{(product.price_cents / 100).toFixed(0)}</span>
@@ -56,6 +60,7 @@ export default async function ProductoDetallePage({ params }: { params: Promise<
               price_cents={product.price_cents}
               currency={product.currency}
               image_url={product.image_url}
+              stock={product.stock}
             />
           </div>
           <p style={{ marginTop: 16 }}>

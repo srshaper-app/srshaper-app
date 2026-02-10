@@ -10,6 +10,7 @@ type ProductCardProps = {
   price_cents: number;
   currency: string;
   image_url?: string | null;
+  stock?: number | null;
 };
 
 const formatMoney = (value: number, currency = 'EUR') => {
@@ -20,8 +21,10 @@ const formatMoney = (value: number, currency = 'EUR') => {
   }).format(value / 100);
 };
 
-export function ProductCard({ id, name, description, price_cents, currency, image_url }: ProductCardProps) {
+export function ProductCard({ id, name, description, price_cents, currency, image_url, stock }: ProductCardProps) {
   const { addItem, openCart } = useCart();
+  const available = (stock ?? 0) > 0;
+  const lowStock = (stock ?? 0) > 0 && (stock ?? 0) < 3;
 
   return (
     <article className="card">
@@ -31,8 +34,11 @@ export function ProductCard({ id, name, description, price_cents, currency, imag
       <h3>{name}</h3>
       {description && <p>{description}</p>}
       <span className="price">{formatMoney(price_cents, currency)}</span>
+      {!available && <span className="stock-badge out">Agotado</span>}
+      {lowStock && <span className="stock-badge low">Quedan pocas unidades</span>}
       <button
         className="btn btn-ghost"
+        disabled={!available}
         onClick={() => {
           addItem({
             id,
@@ -44,7 +50,7 @@ export function ProductCard({ id, name, description, price_cents, currency, imag
           openCart();
         }}
       >
-        Agregar al carrito
+        {available ? 'Agregar al carrito' : 'Agotado'}
       </button>
       <Link className="card-link" href={`/producto/${id}`}>
         Ver detalle

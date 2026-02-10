@@ -31,12 +31,18 @@ export async function POST(request: Request) {
     if (!product) {
       throw new Error('Producto no encontrado');
     }
+    if ((product.stock ?? 0) < (item.quantity || 1)) {
+      throw new Error(`Sin stock suficiente para ${product.name}`);
+    }
     return {
       price_data: {
         currency: product.currency.toLowerCase(),
         product_data: {
           name: product.name,
           images: product.image_url ? [product.image_url] : [],
+          metadata: {
+            product_id: product.id,
+          },
         },
         unit_amount: product.price_cents,
       },

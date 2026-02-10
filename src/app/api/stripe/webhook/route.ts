@@ -73,7 +73,7 @@ export async function POST(request: Request) {
         const product = item.price?.product as Stripe.Product | null;
         return {
           order_id: order.id,
-          product_id: null,
+          product_id: product?.metadata?.product_id || null,
           name: product?.name || 'Producto',
           price_cents: item.amount_total || 0,
           quantity: item.quantity || 1,
@@ -81,6 +81,20 @@ export async function POST(request: Request) {
       });
       if (items.length > 0) {
         await supabaseAdmin.from('order_items').insert(items);
+      }
+      for (const item of items) {
+        if (!item.product_id) continue;
+        const { data: productRow } = await supabaseAdmin
+          .from('products')
+          .select('stock')
+          .eq('id', item.product_id)
+          .single();
+        const currentStock = productRow?.stock ?? 0;
+        const nextStock = Math.max(currentStock - (item.quantity || 1), 0);
+        await supabaseAdmin
+          .from('products')
+          .update({ stock: nextStock })
+          .eq('id', item.product_id);
       }
     }
   }
