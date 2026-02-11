@@ -17,21 +17,21 @@ export default async function Home() {
     <main>
       <section className="hero">
         <div>
-          <p className="eyebrow">Shapers locales · Envíos a todo el país</p>
-          <h1>Sr.Shaper nace en el agua. Tablas hechas para tu ola.</h1>
+          <p className="eyebrow">Tablas personalizadas · Envíos a todo el país</p>
+          <h1>Diseña tu tabla a medida o elige una lista para surfear.</h1>
           <p className="lead">
-            Diseñamos surfboards a medida, seleccionamos accesorios premium y
-            compartimos conocimiento y asesoría. Todo con estilo surfero,
+            Priorizamos el shaping personalizado con opciones listas para entrega.
+            Todo con estilo surfero, funcional y auténtico.
             funcional y auténtico.
           </p>
           <div className="hero-actions">
-            <Link className="btn" href="/tablas/crea-tu-tabla">Crear mi tabla</Link>
-            <Link className="btn btn-ghost" href="/tablas/catalogo">Ver catálogo</Link>
+            <Link className="btn" href="/tablas/crea-tu-tabla">Crea tu tabla</Link>
+            <Link className="btn btn-ghost" href="/tablas/catalogo">Comprar tablas</Link>
           </div>
           <div className="badges">
             <span className="badge">Custom shaping</span>
-            <span className="badge">Accesorios pro</span>
-            <span className="badge">Academia</span>
+            <span className="badge">Catálogo inmediato</span>
+            <span className="badge">Asesoría experta</span>
           </div>
         </div>
         <div className="hero-card">
@@ -39,8 +39,8 @@ export default async function Home() {
           <h3>Modelo “Blue Tide”</h3>
           <p>6'1" · Thruster · Volumen 29L</p>
           <div className="hero-actions">
-            <span className="price">$720</span>
-            <Link className="btn btn-small" href="/tablas/catalogo">Comprar</Link>
+            <span className="price">€720</span>
+            <Link className="btn btn-small" href="/tablas/catalogo">Comprar tabla</Link>
           </div>
           <img
             src="https://images.unsplash.com/photo-1502680390469-be75c86b636f?auto=format&fit=crop&w=900&q=80"
@@ -54,6 +54,26 @@ export default async function Home() {
         <div>Pagos seguros</div>
         <div>Soporte experto</div>
         <div>Garantía 12 meses</div>
+      </section>
+
+      <section className="section wave">
+        <div className="section-head">
+          <h2>Tablas listas para surfear</h2>
+          <p>Compra una tabla del catálogo o crea una personalizada con nuestros shapers.</p>
+        </div>
+        <div className="grid cards">
+          {products?.length ? (
+            products.map((product) => (
+              <ProductCard key={product.id} {...product} />
+            ))
+          ) : (
+            <p>No hay productos cargados todavía.</p>
+          )}
+        </div>
+        <div className="hero-actions" style={{ marginTop: 20 }}>
+          <Link className="btn" href="/tablas/crea-tu-tabla">Crea tu tabla</Link>
+          <Link className="btn btn-ghost" href="/tablas/catalogo">Ver catálogo</Link>
+        </div>
       </section>
 
       <section className="section">
@@ -94,22 +114,6 @@ export default async function Home() {
             <p>Leash + wax + grips para tu próxima sesión.</p>
           </div>
           <Link className="btn btn-small" href="/accesorios">Ver accesorios</Link>
-        </div>
-      </section>
-
-      <section className="section wave">
-        <div className="section-head">
-          <h2>Tablas de surf</h2>
-          <p>Catálogo inmediato o diseño 100% a medida con nuestros shapers.</p>
-        </div>
-        <div className="grid cards">
-          {products?.length ? (
-            products.map((product) => (
-              <ProductCard key={product.id} {...product} />
-            ))
-          ) : (
-            <p>No hay productos cargados todavía.</p>
-          )}
         </div>
       </section>
 

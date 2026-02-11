@@ -10,7 +10,16 @@ export function SiteHeader() {
         <span>Sr.Shaper</span>
       </Link>
       <nav className="links">
-        <Link href="/">Inicio</Link>
+        <Link href="/tablas">Tablas</Link>
+        <div className="menu-item">
+          <Link className="menu-label" href="/tablas">Tablas</Link>
+          <div className="dropdown">
+            <Link href="/tablas">Todas las tablas</Link>
+            <Link href="/tablas/catalogo">Catálogo</Link>
+            <Link href="/tablas/crea-tu-tabla">Crea tu tabla</Link>
+          </div>
+        </div>
+        <Link href="/academia">Cursos</Link>
         <div className="menu-item">
           <Link className="menu-label" href="/accesorios">Accesorios</Link>
           <div className="dropdown">
@@ -22,15 +31,6 @@ export function SiteHeader() {
             <Link href="/accesorios/grips">Grips</Link>
           </div>
         </div>
-        <div className="menu-item">
-          <Link className="menu-label" href="/tablas">Tablas</Link>
-          <div className="dropdown">
-            <Link href="/tablas">Todas las tablas</Link>
-            <Link href="/tablas/catalogo">Catálogo</Link>
-            <Link href="/tablas/crea-tu-tabla">Crea tu tabla</Link>
-          </div>
-        </div>
-        <Link href="/academia">Academia</Link>
         <Link href="/sobre-nosotros">Sobre nosotros</Link>
         <Link href="/contacto">Contacto</Link>
       </nav>
@@ -50,9 +50,9 @@ export function SiteFooter() {
         <span>Sr.Shaper</span>
       </div>
       <div className="footer-links">
-        <Link href="/accesorios">Accesorios</Link>
         <Link href="/tablas">Tablas</Link>
-        <Link href="/academia">Academia</Link>
+        <Link href="/academia">Cursos</Link>
+        <Link href="/accesorios">Accesorios</Link>
         <Link href="/sobre-nosotros">Sobre nosotros</Link>
         <Link href="/contacto">Contacto</Link>
         <Link href="/terminos">Términos y condiciones</Link>
