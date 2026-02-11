@@ -17,6 +17,7 @@ export function AdminShell({ children, title }: AdminShellProps) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
+  const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
 
@@ -80,7 +81,11 @@ export function AdminShell({ children, title }: AdminShellProps) {
 
   return (
     <div className="admin-shell">
-      <aside className="admin-sidebar">
+      <div
+        className={`admin-backdrop ${menuOpen ? 'open' : ''}`}
+        onClick={() => setMenuOpen(false)}
+      />
+      <aside className={`admin-sidebar ${menuOpen ? 'open' : ''}`}>
         <div className="admin-brand">
           <img src="/logo-srshaper.svg" alt="Sr.Shaper" />
           <div>
@@ -119,6 +124,16 @@ export function AdminShell({ children, title }: AdminShellProps) {
             <h1>{title}</h1>
             <p>Panel interno para control de ventas y catálogo.</p>
           </div>
+          <button
+            className="admin-burger"
+            type="button"
+            aria-label="Abrir menú"
+            onClick={() => setMenuOpen((prev) => !prev)}
+          >
+            <span />
+            <span />
+            <span />
+          </button>
         </header>
         <div className="admin-page">{children}</div>
       </section>
