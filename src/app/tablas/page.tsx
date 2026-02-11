@@ -20,7 +20,7 @@ export default async function TablasPage() {
         <details className="category-drop" open>
           <summary>Opciones de tablas</summary>
           <div className="subnav">
-            <a href="/tablas/catalogo">Catálogo</a>
+            <a href="/tablas">Todas las tablas</a>
             <a href="/tablas/crea-tu-tabla">Crea tu tabla a medida</a>
           </div>
         </details>

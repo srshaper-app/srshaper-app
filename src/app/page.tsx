@@ -27,7 +27,7 @@ export default async function Home() {
           </p>
           <div className="hero-actions">
             <Link className="btn" href="/tablas/crea-tu-tabla">Crea tu tabla</Link>
-            <Link className="btn btn-ghost" href="/tablas/catalogo">Comprar tablas</Link>
+            <Link className="btn btn-ghost" href="/tablas">Comprar tablas</Link>
           </div>
           <div className="badges">
             <span className="badge">Custom shaping</span>
@@ -41,7 +41,7 @@ export default async function Home() {
           <p>6'1" · Thruster · Volumen 29L</p>
           <div className="hero-actions">
             <span className="price">€720</span>
-            <Link className="btn btn-small" href="/tablas/catalogo">Comprar tabla</Link>
+            <Link className="btn btn-small" href="/tablas">Comprar tabla</Link>
           </div>
           <img
             src="https://images.unsplash.com/photo-1502680390469-be75c86b636f?auto=format&fit=crop&w=900&q=80"
@@ -73,7 +73,7 @@ export default async function Home() {
         </div>
         <div className="hero-actions" style={{ marginTop: 20 }}>
           <Link className="btn" href="/tablas/crea-tu-tabla">Crea tu tabla</Link>
-          <Link className="btn btn-ghost" href="/tablas/catalogo">Ver catálogo</Link>
+          <Link className="btn btn-ghost" href="/tablas">Ver catálogo</Link>
         </div>
       </section>
 

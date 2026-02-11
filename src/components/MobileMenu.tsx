@@ -34,7 +34,6 @@ export function MobileMenu() {
         <nav className="mobile-menu-links">
           <span className="mobile-group">Tablas</span>
           <Link href="/tablas" onClick={() => setOpen(false)}>Todas las tablas</Link>
-          <Link href="/tablas/catalogo" onClick={() => setOpen(false)}>Catálogo</Link>
           <Link href="/tablas/crea-tu-tabla" onClick={() => setOpen(false)}>Crea tu tabla</Link>
           <Link href="/academia" onClick={() => setOpen(false)}>Cursos</Link>
           <span className="mobile-group">Accesorios</span>

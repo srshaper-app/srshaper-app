@@ -14,7 +14,6 @@ export function SiteHeader() {
           <Link className="menu-label" href="/tablas">Tablas</Link>
           <div className="dropdown">
             <Link href="/tablas">Todas las tablas</Link>
-            <Link href="/tablas/catalogo">Catálogo</Link>
             <Link href="/tablas/crea-tu-tabla">Crea tu tabla</Link>
           </div>
         </div>
