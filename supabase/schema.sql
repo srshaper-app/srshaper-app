@@ -85,6 +85,19 @@ create table if not exists public.coupons (
 
 create index if not exists idx_coupons_created_at on public.coupons (created_at desc);
 
+create table if not exists public.custom_board_requests (
+  id uuid primary key default uuid_generate_v4(),
+  name text not null,
+  email text not null,
+  phone text,
+  wave_type text,
+  level text,
+  message text,
+  created_at timestamptz not null default now()
+);
+
+create index if not exists idx_custom_board_requests_created_at on public.custom_board_requests (created_at desc);
+
 alter table public.products enable row level security;
 alter table public.orders enable row level security;
 alter table public.order_items enable row level security;
@@ -92,6 +105,7 @@ alter table public.admins enable row level security;
 alter table public.metrics_daily enable row level security;
 alter table public.newsletter_subscribers enable row level security;
 alter table public.coupons enable row level security;
+alter table public.custom_board_requests enable row level security;
 
 create policy "Public read active products"
   on public.products for select
@@ -132,3 +146,11 @@ create policy "Admin manage coupons"
   on public.coupons for all
   using (exists (select 1 from public.admins where user_id = auth.uid()))
   with check (exists (select 1 from public.admins where user_id = auth.uid()));
+
+create policy "Admin read custom board requests"
+  on public.custom_board_requests for select
+  using (exists (select 1 from public.admins where user_id = auth.uid()));
+
+create policy "Public insert custom board requests"
+  on public.custom_board_requests for insert
+  with check (email is not null);

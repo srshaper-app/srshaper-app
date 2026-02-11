@@ -1,3 +1,5 @@
+import { CustomBoardForm } from '@/components/CustomBoardForm';
+
 export default function CreaTuTablaPage() {
   return (
     <main>
@@ -19,24 +21,7 @@ export default function CreaTuTablaPage() {
           <h2>Brief de shaping</h2>
           <p>Te respondemos en 24h con propuesta de diseño y tiempos.</p>
         </div>
-        <form className="form">
-          <input type="text" placeholder="Nombre" />
-          <input type="email" placeholder="Email" />
-          <select>
-            <option>Tipo de ola preferida</option>
-            <option>Beach break</option>
-            <option>Point break</option>
-            <option>Reef break</option>
-          </select>
-          <select>
-            <option>Nivel actual</option>
-            <option>Principiante</option>
-            <option>Intermedio</option>
-            <option>Avanzado</option>
-          </select>
-          <textarea placeholder="Cuéntanos tu estilo, medidas y objetivo"></textarea>
-          <button className="btn" type="submit">Enviar brief</button>
-        </form>
+        <CustomBoardForm />
       </section>
     </main>
   );

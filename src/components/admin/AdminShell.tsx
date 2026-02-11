@@ -104,6 +104,9 @@ export function AdminShell({ children, title }: AdminShellProps) {
           <Link className={pathname === '/admin/cupones' ? 'active' : ''} href="/admin/cupones">
             Cupones
           </Link>
+          <Link className={pathname === '/admin/solicitudes-tabla' ? 'active' : ''} href="/admin/solicitudes-tabla">
+            Solicitudes de tablas
+          </Link>
         </nav>
         <Link className="admin-store-link" href="/" target="_blank" rel="noreferrer">
           Ver tienda
