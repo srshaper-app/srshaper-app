@@ -10,6 +10,7 @@ export default async function Home() {
     .from('products')
     .select('*')
     .eq('active', true)
+    .eq('category', 'Tablas')
     .order('created_at', { ascending: false })
     .limit(3);
 

@@ -10,7 +10,6 @@ export function SiteHeader() {
         <span>Sr.Shaper</span>
       </Link>
       <nav className="links">
-        <Link href="/tablas">Tablas</Link>
         <div className="menu-item">
           <Link className="menu-label" href="/tablas">Tablas</Link>
           <div className="dropdown">
