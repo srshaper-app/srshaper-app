@@ -15,7 +15,7 @@ export default async function TablasPage() {
     <main>
       <section className="page-hero">
         <p className="breadcrumb">Inicio / Tablas</p>
-        <h1>Tablas hechas para tu estilo de ola.</h1>
+        <h1>Tablas de Surf</h1>
         <p className="lead">Desde shortboards rápidos a longboards con flow, y diseños 100% personalizados.</p>
         <details className="category-drop" open>
           <summary>Opciones de tablas</summary>
@@ -27,6 +27,31 @@ export default async function TablasPage() {
       </section>
 
       <section className="section wave">
+        <div className="section-head">
+          <h2>Catálogo de Tablas</h2>
+          <p>Conoce nuestros 4 modelos insignia y elige tu próxima tabla.</p>
+        </div>
+        <div className="grid model-grid">
+          <a className="model-card" href="/tablas/modelos/princess">
+            <img src="/models/princess.png" alt="Modelo Princess" />
+            <h3>Princess</h3>
+          </a>
+          <a className="model-card" href="/tablas/modelos/gentleman">
+            <img src="/models/gentleman.png" alt="Modelo Gentleman" />
+            <h3>Gentleman</h3>
+          </a>
+          <a className="model-card" href="/tablas/modelos/gangster">
+            <img src="/models/gangster.png" alt="Modelo Gangster" />
+            <h3>Gangster</h3>
+          </a>
+          <a className="model-card" href="/tablas/modelos/shark-attack">
+            <img src="/models/shark-attack.png" alt="Modelo Shark Attack" />
+            <h3>Shark Attack</h3>
+          </a>
+        </div>
+      </section>
+
+      <section className="section">
         <div className="section-head">
           <h2>Tablas disponibles</h2>
           <p>Encuentra tu próxima tabla o diseña una completamente nueva.</p>

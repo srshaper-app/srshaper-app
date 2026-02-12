@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Allura&family=Bebas+Neue&family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap');
 
 :root {
   --ink: #0a0b10;
@@ -194,9 +194,15 @@ img {
   font-size: 24px;
 }
 
+.brand span {
+  font-family: "Allura", cursive;
+  font-size: 30px;
+  letter-spacing: 1px;
+}
+
 .brand img {
-  width: 48px;
-  height: 48px;
+  width: 64px;
+  height: 64px;
 }
 
 .links {
@@ -631,6 +637,49 @@ img {
   display: none;
 }
 
+.model-grid {
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 20px;
+}
+
+.model-card {
+  background: var(--card);
+  border-radius: 20px;
+  padding: 16px;
+  display: grid;
+  gap: 10px;
+  align-items: center;
+  text-align: center;
+  box-shadow: 0 16px 36px rgba(8, 12, 20, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.model-card img {
+  width: 100%;
+  max-width: 220px;
+  margin: 0 auto;
+}
+
+.model-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 22px 46px rgba(8, 12, 20, 0.16);
+}
+
+.model-hero {
+  padding-bottom: 10px;
+}
+
+.model-logo {
+  background: white;
+  border-radius: 24px;
+  padding: 20px;
+  box-shadow: 0 18px 40px rgba(8, 12, 20, 0.12);
+}
+
+.model-logo img {
+  max-width: 360px;
+  margin: 0 auto;
+}
 .cart-drawer {
   position: fixed;
   top: 0;
@@ -765,8 +814,11 @@ img {
     font-size: 20px;
   }
   .brand img {
-    width: 40px;
-    height: 40px;
+    width: 52px;
+    height: 52px;
+  }
+  .brand span {
+    font-size: 24px;
   }
   .mobile-toggle {
     display: flex;
