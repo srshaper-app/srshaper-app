@@ -1,4 +1,6 @@
 import Link from 'next/link';
+import { supabasePublic } from '@/lib/supabase/public';
+import { ProductCard } from '@/components/ProductCard';
 
 const MODELS: Record<string, { name: string; image: string; tagline: string; description: string }> = {
   'princess': {
@@ -27,7 +29,7 @@ const MODELS: Record<string, { name: string; image: string; tagline: string; des
   },
 };
 
-export default function ModeloPage({ params }: { params: { slug: string } }) {
+export default async function ModeloPage({ params }: { params: { slug: string } }) {
   const model = MODELS[params.slug];
 
   if (!model) {
@@ -41,12 +43,34 @@ export default function ModeloPage({ params }: { params: { slug: string } }) {
     );
   }
 
+  const { data: products } = await supabasePublic
+    .from('products')
+    .select('*')
+    .eq('active', true)
+    .eq('category', 'Tablas')
+    .eq('subcategory', model.name)
+    .order('created_at', { ascending: false });
+
   return (
     <main>
       <section className="page-hero model-hero">
         <p className="breadcrumb">Inicio / Tablas / {model.name}</p>
         <h1>{model.name}</h1>
         <p className="lead">{model.tagline}</p>
+      </section>
+
+      <section className="section">
+        <div className="section-head">
+          <h2>{model.name}</h2>
+          <p>Tablas disponibles de la categoría {model.name}.</p>
+        </div>
+        <div className="grid cards">
+          {products?.length ? (
+            products.map((product) => <ProductCard key={product.id} {...product} />)
+          ) : (
+            <p>No hay tablas disponibles en esta categoría.</p>
+          )}
+        </div>
       </section>
 
       <section className="section split">
