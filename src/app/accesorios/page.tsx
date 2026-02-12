@@ -21,10 +21,10 @@ export default async function AccesoriosPage() {
           <summary>Categorías de accesorios</summary>
           <div className="subnav">
             <a href="/accesorios/quillas">Quillas</a>
-            <a href="/accesorios/wax">Wax</a>
-            <a href="/accesorios/fundas">Fundas</a>
-            <a href="/accesorios/cuerdas-amarres">Cuerdas amarres</a>
             <a href="/accesorios/grips">Grips</a>
+            <a href="/accesorios/fundas">Fundas</a>
+            <a href="/accesorios/wax">Wax</a>
+            <a href="/accesorios/cuerdas-amarres">Leashes</a>
           </div>
         </details>
       </section>

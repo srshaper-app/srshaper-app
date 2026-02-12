@@ -4,8 +4,8 @@ import { useEffect, useMemo, useState } from 'react';
 import { createSupabaseBrowserClient } from '@/lib/supabase/client';
 
 const SUBCATEGORY_OPTIONS: Record<string, string[]> = {
-  Accesorios: ['Quillas', 'Wax', 'Fundas', 'Cuerdas amarres', 'Grips'],
-  Tablas: ['Catalogo', 'Crea tu tabla'],
+  Accesorios: ['Quillas', 'Leashes', 'Grips', 'Fundas', 'Wax'],
+  Tablas: ['Princess', 'Gentleman', 'Gangster', 'Shark Attack'],
 };
 
 const CURRENCY = 'EUR';
@@ -58,6 +58,12 @@ export function ProductsPanel() {
     active: true,
     stock: 0,
   });
+
+  const resolveSubcategory = (category: string, current: string) => {
+    const options = SUBCATEGORY_OPTIONS[category] || [];
+    if (options.includes(current)) return current;
+    return options[0] || '';
+  };
 
   useEffect(() => {
     const load = async () => {
@@ -206,7 +212,14 @@ export function ProductsPanel() {
               <label>Categoría</label>
               <select
                 value={newProduct.category}
-                onChange={(event) => setNewProduct({ ...newProduct, category: event.target.value })}
+                onChange={(event) => {
+                  const category = event.target.value;
+                  setNewProduct({
+                    ...newProduct,
+                    category,
+                    subcategory: resolveSubcategory(category, newProduct.subcategory),
+                  });
+                }}
               >
                 <option>Accesorios</option>
                 <option>Tablas</option>
@@ -301,7 +314,14 @@ export function ProductsPanel() {
                       <label>Categoría</label>
                       <select
                         value={editProduct.category}
-                        onChange={(event) => setEditProduct({ ...editProduct, category: event.target.value })}
+                        onChange={(event) => {
+                          const category = event.target.value;
+                          setEditProduct({
+                            ...editProduct,
+                            category,
+                            subcategory: resolveSubcategory(category, editProduct.subcategory),
+                          });
+                        }}
                       >
                         <option>Accesorios</option>
                         <option>Tablas</option>

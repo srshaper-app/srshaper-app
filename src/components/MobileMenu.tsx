@@ -45,10 +45,10 @@ export function MobileMenu() {
           <span className="mobile-group">Accesorios</span>
           <Link href="/accesorios" onClick={() => setOpen(false)}>Todos los accesorios</Link>
           <Link href="/accesorios/quillas" onClick={() => setOpen(false)}>Quillas</Link>
-          <Link href="/accesorios/wax" onClick={() => setOpen(false)}>Wax</Link>
-          <Link href="/accesorios/fundas" onClick={() => setOpen(false)}>Fundas</Link>
-          <Link href="/accesorios/cuerdas-amarres" onClick={() => setOpen(false)}>Cuerdas amarres</Link>
           <Link href="/accesorios/grips" onClick={() => setOpen(false)}>Grips</Link>
+          <Link href="/accesorios/fundas" onClick={() => setOpen(false)}>Fundas</Link>
+          <Link href="/accesorios/wax" onClick={() => setOpen(false)}>Wax</Link>
+          <Link href="/accesorios/cuerdas-amarres" onClick={() => setOpen(false)}>Leashes</Link>
           <Link href="/sobre-nosotros" onClick={() => setOpen(false)}>Sobre nosotros</Link>
           <Link href="/contacto" onClick={() => setOpen(false)}>Contacto</Link>
         </nav>

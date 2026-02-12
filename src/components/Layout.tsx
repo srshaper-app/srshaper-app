@@ -32,10 +32,10 @@ export function SiteHeader() {
           <div className="dropdown">
             <Link href="/accesorios">Todos los accesorios</Link>
             <Link href="/accesorios/quillas">Quillas</Link>
-            <Link href="/accesorios/wax">Wax</Link>
-            <Link href="/accesorios/fundas">Fundas</Link>
-            <Link href="/accesorios/cuerdas-amarres">Cuerdas amarres</Link>
             <Link href="/accesorios/grips">Grips</Link>
+            <Link href="/accesorios/fundas">Fundas</Link>
+            <Link href="/accesorios/wax">Wax</Link>
+            <Link href="/accesorios/cuerdas-amarres">Leashes</Link>
           </div>
         </div>
         <Link href="/sobre-nosotros">Sobre nosotros</Link>

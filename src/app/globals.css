@@ -1188,6 +1188,24 @@ img {
   color: #4a5b63;
 }
 
+.contact-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+
+.btn.btn-whatsapp {
+  background: #1db954;
+  color: white;
+  box-shadow: 0 16px 30px rgba(29, 185, 84, 0.25);
+}
+
+.btn.btn-instagram {
+  background: linear-gradient(135deg, #f58529 0%, #dd2a7b 45%, #8134af 70%, #515bd4 100%);
+  color: white;
+}
+
 .stock-badge {
   display: inline-flex;
   align-items: center;

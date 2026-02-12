@@ -30,6 +30,24 @@ export default function ContactoPage() {
             <span className="badge">603 124 611</span>
             <span className="badge">sr.shapersurfboards@gmail.com</span>
           </div>
+          <div className="contact-actions">
+            <a
+              className="btn btn-whatsapp"
+              href="https://wa.me/34603124611"
+              target="_blank"
+              rel="noreferrer"
+            >
+              WhatsApp
+            </a>
+            <a
+              className="btn btn-instagram"
+              href="https://www.instagram.com/sr.shaper/"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Instagram
+            </a>
+          </div>
         </div>
         <div className="media-banner">
           <img src="https://images.unsplash.com/photo-1502680390469-be75c86b636f?auto=format&fit=crop&w=1400&q=80" alt="Tienda de surf" />

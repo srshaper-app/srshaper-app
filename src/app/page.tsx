@@ -99,7 +99,7 @@ export default async function Home() {
             <p>Boardbags térmicos y travel bags.</p>
           </Link>
           <Link className="category" href="/accesorios/cuerdas-amarres">
-            <span>Cuerdas amarres</span>
+            <span>Leashes</span>
             <h3>Seguridad</h3>
             <p>Leashs reforzados 6' a 9'.</p>
           </Link>
