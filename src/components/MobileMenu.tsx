@@ -35,6 +35,10 @@ export function MobileMenu() {
           <span className="mobile-group">Tablas</span>
           <Link href="/tablas" onClick={() => setOpen(false)}>Todas las tablas</Link>
           <Link href="/tablas/crea-tu-tabla" onClick={() => setOpen(false)}>Crea tu tabla</Link>
+          <Link href="/tablas/modelos/princess" onClick={() => setOpen(false)}>Princess</Link>
+          <Link href="/tablas/modelos/gentleman" onClick={() => setOpen(false)}>Gentleman</Link>
+          <Link href="/tablas/modelos/gangster" onClick={() => setOpen(false)}>Gangster</Link>
+          <Link href="/tablas/modelos/shark-attack" onClick={() => setOpen(false)}>Shark Attack</Link>
           <span className="mobile-group">Academia</span>
           <Link href="/academia" onClick={() => setOpen(false)}>Academia</Link>
           <Link href="/academia/curso-shape" onClick={() => setOpen(false)}>Curso de shape</Link>

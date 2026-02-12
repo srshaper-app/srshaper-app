@@ -15,6 +15,10 @@ export function SiteHeader() {
           <div className="dropdown">
             <Link href="/tablas">Todas las tablas</Link>
             <Link href="/tablas/crea-tu-tabla">Crea tu tabla</Link>
+            <Link href="/tablas/modelos/princess">Princess</Link>
+            <Link href="/tablas/modelos/gentleman">Gentleman</Link>
+            <Link href="/tablas/modelos/gangster">Gangster</Link>
+            <Link href="/tablas/modelos/shark-attack">Shark Attack</Link>
           </div>
         </div>
         <div className="menu-item">
