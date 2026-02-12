@@ -17,7 +17,16 @@ export function SiteHeader() {
             <Link href="/tablas/crea-tu-tabla">Crea tu tabla</Link>
           </div>
         </div>
-        <Link href="/academia">Cursos</Link>
+        <div className="menu-item">
+          <Link className="menu-label" href="/academia">Academia</Link>
+          <div className="dropdown">
+            <Link href="/academia/curso-shape">Curso de shape</Link>
+            <Link href="/academia/curso-laminacion">Curso de laminación</Link>
+            <Link href="/academia/curso-glassing-sanding">Curso de glassing and sanding</Link>
+            <Link href="/academia/curso-completo">Curso completo 0 a 100</Link>
+            <Link href="/academia/curso-reparacion">Curso de reparación</Link>
+          </div>
+        </div>
         <div className="menu-item">
           <Link className="menu-label" href="/accesorios">Accesorios</Link>
           <div className="dropdown">
@@ -49,7 +58,7 @@ export function SiteFooter() {
       </div>
       <div className="footer-links">
         <Link href="/tablas">Tablas</Link>
-        <Link href="/academia">Cursos</Link>
+        <Link href="/academia">Academia</Link>
         <Link href="/accesorios">Accesorios</Link>
         <Link href="/sobre-nosotros">Sobre nosotros</Link>
         <Link href="/contacto">Contacto</Link>

@@ -35,7 +35,13 @@ export function MobileMenu() {
           <span className="mobile-group">Tablas</span>
           <Link href="/tablas" onClick={() => setOpen(false)}>Todas las tablas</Link>
           <Link href="/tablas/crea-tu-tabla" onClick={() => setOpen(false)}>Crea tu tabla</Link>
-          <Link href="/academia" onClick={() => setOpen(false)}>Cursos</Link>
+          <span className="mobile-group">Academia</span>
+          <Link href="/academia" onClick={() => setOpen(false)}>Academia</Link>
+          <Link href="/academia/curso-shape" onClick={() => setOpen(false)}>Curso de shape</Link>
+          <Link href="/academia/curso-laminacion" onClick={() => setOpen(false)}>Curso de laminación</Link>
+          <Link href="/academia/curso-glassing-sanding" onClick={() => setOpen(false)}>Curso de glassing and sanding</Link>
+          <Link href="/academia/curso-completo" onClick={() => setOpen(false)}>Curso completo 0 a 100</Link>
+          <Link href="/academia/curso-reparacion" onClick={() => setOpen(false)}>Curso de reparación</Link>
           <span className="mobile-group">Accesorios</span>
           <Link href="/accesorios" onClick={() => setOpen(false)}>Todos los accesorios</Link>
           <Link href="/accesorios/quillas" onClick={() => setOpen(false)}>Quillas</Link>

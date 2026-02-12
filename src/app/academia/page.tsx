@@ -3,27 +3,35 @@ export default function AcademiaPage() {
     <main>
       <section className="page-hero">
         <p className="breadcrumb">Inicio / Academia</p>
-        <h1>Recursos Sr.Shaper</h1>
-        <p className="lead">Pronto publicaremos guías y recursos sobre shaping y cuidado de tablas.</p>
+        <h1>Academia Sr.Shaper</h1>
+        <p className="lead">Cursos para aprender a crear y cuidar tu tabla. Próximamente.</p>
       </section>
 
       <section className="section wave">
         <div className="section-head">
-          <h2>Próximamente</h2>
-          <p>Contenido práctico: desde el diseño del outline hasta el laminado final.</p>
+          <h2>Cursos disponibles</h2>
+          <p>Todos los cursos aparecerán como “Próximamente”.</p>
         </div>
         <div className="grid cards">
           <article className="card">
-            <h3>Diseño & medidas</h3>
-            <p>Cómo definir volumen, rocker y distribución de foam.</p>
+            <h3>Curso de shape</h3>
+            <p>Próximamente.</p>
           </article>
           <article className="card">
-            <h3>Taller y mantenimiento</h3>
-            <p>Herramientas, lijado, reparaciones y acabado profesional.</p>
+            <h3>Curso de laminación</h3>
+            <p>Próximamente.</p>
           </article>
           <article className="card">
-            <h3>Laminado & quillas</h3>
-            <p>Resinas, fibras y configuración de quillas.</p>
+            <h3>Curso de glassing and sanding</h3>
+            <p>Próximamente.</p>
+          </article>
+          <article className="card">
+            <h3>Curso completo 0 a 100</h3>
+            <p>Próximamente.</p>
+          </article>
+          <article className="card">
+            <h3>Curso de reparación</h3>
+            <p>Próximamente.</p>
           </article>
         </div>
       </section>
