@@ -29,8 +29,9 @@ const MODELS: Record<string, { name: string; image: string; tagline: string; des
   },
 };
 
-export default async function ModeloPage({ params }: { params: { slug: string } }) {
-  const model = MODELS[params.slug];
+export default async function ModeloPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const model = MODELS[slug?.toLowerCase()];
 
   if (!model) {
     return (
