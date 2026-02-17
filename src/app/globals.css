@@ -680,6 +680,26 @@ img {
   max-width: 360px;
   margin: 0 auto;
 }
+
+.model-tech {
+  background: var(--card);
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 14px 32px rgba(8, 12, 20, 0.1);
+  display: grid;
+  gap: 12px;
+}
+
+.model-tech h2 {
+  margin: 0;
+}
+
+.model-tech ul {
+  list-style: disc;
+  padding-left: 22px;
+  display: grid;
+  gap: 8px;
+}
 .cart-drawer {
   position: fixed;
   top: 0;

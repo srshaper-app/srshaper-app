@@ -2,7 +2,18 @@ import Link from 'next/link';
 import { supabasePublic } from '@/lib/supabase/public';
 import { ProductCard } from '@/components/ProductCard';
 
-const MODELS: Record<string, { name: string; image: string; tagline: string; description: string }> = {
+type ModelInfo = {
+  name: string;
+  image: string;
+  tagline: string;
+  description: string;
+  longDescription?: string;
+  manufacturingMeasures?: string[];
+  buildSpecs?: string[];
+  prices?: string[];
+};
+
+const MODELS: Record<string, ModelInfo> = {
   'princess': {
     name: 'Princess',
     image: '/models/princess.png',
@@ -26,6 +37,33 @@ const MODELS: Record<string, { name: string; image: string; tagline: string; des
     image: '/models/shark-attack.png',
     tagline: 'Potencia y mordida en cada giro.',
     description: 'Perfecto para olas potentes y drops verticales.',
+    longDescription:
+      'Tan rápida como el ataque de un tiburón, esta tabla fue diseñada para olas pequeñas y medianas. Presenta poco rocker en la entrada y salida. Wide point adelantado, doble cóncavo central, Twin Fins o Quad y su cola de pez es la combinación perfecta para obtener la máxima velocidad. No habrá ola que pueda escapar de este ataque de tiburón.',
+    manufacturingMeasures: [
+      `5'4" x 20" x 2 1/2" Retro Twinzer`,
+      `5'6" x 20" x 2 1/2" Quad`,
+      `5'7" x 20.5" x 2 1/2" Retro Twinzer`,
+      `5'9" x 20.5" x 2 1/2" Quad`,
+      `5'10" x 21" x 2 5/8" Retro Twinzer`,
+      `6'0" x 21" x 2 5/8" Quad`,
+      `6'1" x 21.5" x 2 3/4" Retro Twinzer`,
+      `6'3" x 21.5" x 2 3/4" Quad`,
+    ],
+    buildSpecs: [
+      'Núcleo de poliuretano (PU) stringer PVC o madera',
+      'Fibra de vidrio de 6oz / 4oz',
+      'Resina de poliéster con filtro UV',
+      'Low rocker en la entrada',
+      'Low rocker en la salida',
+      'Doble cóncavo',
+      'Fish tail',
+      'Twinzer fins 5° de angulación / Quad',
+      'Rails 60/40%',
+    ],
+    prices: [
+      'Retro Twinzer: 550€',
+      'Quad High Performance: 500€',
+    ],
   },
 };
 
@@ -87,6 +125,54 @@ export default async function ModeloPage({ params }: { params: Promise<{ slug: s
           </div>
         </div>
       </section>
+
+      {model.longDescription ? (
+        <section className="section wave">
+          <div className="model-tech">
+            <h2>Descripción del modelo</h2>
+            <p>{model.longDescription}</p>
+          </div>
+        </section>
+      ) : null}
+
+      {model.manufacturingMeasures?.length ? (
+        <section className="section">
+          <div className="model-tech">
+            <h2>Medidas de fabricación</h2>
+            <ul>
+              {model.manufacturingMeasures.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </div>
+        </section>
+      ) : null}
+
+      {model.buildSpecs?.length ? (
+        <section className="section wave">
+          <div className="model-tech">
+            <h2>Especificaciones de construcción</h2>
+            <ul>
+              {model.buildSpecs.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </div>
+        </section>
+      ) : null}
+
+      {model.prices?.length ? (
+        <section className="section">
+          <div className="model-tech">
+            <h2>Precio</h2>
+            <ul>
+              {model.prices.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </div>
+        </section>
+      ) : null}
     </main>
   );
 }
