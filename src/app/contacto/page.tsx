@@ -49,8 +49,8 @@ export default function ContactoPage() {
             </a>
           </div>
         </div>
-        <div className="media-banner">
-          <img src="https://images.unsplash.com/photo-1502680390469-be75c86b636f?auto=format&fit=crop&w=1400&q=80" alt="Tienda de surf" />
+        <div className="contact-logo-showcase">
+          <img src="/logo-srshaper.svg" alt="Logo Sr.Shaper" />
         </div>
       </section>
     </main>

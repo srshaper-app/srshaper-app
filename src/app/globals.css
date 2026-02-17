@@ -188,7 +188,7 @@ img {
 .brand {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
   font-family: "Bebas Neue", sans-serif;
   letter-spacing: 2px;
   font-size: 24px;
@@ -201,8 +201,18 @@ img {
 }
 
 .brand img {
-  width: 64px;
-  height: 64px;
+  width: 70px;
+  height: 70px;
+}
+
+.header-brand img {
+  width: 84px;
+  height: 84px;
+}
+
+.footer-brand img {
+  width: 100px;
+  height: 100px;
 }
 
 .links {
@@ -500,9 +510,10 @@ img {
   padding: 24px;
   border-radius: 22px;
   box-shadow: 0 18px 40px rgba(8, 12, 20, 0.12);
-  font-family: "Bebas Neue", sans-serif;
-  letter-spacing: 1px;
-  font-size: 20px;
+  font-size: 24px;
+  line-height: 1.55;
+  color: #1f2f35;
+  font-weight: 500;
 }
 
 .page-hero {
@@ -601,11 +612,33 @@ img {
   color: white;
 }
 
+.footer .brand span {
+  font-size: 44px;
+}
+
 .footer-links {
   display: flex;
   gap: 18px;
   flex-wrap: wrap;
   font-size: 14px;
+}
+
+.footer-social {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.footer-social-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.footer-social-btn svg {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
 }
 
 .footer-note {
@@ -834,11 +867,22 @@ img {
     font-size: 20px;
   }
   .brand img {
-    width: 52px;
-    height: 52px;
+    width: 56px;
+    height: 56px;
+  }
+  .header-brand img {
+    width: 66px;
+    height: 66px;
+  }
+  .footer-brand img {
+    width: 82px;
+    height: 82px;
   }
   .brand span {
-    font-size: 24px;
+    font-size: 28px;
+  }
+  .footer .brand span {
+    font-size: 34px;
   }
   .mobile-toggle {
     display: flex;
@@ -1213,6 +1257,21 @@ img {
   gap: 12px;
   margin-top: 16px;
   flex-wrap: wrap;
+}
+
+.contact-logo-showcase {
+  background: linear-gradient(145deg, #f9fbfa, #eaf5f3);
+  border-radius: 26px;
+  box-shadow: var(--shadow);
+  padding: 28px;
+  display: grid;
+  place-items: center;
+}
+
+.contact-logo-showcase img {
+  width: min(420px, 90%);
+  max-height: 420px;
+  object-fit: contain;
 }
 
 .btn.btn-whatsapp {

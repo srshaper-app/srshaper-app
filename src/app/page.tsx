@@ -23,7 +23,6 @@ export default async function Home() {
           <p className="lead">
             Priorizamos el shaping personalizado con opciones listas para entrega.
             Todo con estilo surfero, funcional y auténtico.
-            funcional y auténtico.
           </p>
           <div className="hero-actions">
             <Link className="btn" href="/tablas/crea-tu-tabla">Crea tu tabla</Link>
@@ -136,8 +135,8 @@ export default async function Home() {
           </div>
         </div>
         <div className="quote">
-          “Cada tabla que sale del taller tiene el sello de nuestro océano.”
-          <span>— Nico R., shaper principal</span>
+          "Moldeamos a mano cada tabla como si fuera única, porque lo es. Creamos más que equipos;
+          esculpimos la conexión entre el surfista y la ola perfecta, donde tu estilo y tu pasión por el mar cobran vida."
         </div>
       </section>
 
