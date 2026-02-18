@@ -351,6 +351,10 @@ img {
   color: #26343a;
 }
 
+.preserve-lines {
+  white-space: pre-line;
+}
+
 .hero-actions {
   display: flex;
   gap: 12px;

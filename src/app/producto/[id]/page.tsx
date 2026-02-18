@@ -34,7 +34,7 @@ export default async function ProductoDetallePage({ params }: { params: Promise<
       <section className="page-hero">
         <p className="breadcrumb">Inicio / {product.category} / {product.subcategory}</p>
         <h1>{product.name}</h1>
-        <p className="lead">{product.description}</p>
+        <p className="lead preserve-lines">{product.description}</p>
       </section>
 
       <section className="section split">
