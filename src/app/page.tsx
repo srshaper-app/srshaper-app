@@ -35,17 +35,21 @@ export default async function Home() {
           </div>
         </div>
         <div className="hero-card">
-          <span className="tag">Drop 2026</span>
-          <h3>Modelo “Blue Tide”</h3>
-          <p>6'1" · Thruster · Volumen 29L</p>
+          <span className="tag">Las Palmas de Gran Canaria</span>
+          <h3>Playa de Las Canteras</h3>
+          <p>
+            Desde esta costa nace la inspiración de cada shape:
+            mar real, olas reales y tablas hechas para tu estilo.
+          </p>
           <div className="hero-actions">
-            <span className="price">€720</span>
-            <Link className="btn btn-small" href="/tablas">Comprar tabla</Link>
+            <Link className="btn btn-small" href="/tablas">Ver tablas</Link>
+            <Link className="btn btn-small btn-ghost" href="/tablas/crea-tu-tabla">Crear a medida</Link>
           </div>
           <img
-            src="https://images.unsplash.com/photo-1502680390469-be75c86b636f?auto=format&fit=crop&w=900&q=80"
-            alt="Surfista con tabla"
+            src="https://upload.wikimedia.org/wikipedia/commons/a/a2/Las_Palmas_Playa_de_las_Canteras.jpg"
+            alt="Playa de Las Canteras en Las Palmas de Gran Canaria"
           />
+          <p style={{ fontSize: 12, color: '#4b5a60' }}>Foto real: Playa de Las Canteras.</p>
         </div>
       </section>
 
