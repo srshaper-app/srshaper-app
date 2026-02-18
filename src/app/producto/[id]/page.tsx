@@ -38,12 +38,10 @@ export default async function ProductoDetallePage({ params }: { params: Promise<
       </section>
 
       <section className="section split">
-        <div className="media-banner">
+        <div className="media-banner product-detail-media">
           <img src={product.image_url || '/logo-srshaper.svg'} alt={product.name} />
         </div>
         <div>
-          <h2>{product.name}</h2>
-          <p>{product.description}</p>
           <div className="badges">
             <span className="badge">{product.category}</span>
             <span className="badge">{product.subcategory}</span>

@@ -582,6 +582,19 @@ img {
   object-fit: cover;
 }
 
+.product-detail-media {
+  padding: 16px;
+  background: linear-gradient(135deg, #f9fbfb 0%, #eef5f4 100%);
+  border: 1px solid rgba(7, 44, 58, 0.08);
+}
+
+.product-detail-media img {
+  height: 460px;
+  object-fit: contain;
+  background: white;
+  border-radius: 14px;
+}
+
 .form {
   display: grid;
   gap: 14px;
@@ -931,6 +944,9 @@ img {
   }
   .media-banner {
     border-radius: 18px;
+  }
+  .product-detail-media img {
+    height: 300px;
   }
   .cart-drawer {
     width: 100vw;
