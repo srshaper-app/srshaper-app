@@ -28,8 +28,22 @@ const formatMoney = (value: number) => {
   return new Intl.NumberFormat('es-ES', {
     style: 'currency',
     currency: CURRENCY,
-    maximumFractionDigits: 0,
+    maximumFractionDigits: 2,
   }).format(amount);
+};
+
+const parseEuroInputToCents = (raw: string) => {
+  const trimmed = raw.trim();
+  if (!trimmed) return 0;
+
+  // Accept both "50,50" and "50.50". If comma is used, dots are treated as thousands separators.
+  const normalized = trimmed.includes(',')
+    ? trimmed.replace(/\./g, '').replace(',', '.')
+    : trimmed;
+
+  const value = Number(normalized);
+  if (!Number.isFinite(value) || value < 0) return null;
+  return Math.round(value * 100);
 };
 
 export function ProductsPanel() {
@@ -43,7 +57,7 @@ export function ProductsPanel() {
     description: '',
     category: 'Accesorios',
     subcategory: 'Quillas',
-    price_eur: 0,
+    price_eur: '0',
     image_url: '',
     stock: 0,
   });
@@ -53,7 +67,7 @@ export function ProductsPanel() {
     description: '',
     category: 'Accesorios',
     subcategory: 'Quillas',
-    price_eur: 0,
+    price_eur: '0',
     image_url: '',
     active: true,
     stock: 0,
@@ -103,6 +117,12 @@ export function ProductsPanel() {
 
   const handleAddProduct = async (event: React.FormEvent) => {
     event.preventDefault();
+    const priceCents = parseEuroInputToCents(newProduct.price_eur);
+    if (priceCents === null) {
+      setError('Precio no válido. Usa formato como 50,50 o 50.50.');
+      return;
+    }
+
     const { data, error } = await supabase
       .from('products')
       .insert({
@@ -110,7 +130,7 @@ export function ProductsPanel() {
         description: newProduct.description,
         category: newProduct.category,
         subcategory: newProduct.subcategory,
-        price_cents: Math.round(Number(newProduct.price_eur) * 100),
+        price_cents: priceCents,
         currency: CURRENCY,
         image_url: newProduct.image_url,
         active: true,
@@ -127,7 +147,7 @@ export function ProductsPanel() {
       description: '',
       category: 'Accesorios',
       subcategory: 'Quillas',
-      price_eur: 0,
+      price_eur: '0',
       image_url: '',
       stock: 0,
     });
@@ -149,7 +169,7 @@ export function ProductsPanel() {
       description: product.description || '',
       category: product.category || 'Accesorios',
       subcategory: product.subcategory || '',
-      price_eur: product.price_cents / 100,
+      price_eur: (product.price_cents / 100).toFixed(2).replace('.', ','),
       image_url: product.image_url || '',
       active: product.active,
       stock: product.stock ?? 0,
@@ -161,6 +181,12 @@ export function ProductsPanel() {
   const handleUpdateProduct = async (event: React.FormEvent) => {
     event.preventDefault();
     if (!editingId) return;
+    const priceCents = parseEuroInputToCents(editProduct.price_eur);
+    if (priceCents === null) {
+      setError('Precio no válido. Usa formato como 50,50 o 50.50.');
+      return;
+    }
+
     const { data, error } = await supabase
       .from('products')
       .update({
@@ -168,7 +194,7 @@ export function ProductsPanel() {
         description: editProduct.description,
         category: editProduct.category,
         subcategory: editProduct.subcategory,
-        price_cents: Math.round(Number(editProduct.price_eur) * 100),
+        price_cents: priceCents,
         currency: CURRENCY,
         image_url: editProduct.image_url,
         active: editProduct.active,
@@ -241,10 +267,11 @@ export function ProductsPanel() {
             <div className="admin-form-row">
               <label>Precio (EUR)</label>
               <input
-                type="number"
-                step="0.01"
+                type="text"
+                inputMode="decimal"
+                placeholder="50,50"
                 value={newProduct.price_eur}
-                onChange={(event) => setNewProduct({ ...newProduct, price_eur: Number(event.target.value) })}
+                onChange={(event) => setNewProduct({ ...newProduct, price_eur: event.target.value })}
               />
             </div>
             <div className="admin-form-row">
@@ -343,10 +370,11 @@ export function ProductsPanel() {
                     <div className="admin-form-row">
                       <label>Precio (EUR)</label>
                       <input
-                        type="number"
-                        step="0.01"
+                        type="text"
+                        inputMode="decimal"
+                        placeholder="50,50"
                         value={editProduct.price_eur}
-                        onChange={(event) => setEditProduct({ ...editProduct, price_eur: Number(event.target.value) })}
+                        onChange={(event) => setEditProduct({ ...editProduct, price_eur: event.target.value })}
                       />
                     </div>
                     <div className="admin-form-row">

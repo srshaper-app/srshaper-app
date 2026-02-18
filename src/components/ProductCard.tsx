@@ -17,7 +17,7 @@ const formatMoney = (value: number, currency = 'EUR') => {
   return new Intl.NumberFormat('es-ES', {
     style: 'currency',
     currency,
-    maximumFractionDigits: 0,
+    maximumFractionDigits: 2,
   }).format(value / 100);
 };
 

@@ -8,7 +8,7 @@ const formatMoney = (value: number) => {
   return new Intl.NumberFormat('es-ES', {
     style: 'currency',
     currency: 'EUR',
-    maximumFractionDigits: 0,
+    maximumFractionDigits: 2,
   }).format(value / 100);
 };
 

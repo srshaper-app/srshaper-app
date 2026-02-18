@@ -31,9 +31,16 @@ export default function CheckoutPage() {
     return new Intl.NumberFormat('es-ES', {
       style: 'currency',
       currency: 'EUR',
-      maximumFractionDigits: 0,
+      maximumFractionDigits: 2,
     }).format(amount / 100);
   }, [totalCents, discountCents]);
+
+  const formatMoney = (valueCents: number) =>
+    new Intl.NumberFormat('es-ES', {
+      style: 'currency',
+      currency: 'EUR',
+      maximumFractionDigits: 2,
+    }).format(valueCents / 100);
 
   const validateCoupon = async () => {
     if (!form.coupon.trim()) {
@@ -113,8 +120,9 @@ export default function CheckoutPage() {
       if (data.url) {
         window.location.href = data.url;
       }
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : 'No se pudo iniciar el pago.';
+      setError(message);
     } finally {
       setLoading(false);
     }
@@ -269,15 +277,13 @@ export default function CheckoutPage() {
             {items.map((item) => (
               <div key={item.id} className="checkout-item">
                 <span>{item.name} × {item.quantity}</span>
-                <span>
-                  €{((item.price_cents * item.quantity) / 100).toFixed(0)}
-                </span>
+                <span>{formatMoney(item.price_cents * item.quantity)}</span>
               </div>
             ))}
             {discountCents > 0 && (
               <div className="checkout-item">
                 <span>Descuento</span>
-                <span>-€{(discountCents / 100).toFixed(0)}</span>
+                <span>-{formatMoney(discountCents)}</span>
               </div>
             )}
             <div className="checkout-total">

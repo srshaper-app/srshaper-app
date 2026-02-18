@@ -1,28 +1,26 @@
 import Link from 'next/link';
-import { headers } from 'next/headers';
 import { ProductDetailClient } from '@/components/ProductDetailClient';
+import { supabasePublic } from '@/lib/supabase/public';
 
 export const dynamic = 'force-dynamic';
 
 export default async function ProductoDetallePage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const hdrs = await headers();
-  const host = hdrs.get('x-forwarded-host') || hdrs.get('host');
-  const proto = hdrs.get('x-forwarded-proto') || 'https';
-  const baseUrl = host ? `${proto}://${host}` : 'https://srshaper-app-tv3i.vercel.app';
+  const { data: product, error } = await supabasePublic
+    .from('products')
+    .select('*')
+    .eq('id', id)
+    .eq('active', true)
+    .single();
 
-  const res = await fetch(`${baseUrl}/api/product?id=${id}`, { cache: 'no-store' });
-  const json = await res.json().catch(() => ({}));
-  const product = json.product;
-
-  if (!product || !product.active) {
+  if (!product) {
     return (
       <main>
         <section className="page-hero">
           <p className="breadcrumb">Producto no encontrado</p>
           <h1>No encontramos este producto.</h1>
           <p className="lead">ID: {id}</p>
-          {json?.error && <p className="lead">Error: {json.error}</p>}
+          {error?.message && <p className="lead">Error: {error.message}</p>}
           <Link className="btn" href="/">Volver al inicio</Link>
         </section>
       </main>
@@ -51,7 +49,13 @@ export default async function ProductoDetallePage({ params }: { params: Promise<
             )}
           </div>
           <div className="hero-actions">
-            <span className="price">€{(product.price_cents / 100).toFixed(0)}</span>
+            <span className="price">
+              {new Intl.NumberFormat('es-ES', {
+                style: 'currency',
+                currency: product.currency || 'EUR',
+                maximumFractionDigits: 2,
+              }).format((product.price_cents || 0) / 100)}
+            </span>
             <ProductDetailClient
               id={product.id}
               name={product.name}
@@ -61,9 +65,6 @@ export default async function ProductoDetallePage({ params }: { params: Promise<
               stock={product.stock}
             />
           </div>
-          <p style={{ marginTop: 16 }}>
-            Materiales premium, laminado resistente y diseño probado en olas reales.
-          </p>
         </div>
       </section>
     </main>
