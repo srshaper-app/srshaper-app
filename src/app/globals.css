@@ -447,6 +447,27 @@ img {
   object-fit: cover;
 }
 
+.product-card {
+  align-content: start;
+}
+
+.product-card-media {
+  display: block;
+  border-radius: 16px;
+  overflow: hidden;
+  padding: 10px;
+  background: linear-gradient(135deg, #f9fbfb 0%, #eef5f4 100%);
+  border: 1px solid rgba(7, 44, 58, 0.08);
+}
+
+.product-card-media img {
+  width: 100%;
+  height: 300px;
+  object-fit: contain;
+  border-radius: 12px;
+  background: white;
+}
+
 .card-link {
   font-size: 12px;
   text-transform: uppercase;
@@ -901,6 +922,9 @@ img {
   }
   .cards {
     grid-template-columns: 1fr;
+  }
+  .product-card-media img {
+    height: 240px;
   }
   .split {
     gap: 24px;

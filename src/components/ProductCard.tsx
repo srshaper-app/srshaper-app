@@ -21,18 +21,17 @@ const formatMoney = (value: number, currency = 'EUR') => {
   }).format(value / 100);
 };
 
-export function ProductCard({ id, name, description, price_cents, currency, image_url, stock }: ProductCardProps) {
+export function ProductCard({ id, name, price_cents, currency, image_url, stock }: ProductCardProps) {
   const { addItem, openCart } = useCart();
   const available = (stock ?? 0) > 0;
   const lowStock = (stock ?? 0) > 0 && (stock ?? 0) < 3;
 
   return (
-    <article className="card">
-      <Link href={`/producto/${id}`}>
+    <article className="card product-card">
+      <Link className="product-card-media" href={`/producto/${id}`}>
         <img src={image_url || '/logo-srshaper.svg'} alt={name} />
       </Link>
       <h3>{name}</h3>
-      {description && <p>{description}</p>}
       <span className="price">{formatMoney(price_cents, currency)}</span>
       {!available && <span className="stock-badge out">Agotado</span>}
       {lowStock && <span className="stock-badge low">Quedan pocas unidades</span>}
