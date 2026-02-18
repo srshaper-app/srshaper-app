@@ -19,7 +19,7 @@ export default async function Home() {
       <section className="hero">
         <div>
           <p className="eyebrow">Tablas personalizadas · Envíos a todo el país</p>
-          <h1>Diseña tu tabla a medida o elige una lista para surfear.</h1>
+          <h1>Diseña tu tabla a medida o elige una de nuestro catálogo para surfear.</h1>
           <p className="lead">
             Priorizamos el shaping personalizado con opciones listas para entrega.
             Todo con estilo surfero, funcional y auténtico.
