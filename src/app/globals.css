@@ -213,6 +213,11 @@ img {
 .footer-brand img {
   width: 100px;
   height: 100px;
+  background: #ffffff;
+  border-radius: 999px;
+  padding: 8px;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+  object-fit: contain;
 }
 
 .links {
