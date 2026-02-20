@@ -1,27 +1,23 @@
 import Link from 'next/link';
-import { supabasePublic } from '@/lib/supabase/public';
-import { ProductCard } from '@/components/ProductCard';
 
 export const dynamic = 'force-dynamic';
 
 export default async function TablasPage() {
-  const { data: products } = await supabasePublic
-    .from('products')
-    .select('*')
-    .eq('active', true)
-    .eq('category', 'Tablas')
-    .order('created_at', { ascending: false });
-
   return (
     <main>
       <section className="page-hero">
         <p className="breadcrumb">Inicio / Tablas</p>
         <h1>Tablas de Surf</h1>
-        <p className="lead">Desde shortboards rápidos a longboards con flow, y diseños 100% personalizados.</p>
+        <p className="lead">
+          No trabajamos un catálogo cerrado de stock: fabricamos cada tabla bajo pedido sobre estos 4 modelos base.
+        </p>
         <details className="category-drop" open>
-          <summary>Opciones de tablas</summary>
+          <summary>Modelos disponibles</summary>
           <div className="subnav">
-            <a href="/tablas">Todas las tablas</a>
+            <a href="/tablas/modelos/princess">Princess</a>
+            <a href="/tablas/modelos/gentleman">Gentleman</a>
+            <a href="/tablas/modelos/gangster">Gangster</a>
+            <a href="/tablas/modelos/shark-attack">Shark Attack</a>
             <a href="/tablas/crea-tu-tabla">Crea tu tabla a medida</a>
           </div>
         </details>
@@ -34,28 +30,28 @@ export default async function TablasPage() {
         </div>
         <div className="grid model-grid">
           <Link className="model-card" href="/tablas/modelos/princess">
-            <img src="/models/princess.png" alt="Modelo Princess" />
+            <img src="/photos/models/princess/princess-front.jpg" alt="Modelo Princess" />
             <h3>Princess</h3>
-            <p>Configura medida y outline.</p>
-            <span className="card-link">Añadir al carrito</span>
+            <p>Se fabrica a medida. Configura outline y medida.</p>
+            <span className="card-link">Configurar modelo</span>
           </Link>
           <Link className="model-card" href="/tablas/modelos/gentleman">
-            <img src="/models/gentleman.png" alt="Modelo Gentleman" />
+            <img src="/photos/models/gentleman/wider-squash.jpg" alt="Modelo Gentleman" />
             <h3>Gentleman</h3>
-            <p>Configura medida y outline.</p>
-            <span className="card-link">Añadir al carrito</span>
+            <p>Se fabrica a medida. Configura outline y medida.</p>
+            <span className="card-link">Configurar modelo</span>
           </Link>
           <Link className="model-card" href="/tablas/modelos/gangster">
             <img src="/models/gangster.png" alt="Modelo Gangster" />
             <h3>Gangster</h3>
-            <p>Configura medida y outline.</p>
-            <span className="card-link">Añadir al carrito</span>
+            <p>Se fabrica a medida. Configura outline y medida.</p>
+            <span className="card-link">Configurar modelo</span>
           </Link>
           <Link className="model-card" href="/tablas/modelos/shark-attack">
-            <img src="/models/shark-attack.png" alt="Modelo Shark Attack" />
+            <img src="/photos/models/shark-attack/retro-twinzer.jpg" alt="Modelo Shark Attack" />
             <h3>Shark Attack</h3>
-            <p>Configura medida y outline.</p>
-            <span className="card-link">Añadir al carrito</span>
+            <p>Se fabrica a medida. Configura outline y medida.</p>
+            <span className="card-link">Configurar modelo</span>
           </Link>
         </div>
         <div className="catalog-photo-grid" style={{ marginTop: 28 }}>
@@ -82,17 +78,24 @@ export default async function TablasPage() {
         </div>
       </section>
 
-      <section className="section">
+      <section className="section wave">
         <div className="section-head">
-          <h2>Tablas disponibles</h2>
-          <p>Encuentra tu próxima tabla o diseña una completamente nueva.</p>
+          <h2>Cómo comprar tu tabla</h2>
+          <p>Proceso simple y claro para cada pedido.</p>
         </div>
-        <div className="grid cards">
-          {products?.length ? (
-            products.map((product) => <ProductCard key={product.id} {...product} />)
-          ) : (
-            <p>No hay tablas cargadas.</p>
-          )}
+        <div className="process-grid">
+          <article className="process-card">
+            <h3>1. Elige modelo</h3>
+            <p>Selecciona Princess, Gentleman, Gangster o Shark Attack.</p>
+          </article>
+          <article className="process-card">
+            <h3>2. Configura</h3>
+            <p>Define outline y medida de fabricación desde la página de cada modelo.</p>
+          </article>
+          <article className="process-card">
+            <h3>3. Compra y empezamos</h3>
+            <p>Tras el pago, iniciamos el shape de tu tabla con la configuración elegida.</p>
+          </article>
         </div>
       </section>
     </main>

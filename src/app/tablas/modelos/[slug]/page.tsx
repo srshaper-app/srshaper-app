@@ -1,12 +1,11 @@
 import Link from 'next/link';
-import { supabasePublic } from '@/lib/supabase/public';
-import { ProductCard } from '@/components/ProductCard';
 import { BoardConfigurator } from '@/components/BoardConfigurator';
 import { BOARD_MODELS } from '@/lib/boardCatalog';
 
 type ModelInfo = {
   name: string;
   image: string;
+  photo?: string;
   tagline: string;
   description: string;
   longDescription?: string;
@@ -20,6 +19,7 @@ const MODELS: Record<string, ModelInfo> = {
   'princess': {
     name: 'Princess',
     image: '/models/princess.png',
+    photo: '/photos/models/princess/princess-front.jpg',
     tagline: 'Elegancia, control y flow.',
     description: 'Shortboard de alto rendimiento para olas medianas y grandes.',
     longDescription:
@@ -64,6 +64,7 @@ const MODELS: Record<string, ModelInfo> = {
   'gentleman': {
     name: 'Gentleman',
     image: '/models/gentleman.png',
+    photo: '/photos/models/gentleman/wider-squash.jpg',
     tagline: 'Clásico, estable y confiable.',
     description: 'Tabla de alto rendimiento con control y porte elegante.',
     longDescription:
@@ -149,6 +150,7 @@ const MODELS: Record<string, ModelInfo> = {
   'shark-attack': {
     name: 'Shark Attack',
     image: '/models/shark-attack.png',
+    photo: '/photos/models/shark-attack/retro-twinzer.jpg',
     tagline: 'Potencia y mordida en cada giro.',
     description: 'Perfecto para olas pequeñas y olas de verano.',
     longDescription:
@@ -214,14 +216,6 @@ export default async function ModeloPage({ params }: { params: Promise<{ slug: s
     );
   }
 
-  const { data: products } = await supabasePublic
-    .from('products')
-    .select('*')
-    .eq('active', true)
-    .eq('category', 'Tablas')
-    .eq('subcategory', model.name)
-    .order('created_at', { ascending: false });
-
   return (
     <main>
       <section className="page-hero model-hero">
@@ -230,29 +224,24 @@ export default async function ModeloPage({ params }: { params: Promise<{ slug: s
         <p className="lead">{model.tagline}</p>
       </section>
 
-      <section className="section">
-        <div className="section-head">
-          <h2>{model.name}</h2>
-          <p>Tablas disponibles de la categoría {model.name}.</p>
-        </div>
-        <div className="grid cards">
-          {products?.length ? (
-            products.map((product) => <ProductCard key={product.id} {...product} />)
-          ) : (
-            <p>No hay tablas disponibles en esta categoría.</p>
-          )}
-        </div>
-      </section>
-
       <section className="section split">
         <div className="model-logo">
-          <img src={model.image} alt={`Logo ${model.name}`} />
+          <img src={model.photo || model.image} alt={`Foto del modelo ${model.name}`} />
         </div>
         <div>
-          <h2>{model.name}</h2>
+          <h2>{model.name} a medida</h2>
           <p>{model.description}</p>
+          <p>
+            Este modelo no se vende en stock prefabricado: cada compra inicia la fabricación personalizada en taller
+            según outline y medida seleccionados.
+          </p>
+          <ul className="model-order-list">
+            <li>Selecciona outline y medida de fabricación.</li>
+            <li>Añade la tabla al carrito y completa tu compra.</li>
+            <li>Con el pago confirmado, comenzamos el shape de tu tabla.</li>
+          </ul>
           <div className="hero-actions">
-            <Link className="btn" href="/tablas">Ver tablas disponibles</Link>
+            <Link className="btn" href="#configurador-tabla">Configurar este modelo</Link>
             <Link className="btn btn-ghost" href="/tablas/crea-tu-tabla">Crea tu tabla</Link>
           </div>
         </div>

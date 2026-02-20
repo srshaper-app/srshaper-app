@@ -100,9 +100,12 @@ export function BoardConfigurator({
             openCart();
           }}
         >
-          Añadir al carrito
+          Añadir pedido al carrito
         </button>
       </div>
+      <p className="board-config-note">
+        Pedido bajo fabricación a medida. El proceso empieza al confirmar el pago.
+      </p>
     </div>
   );
 }
