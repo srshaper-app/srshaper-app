@@ -58,6 +58,28 @@ export default async function TablasPage() {
             <span className="card-link">Añadir al carrito</span>
           </Link>
         </div>
+        <div className="catalog-photo-grid" style={{ marginTop: 28 }}>
+          <figure className="model-gallery-card">
+            <img src="/photos/models/princess/princess-front.jpg" alt="Tabla Princess de Sr.Shaper" />
+            <figcaption>Princess</figcaption>
+          </figure>
+          <figure className="model-gallery-card">
+            <img src="/photos/models/gentleman/wider-squash.jpg" alt="Gentleman Wider Squash" />
+            <figcaption>Gentleman · Wider Squash</figcaption>
+          </figure>
+          <figure className="model-gallery-card">
+            <img src="/photos/models/gentleman/bump-squash.jpg" alt="Gentleman Bump Squash" />
+            <figcaption>Gentleman · Bump Squash</figcaption>
+          </figure>
+          <figure className="model-gallery-card">
+            <img src="/photos/models/gentleman/squash.jpg" alt="Gentleman Squash" />
+            <figcaption>Gentleman · Squash</figcaption>
+          </figure>
+          <figure className="model-gallery-card">
+            <img src="/photos/models/shark-attack/retro-twinzer.jpg" alt="Shark Attack Retro Twinzer" />
+            <figcaption>Shark Attack · Retro Twinzer</figcaption>
+          </figure>
+        </div>
       </section>
 
       <section className="section">

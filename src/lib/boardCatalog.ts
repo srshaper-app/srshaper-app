@@ -1,6 +1,8 @@
 export type BoardOutlineOption = {
   label: string;
   price_cents: number;
+  preview_image?: string;
+  outline_image?: string;
 };
 
 export type BoardModelConfig = {
@@ -15,10 +17,10 @@ export const BOARD_MODELS: Record<string, BoardModelConfig> = {
   princess: {
     slug: 'princess',
     name: 'Princess',
-    image: '/models/princess.png',
+    image: '/photos/models/princess/princess-front.jpg',
     outlineOptions: [
-      { label: 'Round', price_cents: 45000 },
-      { label: 'Roundpin', price_cents: 45000 },
+      { label: 'Round', price_cents: 45000, preview_image: '/photos/models/princess/princess-front.jpg' },
+      { label: 'Roundpin', price_cents: 45000, preview_image: '/photos/models/princess/princess-back.jpg' },
     ],
     measures: [
       `5'5" x 19" x 2 1/4" Round`,
@@ -34,11 +36,26 @@ export const BOARD_MODELS: Record<string, BoardModelConfig> = {
   gentleman: {
     slug: 'gentleman',
     name: 'Gentleman',
-    image: '/models/gentleman.png',
+    image: '/photos/models/gentleman/wider-squash.jpg',
     outlineOptions: [
-      { label: 'Squash', price_cents: 45000 },
-      { label: 'Wider Squash', price_cents: 43000 },
-      { label: 'Bump Squash', price_cents: 43000 },
+      {
+        label: 'Wider Squash',
+        price_cents: 43000,
+        preview_image: '/photos/models/gentleman/wider-squash.jpg',
+        outline_image: '/photos/models/gentleman/outline-wider-squash.png',
+      },
+      {
+        label: 'Bump Squash',
+        price_cents: 43000,
+        preview_image: '/photos/models/gentleman/bump-squash.jpg',
+        outline_image: '/photos/models/gentleman/outline-bump-squash.png',
+      },
+      {
+        label: 'Squash',
+        price_cents: 45000,
+        preview_image: '/photos/models/gentleman/squash.jpg',
+        outline_image: '/photos/models/gentleman/outline-squash.png',
+      },
     ],
     measures: [
       `5'5" x 19" x 2 1/4" Wider squash`,
@@ -75,10 +92,20 @@ export const BOARD_MODELS: Record<string, BoardModelConfig> = {
   'shark-attack': {
     slug: 'shark-attack',
     name: 'Shark Attack',
-    image: '/models/shark-attack.png',
+    image: '/photos/models/shark-attack/retro-twinzer.jpg',
     outlineOptions: [
-      { label: 'Retro Twinzer', price_cents: 55000 },
-      { label: 'Quad High Performance', price_cents: 50000 },
+      {
+        label: 'Retro Twinzer',
+        price_cents: 55000,
+        preview_image: '/photos/models/shark-attack/retro-twinzer.jpg',
+        outline_image: '/photos/models/shark-attack/outline-retro-twinzer.png',
+      },
+      {
+        label: 'Quad',
+        price_cents: 50000,
+        preview_image: '/photos/models/shark-attack/retro-twinzer.jpg',
+        outline_image: '/photos/models/shark-attack/outline-quad.png',
+      },
     ],
     measures: [
       `5'4" x 20" x 2 1/2" Retro Twinzer`,

@@ -35,21 +35,21 @@ export default async function Home() {
           </div>
         </div>
         <div className="hero-card">
-          <span className="tag">Las Palmas de Gran Canaria</span>
-          <h3>Playa de Las Canteras</h3>
+          <span className="tag">Sesión real · Las Palmas</span>
+          <h3>Olas reales, tablas reales</h3>
           <p>
-            Desde esta costa nace la inspiración de cada shape:
-            mar real, olas reales y tablas hechas para tu estilo.
+            Nuestra referencia está en el agua: condiciones reales para
+            diseñar tablas que respondan de verdad cuando toca surfear.
           </p>
           <div className="hero-actions">
             <Link className="btn btn-small" href="/tablas">Ver tablas</Link>
             <Link className="btn btn-small btn-ghost" href="/tablas/crea-tu-tabla">Crear a medida</Link>
           </div>
           <img
-            src="https://upload.wikimedia.org/wikipedia/commons/a/a2/Las_Palmas_Playa_de_las_Canteras.jpg"
-            alt="Playa de Las Canteras en Las Palmas de Gran Canaria"
+            src="/photos/home/canteras-session-1.jpg"
+            alt="Sesión de surf en Las Palmas de Gran Canaria"
           />
-          <p style={{ fontSize: 12, color: '#4b5a60' }}>Foto real: Playa de Las Canteras.</p>
+          <p style={{ fontSize: 12, color: '#4b5a60' }}>Foto real de sesión en Gran Canaria.</p>
         </div>
       </section>
 
@@ -112,7 +112,11 @@ export default async function Home() {
             <p>Arch bar y kick tail de alto agarre.</p>
           </Link>
         </div>
-        <div className="featured">
+        <div className="featured featured-media">
+          <img
+            src="/photos/home/accessories-pack.jpg"
+            alt="Tabla y accesorios disponibles en Sr.Shaper"
+          />
           <div>
             <h3>Pack Ready</h3>
             <p>Leash + wax + grips para tu próxima sesión.</p>
@@ -141,6 +145,18 @@ export default async function Home() {
         <div className="quote">
           "Moldeamos a mano cada tabla como si fuera única, porque lo es. Creamos más que equipos;
           esculpimos la conexión entre el surfista y la ola perfecta, donde tu estilo y tu pasión por el mar cobran vida."
+        </div>
+      </section>
+
+      <section className="section">
+        <div className="section-head">
+          <h2>Sesiones del equipo</h2>
+          <p>Probamos cada concepto de diseño en el mar, no solo en el taller.</p>
+        </div>
+        <div className="catalog-photo-grid">
+          <img src="/photos/home/canteras-session-1.jpg" alt="Surf en Gran Canaria con tabla shortboard" />
+          <img src="/photos/home/canteras-session-2.jpg" alt="Surf de alto rendimiento en olas locales" />
+          <img src="/photos/about/green-board-portrait.png" alt="Tabla personalizada Sr.Shaper color verde" />
         </div>
       </section>
 

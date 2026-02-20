@@ -13,6 +13,7 @@ type ModelInfo = {
   manufacturingMeasures?: string[];
   buildSpecs?: string[];
   prices?: string[];
+  gallery?: { src: string; alt: string; label?: string }[];
 };
 
 const MODELS: Record<string, ModelInfo> = {
@@ -46,6 +47,18 @@ const MODELS: Record<string, ModelInfo> = {
     ],
     prices: [
       'Round / Roundpin: 450€',
+    ],
+    gallery: [
+      {
+        src: '/photos/models/princess/princess-front.jpg',
+        alt: 'Princess vista superior con gráficos en naranja',
+        label: 'Princess · Vista superior',
+      },
+      {
+        src: '/photos/models/princess/princess-back.jpg',
+        alt: 'Princess vista inferior para quillas y configuración',
+        label: 'Princess · Vista inferior',
+      },
     ],
   },
   'gentleman': {
@@ -81,6 +94,23 @@ const MODELS: Record<string, ModelInfo> = {
     prices: [
       'Squash high performance: 450€',
       'Wider Squash/ bump squash: 430€',
+    ],
+    gallery: [
+      {
+        src: '/photos/models/gentleman/wider-squash.jpg',
+        alt: 'Gentleman Wider Squash, acabado negro',
+        label: 'Wider Squash',
+      },
+      {
+        src: '/photos/models/gentleman/bump-squash.jpg',
+        alt: 'Gentleman Bump Squash, acabado azul y blanco',
+        label: 'Bump Squash',
+      },
+      {
+        src: '/photos/models/gentleman/squash.jpg',
+        alt: 'Gentleman Squash, acabado azul y gris',
+        label: 'Squash',
+      },
     ],
   },
   'gangster': {
@@ -146,7 +176,24 @@ const MODELS: Record<string, ModelInfo> = {
     ],
     prices: [
       'Retro Twinzer: 550€',
-      'Quad High Performance: 500€',
+      'Quad: 500€',
+    ],
+    gallery: [
+      {
+        src: '/photos/models/shark-attack/retro-twinzer.jpg',
+        alt: 'Shark Attack Retro Twinzer en acabado azul y blanco',
+        label: 'Retro Twinzer',
+      },
+      {
+        src: '/photos/models/shark-attack/outline-retro-twinzer.png',
+        alt: 'Outline Shark Attack Retro Twinzer',
+        label: 'Outline · Retro Twinzer',
+      },
+      {
+        src: '/photos/models/shark-attack/outline-quad.png',
+        alt: 'Outline Shark Attack Quad',
+        label: 'Outline · Quad',
+      },
     ],
   },
 };
@@ -220,6 +267,23 @@ export default async function ModeloPage({ params }: { params: Promise<{ slug: s
             outlineOptions={boardConfig.outlineOptions}
             measures={boardConfig.measures}
           />
+        </section>
+      ) : null}
+
+      {model.gallery?.length ? (
+        <section className="section">
+          <div className="section-head">
+            <h2>Variaciones del modelo</h2>
+            <p>Acabados y opciones reales disponibles para {model.name}.</p>
+          </div>
+          <div className="catalog-photo-grid">
+            {model.gallery.map((image) => (
+              <figure key={`${model.name}-${image.src}`} className="model-gallery-card">
+                <img src={image.src} alt={image.alt} />
+                {image.label ? <figcaption>{image.label}</figcaption> : null}
+              </figure>
+            ))}
+          </div>
         </section>
       ) : null}
 

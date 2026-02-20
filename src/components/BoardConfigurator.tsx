@@ -35,6 +35,8 @@ export function BoardConfigurator({
     [outlineOptions, outline]
   );
   const priceCents = selectedOutline?.price_cents || 0;
+  const previewImage = selectedOutline?.preview_image || imageUrl;
+  const outlineImage = selectedOutline?.outline_image;
   const variant = `${outline} · ${measure}`;
   const itemId = `${modelSlug}::${outline}::${measure}`;
 
@@ -64,6 +66,19 @@ export function BoardConfigurator({
         </div>
       </div>
 
+      <div className="board-config-preview">
+        <div className="board-preview-card">
+          <p>Vista del modelo seleccionado</p>
+          <img src={previewImage} alt={`${modelName} ${outline}`} />
+        </div>
+        {outlineImage ? (
+          <div className="board-preview-card">
+            <p>Outline</p>
+            <img src={outlineImage} alt={`Outline ${outline} ${modelName}`} />
+          </div>
+        ) : null}
+      </div>
+
       <div className="board-config-summary">
         <span className="price">{formatMoney(priceCents)}</span>
         <button
@@ -75,7 +90,7 @@ export function BoardConfigurator({
               name: modelName,
               price_cents: priceCents,
               currency: 'EUR',
-              image_url: imageUrl,
+              image_url: previewImage,
               variant,
               custom_board: true,
               model_slug: modelSlug,
