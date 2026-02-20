@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { supabasePublic } from '@/lib/supabase/public';
 import { ProductCard } from '@/components/ProductCard';
 
@@ -32,22 +33,30 @@ export default async function TablasPage() {
           <p>Conoce nuestros 4 modelos insignia y elige tu próxima tabla.</p>
         </div>
         <div className="grid model-grid">
-          <a className="model-card" href="/tablas/modelos/princess">
+          <Link className="model-card" href="/tablas/modelos/princess">
             <img src="/models/princess.png" alt="Modelo Princess" />
             <h3>Princess</h3>
-          </a>
-          <a className="model-card" href="/tablas/modelos/gentleman">
+            <p>Configura medida y outline.</p>
+            <span className="card-link">Añadir al carrito</span>
+          </Link>
+          <Link className="model-card" href="/tablas/modelos/gentleman">
             <img src="/models/gentleman.png" alt="Modelo Gentleman" />
             <h3>Gentleman</h3>
-          </a>
-          <a className="model-card" href="/tablas/modelos/gangster">
+            <p>Configura medida y outline.</p>
+            <span className="card-link">Añadir al carrito</span>
+          </Link>
+          <Link className="model-card" href="/tablas/modelos/gangster">
             <img src="/models/gangster.png" alt="Modelo Gangster" />
             <h3>Gangster</h3>
-          </a>
-          <a className="model-card" href="/tablas/modelos/shark-attack">
+            <p>Configura medida y outline.</p>
+            <span className="card-link">Añadir al carrito</span>
+          </Link>
+          <Link className="model-card" href="/tablas/modelos/shark-attack">
             <img src="/models/shark-attack.png" alt="Modelo Shark Attack" />
             <h3>Shark Attack</h3>
-          </a>
+            <p>Configura medida y outline.</p>
+            <span className="card-link">Añadir al carrito</span>
+          </Link>
         </div>
       </section>
 

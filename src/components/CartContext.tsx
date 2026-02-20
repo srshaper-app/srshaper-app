@@ -8,6 +8,11 @@ export type CartItem = {
   price_cents: number;
   currency: string;
   image_url?: string | null;
+  variant?: string;
+  custom_board?: boolean;
+  model_slug?: string;
+  outline?: string;
+  measure?: string;
   quantity: number;
 };
 
@@ -28,19 +33,17 @@ const CartContext = createContext<CartContextValue | undefined>(undefined);
 const CART_KEY = 'srshaper_cart_v2';
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
-  const [items, setItems] = useState<CartItem[]>([]);
-  const [isOpen, setIsOpen] = useState(false);
-
-  useEffect(() => {
+  const [items, setItems] = useState<CartItem[]>(() => {
+    if (typeof window === 'undefined') return [];
     const stored = localStorage.getItem(CART_KEY);
-    if (stored) {
-      try {
-        setItems(JSON.parse(stored));
-      } catch {
-        setItems([]);
-      }
+    if (!stored) return [];
+    try {
+      return JSON.parse(stored);
+    } catch {
+      return [];
     }
-  }, []);
+  });
+  const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     localStorage.setItem(CART_KEY, JSON.stringify(items));

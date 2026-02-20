@@ -731,6 +731,11 @@ img {
   margin: 0 auto;
 }
 
+.model-card p {
+  font-size: 13px;
+  color: #3f5058;
+}
+
 .model-card:hover {
   transform: translateY(-3px);
   box-shadow: 0 22px 46px rgba(8, 12, 20, 0.16);
@@ -770,6 +775,34 @@ img {
   padding-left: 22px;
   display: grid;
   gap: 8px;
+}
+
+.board-configurator {
+  background: white;
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 14px 32px rgba(8, 12, 20, 0.1);
+  display: grid;
+  gap: 14px;
+}
+
+.board-configurator h3 {
+  font-family: "Bebas Neue", sans-serif;
+  letter-spacing: 1px;
+  font-size: 34px;
+}
+
+.board-config-grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.board-config-summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
 }
 .cart-drawer {
   position: fixed;

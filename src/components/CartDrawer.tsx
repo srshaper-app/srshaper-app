@@ -63,6 +63,7 @@ export function CartOverlay() {
               <img src={item.image_url || '/logo-srshaper.svg'} alt={item.name} />
               <div>
                 <h4>{item.name}</h4>
+                {item.variant ? <p>{item.variant}</p> : null}
                 <p>{formatMoney(item.price_cents)} · Cantidad {item.quantity}</p>
               </div>
               <button onClick={() => removeItem(item.id)}>Quitar</button>

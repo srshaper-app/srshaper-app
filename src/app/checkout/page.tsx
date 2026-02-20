@@ -92,7 +92,19 @@ export default function CheckoutPage() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          items: items.map((item) => ({ id: item.id, quantity: item.quantity })),
+          items: items.map((item) => ({
+            id: item.id,
+            quantity: item.quantity,
+            name: item.name,
+            price_cents: item.price_cents,
+            currency: item.currency,
+            image_url: item.image_url,
+            variant: item.variant,
+            custom_board: item.custom_board,
+            model_slug: item.model_slug,
+            outline: item.outline,
+            measure: item.measure,
+          })),
           customer: {
             name: `${form.firstName} ${form.lastName}`.trim(),
             email: form.email.trim(),
@@ -276,7 +288,11 @@ export default function CheckoutPage() {
           <div className="checkout-summary">
             {items.map((item) => (
               <div key={item.id} className="checkout-item">
-                <span>{item.name} × {item.quantity}</span>
+                <span>
+                  {item.name}
+                  {item.variant ? ` (${item.variant})` : ''}
+                  {' '}× {item.quantity}
+                </span>
                 <span>{formatMoney(item.price_cents * item.quantity)}</span>
               </div>
             ))}

@@ -1,6 +1,8 @@
 import Link from 'next/link';
 import { supabasePublic } from '@/lib/supabase/public';
 import { ProductCard } from '@/components/ProductCard';
+import { BoardConfigurator } from '@/components/BoardConfigurator';
+import { BOARD_MODELS } from '@/lib/boardCatalog';
 
 type ModelInfo = {
   name: string;
@@ -152,6 +154,7 @@ const MODELS: Record<string, ModelInfo> = {
 export default async function ModeloPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const model = MODELS[slug?.toLowerCase()];
+  const boardConfig = BOARD_MODELS[slug?.toLowerCase()];
 
   if (!model) {
     return (
@@ -207,6 +210,18 @@ export default async function ModeloPage({ params }: { params: Promise<{ slug: s
           </div>
         </div>
       </section>
+
+      {boardConfig ? (
+        <section className="section wave">
+          <BoardConfigurator
+            modelSlug={boardConfig.slug}
+            modelName={boardConfig.name}
+            imageUrl={boardConfig.image}
+            outlineOptions={boardConfig.outlineOptions}
+            measures={boardConfig.measures}
+          />
+        </section>
+      ) : null}
 
       {model.longDescription ? (
         <section className="section wave">

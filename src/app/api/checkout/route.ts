@@ -1,6 +1,43 @@
 import { NextResponse } from 'next/server';
 import { getStripe } from '@/lib/stripe';
 import { supabaseAdmin } from '@/lib/supabase/admin';
+import { BOARD_MODELS } from '@/lib/boardCatalog';
+
+type CheckoutItemPayload = {
+  id: string;
+  quantity: number;
+  name?: string;
+  price_cents?: number;
+  currency?: string;
+  image_url?: string | null;
+  variant?: string;
+  custom_board?: boolean;
+  model_slug?: string;
+  outline?: string;
+  measure?: string;
+};
+
+type StripeLineItem = {
+  price_data: {
+    currency: string;
+    product_data: {
+      name: string;
+      images: string[];
+      metadata: Record<string, string>;
+    };
+    unit_amount: number;
+  };
+  quantity: number;
+};
+
+type ProductRow = {
+  id: string;
+  name: string;
+  price_cents: number;
+  currency: string;
+  image_url: string | null;
+  stock: number | null;
+};
 
 export async function POST(request: Request) {
   const stripe = getStripe();
@@ -16,44 +53,100 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Dirección de envío requerida' }, { status: 400 });
   }
 
-  const productIds = items.map((item: { id: string }) => item.id);
-  const { data: products, error } = await supabaseAdmin
-    .from('products')
-    .select('*')
-    .in('id', productIds);
-
-  if (error || !products) {
-    return NextResponse.json({ error: 'No se pudieron cargar productos' }, { status: 500 });
+  const payloadItems = items as CheckoutItemPayload[];
+  const standardItems = payloadItems.filter((item) => !item.custom_board);
+  const productIds = standardItems.map((item) => item.id);
+  let products: ProductRow[] = [];
+  if (productIds.length > 0) {
+    const { data, error } = await supabaseAdmin
+      .from('products')
+      .select('*')
+      .in('id', productIds);
+    if (error || !data) {
+      return NextResponse.json({ error: 'No se pudieron cargar productos' }, { status: 500 });
+    }
+    products = data;
   }
 
-  const lineItems = items.map((item: { id: string; quantity: number }) => {
-    const product = products.find((p) => p.id === item.id);
-    if (!product) {
-      throw new Error('Producto no encontrado');
-    }
-    if ((product.stock ?? 0) < (item.quantity || 1)) {
-      throw new Error(`Sin stock suficiente para ${product.name}`);
-    }
-    return {
-      price_data: {
-        currency: product.currency.toLowerCase(),
-        product_data: {
-          name: product.name,
-          images: product.image_url ? [product.image_url] : [],
-          metadata: {
-            product_id: product.id,
-          },
-        },
-        unit_amount: product.price_cents,
-      },
-      quantity: item.quantity || 1,
-    };
-  });
+  let subtotalCents = 0;
+  let lineItems: StripeLineItem[] = [];
+  try {
+    lineItems = payloadItems.map((item) => {
+      const quantity = Math.max(1, item.quantity || 1);
 
-  const subtotalCents = items.reduce((acc: number, item: { id: string; quantity: number }) => {
-    const product = products.find((p) => p.id === item.id);
-    return acc + (product?.price_cents || 0) * (item.quantity || 1);
-  }, 0);
+      if (item.custom_board) {
+        const slug = (item.model_slug || '').toLowerCase();
+        const model = BOARD_MODELS[slug];
+        if (!model) {
+          throw new Error('Modelo de tabla no válido');
+        }
+        const outline = item.outline || '';
+        const measure = item.measure || '';
+        const outlineOption = model.outlineOptions.find((opt) => opt.label === outline);
+
+        if (!outlineOption) {
+          throw new Error(`Outline no válido para ${model.name}`);
+        }
+        if (!model.measures.includes(measure)) {
+          throw new Error(`Medida no válida para ${model.name}`);
+        }
+
+        const unitAmount = outlineOption.price_cents;
+        subtotalCents += unitAmount * quantity;
+        const displayName = `${model.name} · ${outline} · ${measure}`;
+
+        return {
+          price_data: {
+            currency: 'eur',
+            product_data: {
+              name: displayName,
+              images: model.image ? [`${process.env.NEXT_PUBLIC_SITE_URL || 'https://srshaper-app-tv3i.vercel.app'}${model.image}`] : [],
+              metadata: {
+                product_id: '',
+                custom_board: 'true',
+                model_slug: model.slug,
+                outline,
+                measure,
+              },
+            },
+            unit_amount: unitAmount,
+          },
+          quantity,
+        };
+      }
+
+      const product = products.find((p) => p.id === item.id);
+      if (!product) {
+        throw new Error('Producto no encontrado');
+      }
+      if ((product.stock ?? 0) < quantity) {
+        throw new Error(`Sin stock suficiente para ${product.name}`);
+      }
+      subtotalCents += product.price_cents * quantity;
+
+      return {
+        price_data: {
+          currency: product.currency.toLowerCase(),
+          product_data: {
+            name: item.variant ? `${product.name} · ${item.variant}` : product.name,
+            images: product.image_url ? [product.image_url] : [],
+            metadata: {
+              product_id: product.id,
+              custom_board: 'false',
+              model_slug: '',
+              outline: item.outline || '',
+              measure: item.measure || '',
+            },
+          },
+          unit_amount: product.price_cents,
+        },
+        quantity,
+      };
+    });
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : 'Items inválidos';
+    return NextResponse.json({ error: message }, { status: 400 });
+  }
 
   let discountCents = 0;
   let couponCode: string | null = null;
