@@ -1,18 +1,44 @@
 import Link from 'next/link';
-import { supabasePublic } from '@/lib/supabase/public';
-import { ProductCard } from '@/components/ProductCard';
 import { NewsletterForm } from '@/components/NewsletterForm';
+import { ImageCarousel } from '@/components/ImageCarousel';
 
 export const dynamic = 'force-dynamic';
 
 export default async function Home() {
-  const { data: products } = await supabasePublic
-    .from('products')
-    .select('*')
-    .eq('active', true)
-    .eq('category', 'Tablas')
-    .order('created_at', { ascending: false })
-    .limit(3);
+  const modelLogos = [
+    {
+      src: '/models/princess.png',
+      alt: 'Logo del modelo Princess',
+      title: 'Princess',
+      description: 'Round / Roundpin',
+      href: '/tablas/modelos/princess',
+      actionLabel: 'Ver modelo',
+    },
+    {
+      src: '/models/gentleman.png',
+      alt: 'Logo del modelo Gentleman',
+      title: 'Gentleman',
+      description: 'Wider Squash / Bump Squash / Squash',
+      href: '/tablas/modelos/gentleman',
+      actionLabel: 'Ver modelo',
+    },
+    {
+      src: '/models/gangster.png',
+      alt: 'Logo del modelo Gangster',
+      title: 'Gangster',
+      description: 'Retro Bonzer / Single',
+      href: '/tablas/modelos/gangster',
+      actionLabel: 'Ver modelo',
+    },
+    {
+      src: '/models/shark-attack.png',
+      alt: 'Logo del modelo Shark Attack',
+      title: 'Shark Attack',
+      description: 'Retro Twinzer / Quad',
+      href: '/tablas/modelos/shark-attack',
+      actionLabel: 'Ver modelo',
+    },
+  ];
 
   return (
     <main>
@@ -62,21 +88,13 @@ export default async function Home() {
 
       <section className="section wave">
         <div className="section-head">
-          <h2>Tablas listas para surfear</h2>
-          <p>Compra una tabla del catálogo o crea una personalizada con nuestros shapers.</p>
+          <h2>Modelos de tablas Sr.Shaper</h2>
+          <p>Estos son nuestros modelos base. Cada compra inicia fabricación a medida en taller.</p>
         </div>
-        <div className="grid cards">
-          {products?.length ? (
-            products.map((product) => (
-              <ProductCard key={product.id} {...product} />
-            ))
-          ) : (
-            <p>No hay productos cargados todavía.</p>
-          )}
-        </div>
+        <ImageCarousel items={modelLogos} className="logo-carousel" />
         <div className="hero-actions" style={{ marginTop: 20 }}>
           <Link className="btn" href="/tablas/crea-tu-tabla">Crea tu tabla</Link>
-          <Link className="btn btn-ghost" href="/tablas">Ver catálogo</Link>
+          <Link className="btn btn-ghost" href="/tablas">Ver todas las tablas</Link>
         </div>
       </section>
 

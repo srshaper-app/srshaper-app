@@ -809,6 +809,91 @@ img {
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
 }
 
+.carousel {
+  display: grid;
+  gap: 12px;
+}
+
+.carousel-controls {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.carousel-arrow {
+  width: 40px;
+  height: 40px;
+  border: 1px solid #b8c7cd;
+  border-radius: 999px;
+  background: white;
+  color: #17313a;
+  font-size: 18px;
+  cursor: pointer;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.carousel-arrow:hover {
+  border-color: #0a6f73;
+  transform: translateY(-1px);
+}
+
+.carousel-track {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(240px, 310px);
+  gap: 14px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: thin;
+}
+
+.carousel-card {
+  scroll-snap-align: start;
+  background: var(--card);
+  border-radius: 18px;
+  padding: 14px;
+  box-shadow: 0 14px 30px rgba(8, 12, 20, 0.1);
+  display: grid;
+  gap: 10px;
+}
+
+.carousel-card img {
+  width: 100%;
+  border-radius: 12px;
+  background: #f8fbfb;
+}
+
+.carousel-meta {
+  display: grid;
+  gap: 6px;
+}
+
+.carousel-meta h3 {
+  margin: 0;
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 28px;
+  letter-spacing: 1px;
+}
+
+.carousel-meta p {
+  margin: 0;
+  font-size: 14px;
+  color: #3f5058;
+}
+
+.logo-carousel .carousel-card img {
+  height: 220px;
+  object-fit: contain;
+  padding: 12px;
+  background: white;
+}
+
+.photo-carousel .carousel-card img {
+  height: 280px;
+  object-fit: contain;
+}
+
 .model-gallery-card {
   background: var(--card);
   border-radius: 18px;
@@ -1151,6 +1236,15 @@ img {
   .catalog-photo-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+  .carousel-track {
+    grid-auto-columns: minmax(220px, 280px);
+  }
+  .logo-carousel .carousel-card img {
+    height: 200px;
+  }
+  .photo-carousel .carousel-card img {
+    height: 240px;
+  }
   .model-gallery-card img {
     height: 200px;
   }
@@ -1180,6 +1274,13 @@ img {
 @media (max-width: 560px) {
   .catalog-photo-grid {
     grid-template-columns: 1fr;
+  }
+  .carousel-track {
+    grid-auto-columns: minmax(200px, 86vw);
+  }
+  .carousel-arrow {
+    width: 36px;
+    height: 36px;
   }
 }
 

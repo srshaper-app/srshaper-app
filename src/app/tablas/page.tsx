@@ -1,8 +1,52 @@
 import Link from 'next/link';
+import { ImageCarousel } from '@/components/ImageCarousel';
 
 export const dynamic = 'force-dynamic';
 
 export default async function TablasPage() {
+  const modelPhotos = [
+    {
+      src: '/photos/models/princess/princess-front.jpg',
+      alt: 'Tabla Princess vista superior',
+      title: 'Princess',
+      description: 'Tabla base para configuración a medida.',
+      href: '/tablas/modelos/princess',
+      actionLabel: 'Configurar',
+    },
+    {
+      src: '/photos/models/gentleman/wider-squash.jpg',
+      alt: 'Tabla Gentleman Wider Squash',
+      title: 'Gentleman · Wider Squash',
+      description: 'Variación personalizada del modelo Gentleman.',
+      href: '/tablas/modelos/gentleman',
+      actionLabel: 'Configurar',
+    },
+    {
+      src: '/photos/models/gentleman/bump-squash.jpg',
+      alt: 'Tabla Gentleman Bump Squash',
+      title: 'Gentleman · Bump Squash',
+      description: 'Variación personalizada del modelo Gentleman.',
+      href: '/tablas/modelos/gentleman',
+      actionLabel: 'Configurar',
+    },
+    {
+      src: '/photos/models/gentleman/squash.jpg',
+      alt: 'Tabla Gentleman Squash',
+      title: 'Gentleman · Squash',
+      description: 'Variación personalizada del modelo Gentleman.',
+      href: '/tablas/modelos/gentleman',
+      actionLabel: 'Configurar',
+    },
+    {
+      src: '/photos/models/shark-attack/retro-twinzer.jpg',
+      alt: 'Tabla Shark Attack Retro Twinzer',
+      title: 'Shark Attack · Retro Twinzer',
+      description: 'Variación personalizada del modelo Shark Attack.',
+      href: '/tablas/modelos/shark-attack',
+      actionLabel: 'Configurar',
+    },
+  ];
+
   return (
     <main>
       <section className="page-hero">
@@ -54,28 +98,7 @@ export default async function TablasPage() {
             <span className="card-link">Configurar modelo</span>
           </Link>
         </div>
-        <div className="catalog-photo-grid" style={{ marginTop: 28 }}>
-          <figure className="model-gallery-card">
-            <img src="/photos/models/princess/princess-front.jpg" alt="Tabla Princess de Sr.Shaper" />
-            <figcaption>Princess</figcaption>
-          </figure>
-          <figure className="model-gallery-card">
-            <img src="/photos/models/gentleman/wider-squash.jpg" alt="Gentleman Wider Squash" />
-            <figcaption>Gentleman · Wider Squash</figcaption>
-          </figure>
-          <figure className="model-gallery-card">
-            <img src="/photos/models/gentleman/bump-squash.jpg" alt="Gentleman Bump Squash" />
-            <figcaption>Gentleman · Bump Squash</figcaption>
-          </figure>
-          <figure className="model-gallery-card">
-            <img src="/photos/models/gentleman/squash.jpg" alt="Gentleman Squash" />
-            <figcaption>Gentleman · Squash</figcaption>
-          </figure>
-          <figure className="model-gallery-card">
-            <img src="/photos/models/shark-attack/retro-twinzer.jpg" alt="Shark Attack Retro Twinzer" />
-            <figcaption>Shark Attack · Retro Twinzer</figcaption>
-          </figure>
-        </div>
+        <ImageCarousel items={modelPhotos} className="photo-carousel" />
       </section>
 
       <section className="section wave">
