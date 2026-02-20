@@ -118,7 +118,7 @@ const MODELS: Record<string, ModelInfo> = {
     name: 'Shark Attack',
     image: '/models/shark-attack.png',
     tagline: 'Potencia y mordida en cada giro.',
-    description: 'Perfecto para olas potentes y drops verticales.',
+    description: 'Perfecto para olas pequeñas y olas de verano.',
     longDescription:
       'Tan rápida como el ataque de un tiburón, esta tabla fue diseñada para olas pequeñas y medianas. Presenta poco rocker en la entrada y salida. Wide point adelantado, doble cóncavo central, Twin Fins o Quad y su cola de pez es la combinación perfecta para obtener la máxima velocidad. No habrá ola que pueda escapar de este ataque de tiburón.',
     manufacturingMeasures: [
