@@ -49,8 +49,26 @@ export default function ContactoPage() {
             </a>
           </div>
         </div>
-        <div className="contact-logo-showcase">
-          <img src="/logo-srshaper.svg" alt="Logo Sr.Shaper" />
+        <div className="contact-side-stack">
+          <div className="contact-map">
+            <iframe
+              title="Ubicación Sr.Shaper"
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              src="https://www.google.com/maps?q=28.47763,-16.24780&z=16&output=embed"
+            />
+            <a
+              className="btn btn-outline"
+              href="https://www.google.com/maps?q=28.47763,-16.24780"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Abrir en mapa
+            </a>
+          </div>
+          <div className="contact-logo-showcase">
+            <img src="/logo-srshaper.svg" alt="Logo Sr.Shaper" />
+          </div>
         </div>
       </section>
     </main>
