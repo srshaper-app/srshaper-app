@@ -7,7 +7,10 @@ export function SiteHeader() {
     <header className="nav">
       <Link className="brand header-brand" href="/">
         <img src="/logo-srshaper.svg" alt="Logo Sr.Shaper" />
-        <span>Sr.Shaper</span>
+        <span className="brand-text">
+          <span className="brand-main">SR.SHAPER</span>
+          <span className="brand-sub">Surfboards</span>
+        </span>
       </Link>
       <nav className="links">
         <div className="menu-item">
@@ -58,7 +61,10 @@ export function SiteFooter() {
     <footer className="footer">
       <div className="brand footer-brand">
         <img src="/logo-srshaper.svg" alt="Logo Sr.Shaper" />
-        <span>Sr.Shaper</span>
+        <span className="brand-text">
+          <span className="brand-main">SR.SHAPER</span>
+          <span className="brand-sub">Surfboards</span>
+        </span>
       </div>
       <div className="footer-links">
         <Link href="/tablas">Tablas</Link>

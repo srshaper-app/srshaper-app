@@ -183,10 +183,10 @@ export default async function Home() {
             <img src="/photos/home/canteras-session-2.jpg" alt="Surf de alto rendimiento en olas locales" />
           </figure>
           <figure className="team-session-side team-session-side-bottom">
-            <img src="/photos/about/purple-board-beach.png" alt="Tabla personalizada Sr.Shaper en la costa rocosa" />
+            <img src="/photos/home/canteras-session-1.jpg" alt="Sesión de equipo en olas de Gran Canaria" />
           </figure>
           <figure className="team-session-wide">
-            <img src="/photos/about/green-board-portrait.png" alt="Tabla personalizada Sr.Shaper color verde" />
+            <img src="/photos/home/canteras-session-2.jpg" alt="Sesión de equipo en el mar con olas potentes" />
           </figure>
         </div>
       </section>

@@ -194,10 +194,25 @@ img {
   font-size: 24px;
 }
 
-.brand span {
-  font-family: "Allura", cursive;
-  font-size: 30px;
-  letter-spacing: 1px;
+.brand-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  line-height: 1;
+}
+
+.brand-main {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 36px;
+  letter-spacing: 2px;
+  font-weight: 700;
+}
+
+.brand-sub {
+  font-size: 13px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(15, 43, 50, 0.8);
 }
 
 .brand img {
@@ -726,8 +741,12 @@ img {
   color: white;
 }
 
-.footer .brand span {
-  font-size: 44px;
+.footer .brand-main {
+  font-size: 48px;
+}
+
+.footer .brand-sub {
+  color: rgba(255, 255, 255, 0.82);
 }
 
 .footer-links {
@@ -1295,11 +1314,17 @@ img {
     width: 82px;
     height: 82px;
   }
-  .brand span {
-    font-size: 28px;
+  .brand-main {
+    font-size: 30px;
   }
-  .footer .brand span {
-    font-size: 34px;
+  .brand-sub {
+    font-size: 11px;
+  }
+  .footer .brand-main {
+    font-size: 36px;
+  }
+  .footer .brand-sub {
+    font-size: 12px;
   }
   .mobile-toggle {
     display: flex;
