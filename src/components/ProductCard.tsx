@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useCart } from './CartContext';
+import { getPrimaryProductImage } from '@/lib/productImages';
 
 type ProductCardProps = {
   id: string;
@@ -25,11 +26,12 @@ export function ProductCard({ id, name, price_cents, currency, image_url, stock 
   const { addItem, openCart } = useCart();
   const available = (stock ?? 0) > 0;
   const lowStock = (stock ?? 0) > 0 && (stock ?? 0) < 3;
+  const primaryImage = getPrimaryProductImage(image_url);
 
   return (
     <article className="card product-card">
       <Link className="product-card-media" href={`/producto/${id}`}>
-        <img src={image_url || '/logo-srshaper.svg'} alt={name} />
+        <img src={primaryImage} alt={name} />
       </Link>
       <h3>{name}</h3>
       <span className="price">{formatMoney(price_cents, currency)}</span>
@@ -44,7 +46,7 @@ export function ProductCard({ id, name, price_cents, currency, image_url, stock 
             name,
             price_cents,
             currency,
-            image_url,
+            image_url: primaryImage,
           });
           openCart();
         }}

@@ -2,11 +2,11 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { createSupabaseBrowserClient } from '@/lib/supabase/client';
+import { parseProductImageUrls, serializeProductImageUrls, getPrimaryProductImage } from '@/lib/productImages';
 
-const SUBCATEGORY_OPTIONS: Record<string, string[]> = {
-  Accesorios: ['Quillas', 'Leashes', 'Grips', 'Fundas', 'Wax'],
-  Tablas: ['Princess', 'Gentleman', 'Gangster', 'Shark Attack'],
-};
+const ACCESSORY_OPTIONS = ['Quillas', 'Leashes', 'Grips', 'Fundas', 'Wax'] as const;
+const QUILLAS_TYPE_OPTIONS = ['Single', 'Twin', 'Thruster', 'Quad'] as const;
+const TABLE_MODEL_OPTIONS = ['Princess', 'Gentleman', 'Gangster', 'Shark Attack'] as const;
 
 const CURRENCY = 'EUR';
 
@@ -46,6 +46,52 @@ const parseEuroInputToCents = (raw: string) => {
   return Math.round(value * 100);
 };
 
+const getSubcategoryOptions = (category: string) => {
+  if (category === 'Accesorios') return [...ACCESSORY_OPTIONS];
+  if (category === 'Tablas') return [...TABLE_MODEL_OPTIONS];
+  return [];
+};
+
+const normalizeSubcategoryForForm = (category: string, raw: string | null) => {
+  const safe = raw || '';
+  if (category === 'Accesorios') {
+    if (safe === 'Quillas') {
+      return { subcategory: 'Quillas', finType: QUILLAS_TYPE_OPTIONS[0] };
+    }
+    const prefix = 'Quillas - ';
+    if (safe.startsWith(prefix)) {
+      const maybeType = safe.slice(prefix.length).trim();
+      const finType = QUILLAS_TYPE_OPTIONS.includes(maybeType as (typeof QUILLAS_TYPE_OPTIONS)[number])
+        ? maybeType
+        : QUILLAS_TYPE_OPTIONS[0];
+      return { subcategory: 'Quillas', finType };
+    }
+    return {
+      subcategory: ACCESSORY_OPTIONS.includes(safe as (typeof ACCESSORY_OPTIONS)[number])
+        ? safe
+        : ACCESSORY_OPTIONS[0],
+      finType: QUILLAS_TYPE_OPTIONS[0],
+    };
+  }
+
+  return {
+    subcategory: TABLE_MODEL_OPTIONS.includes(safe as (typeof TABLE_MODEL_OPTIONS)[number])
+      ? safe
+      : TABLE_MODEL_OPTIONS[0],
+    finType: QUILLAS_TYPE_OPTIONS[0],
+  };
+};
+
+const buildSubcategoryForSave = (category: string, subcategory: string, finType: string) => {
+  if (category === 'Accesorios' && subcategory === 'Quillas') {
+    const safeType = QUILLAS_TYPE_OPTIONS.includes(finType as (typeof QUILLAS_TYPE_OPTIONS)[number])
+      ? finType
+      : QUILLAS_TYPE_OPTIONS[0];
+    return `Quillas - ${safeType}`;
+  }
+  return subcategory;
+};
+
 export function ProductsPanel() {
   const supabase = useMemo(() => createSupabaseBrowserClient(), []);
   const [products, setProducts] = useState<Product[]>([]);
@@ -57,8 +103,9 @@ export function ProductsPanel() {
     description: '',
     category: 'Accesorios',
     subcategory: 'Quillas',
+    quillas_type: 'Single',
     price_eur: '0',
-    image_url: '',
+    image_urls: [] as string[],
     stock: 0,
   });
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -67,17 +114,12 @@ export function ProductsPanel() {
     description: '',
     category: 'Accesorios',
     subcategory: 'Quillas',
+    quillas_type: 'Single',
     price_eur: '0',
-    image_url: '',
+    image_urls: [] as string[],
     active: true,
     stock: 0,
   });
-
-  const resolveSubcategory = (category: string, current: string) => {
-    const options = SUBCATEGORY_OPTIONS[category] || [];
-    if (options.includes(current)) return current;
-    return options[0] || '';
-  };
 
   useEffect(() => {
     const load = async () => {
@@ -115,6 +157,21 @@ export function ProductsPanel() {
     return data.publicUrl;
   };
 
+  const uploadImages = async (files: File[]) => {
+    const uploaded: string[] = [];
+    for (const file of files) {
+      const url = await uploadImage(file);
+      if (!url) continue;
+      uploaded.push(url);
+    }
+    return uploaded;
+  };
+
+  const displaySubcategory = (raw: string | null) => {
+    if (!raw) return '';
+    return raw.replace('Quillas - ', 'Quillas · ');
+  };
+
   const handleAddProduct = async (event: React.FormEvent) => {
     event.preventDefault();
     const priceCents = parseEuroInputToCents(newProduct.price_eur);
@@ -129,10 +186,14 @@ export function ProductsPanel() {
         name: newProduct.name,
         description: newProduct.description,
         category: newProduct.category,
-        subcategory: newProduct.subcategory,
+        subcategory: buildSubcategoryForSave(
+          newProduct.category,
+          newProduct.subcategory,
+          newProduct.quillas_type
+        ),
         price_cents: priceCents,
         currency: CURRENCY,
-        image_url: newProduct.image_url,
+        image_url: serializeProductImageUrls(newProduct.image_urls),
         active: true,
         stock: Number(newProduct.stock) || 0,
       })
@@ -147,8 +208,9 @@ export function ProductsPanel() {
       description: '',
       category: 'Accesorios',
       subcategory: 'Quillas',
+      quillas_type: 'Single',
       price_eur: '0',
-      image_url: '',
+      image_urls: [],
       stock: 0,
     });
   };
@@ -163,14 +225,17 @@ export function ProductsPanel() {
   };
 
   const startEdit = (product: Product) => {
+    const normalized = normalizeSubcategoryForForm(product.category || 'Accesorios', product.subcategory);
+
     setEditingId(product.id);
     setEditProduct({
       name: product.name,
       description: product.description || '',
       category: product.category || 'Accesorios',
-      subcategory: product.subcategory || '',
+      subcategory: normalized.subcategory,
+      quillas_type: normalized.finType,
       price_eur: (product.price_cents / 100).toFixed(2).replace('.', ','),
-      image_url: product.image_url || '',
+      image_urls: parseProductImageUrls(product.image_url),
       active: product.active,
       stock: product.stock ?? 0,
     });
@@ -193,10 +258,14 @@ export function ProductsPanel() {
         name: editProduct.name,
         description: editProduct.description,
         category: editProduct.category,
-        subcategory: editProduct.subcategory,
+        subcategory: buildSubcategoryForSave(
+          editProduct.category,
+          editProduct.subcategory,
+          editProduct.quillas_type
+        ),
         price_cents: priceCents,
         currency: CURRENCY,
-        image_url: editProduct.image_url,
+        image_url: serializeProductImageUrls(editProduct.image_urls),
         active: editProduct.active,
         stock: Number(editProduct.stock) || 0,
       })
@@ -240,10 +309,12 @@ export function ProductsPanel() {
                 value={newProduct.category}
                 onChange={(event) => {
                   const category = event.target.value;
+                  const normalized = normalizeSubcategoryForForm(category, newProduct.subcategory);
                   setNewProduct({
                     ...newProduct,
                     category,
-                    subcategory: resolveSubcategory(category, newProduct.subcategory),
+                    subcategory: normalized.subcategory,
+                    quillas_type: normalized.finType,
                   });
                 }}
               >
@@ -255,13 +326,34 @@ export function ProductsPanel() {
               <label>Subcategoría</label>
               <select
                 value={newProduct.subcategory}
-                onChange={(event) => setNewProduct({ ...newProduct, subcategory: event.target.value })}
+                onChange={(event) => {
+                  const subcategory = event.target.value;
+                  setNewProduct({
+                    ...newProduct,
+                    subcategory,
+                    quillas_type:
+                      subcategory === 'Quillas' ? newProduct.quillas_type : QUILLAS_TYPE_OPTIONS[0],
+                  });
+                }}
               >
-                {(SUBCATEGORY_OPTIONS[newProduct.category] || []).map((opt) => (
+                {getSubcategoryOptions(newProduct.category).map((opt) => (
                   <option key={opt}>{opt}</option>
                 ))}
               </select>
             </div>
+            {newProduct.category === 'Accesorios' && newProduct.subcategory === 'Quillas' ? (
+              <div className="admin-form-row">
+                <label>Tipo de quilla</label>
+                <select
+                  value={newProduct.quillas_type}
+                  onChange={(event) => setNewProduct({ ...newProduct, quillas_type: event.target.value })}
+                >
+                  {QUILLAS_TYPE_OPTIONS.map((opt) => (
+                    <option key={opt}>{opt}</option>
+                  ))}
+                </select>
+              </div>
+            ) : null}
           </div>
           <div className="admin-form-grid">
             <div className="admin-form-row">
@@ -290,22 +382,44 @@ export function ProductsPanel() {
             </div>
           </div>
           <div className="admin-form-row">
-            <label>Imagen</label>
+            <label>Imágenes del producto</label>
             <input
               type="file"
               accept="image/*"
+              multiple
               onChange={async (event) => {
-                const file = event.target.files?.[0];
-                if (!file) return;
-                const url = await uploadImage(file);
-                if (url) {
-                  setNewProduct({ ...newProduct, image_url: url });
+                const files = event.target.files ? Array.from(event.target.files) : [];
+                if (!files.length) return;
+                const urls = await uploadImages(files);
+                if (urls.length) {
+                  setNewProduct({
+                    ...newProduct,
+                    image_urls: Array.from(new Set([...newProduct.image_urls, ...urls])),
+                  });
                 }
               }}
             />
-            {uploading && <span>Subiendo imagen...</span>}
-            {newProduct.image_url && (
-              <img className="admin-image-preview" src={newProduct.image_url} alt="Preview" />
+            {uploading && <span>Subiendo imágenes...</span>}
+            {newProduct.image_urls.length > 0 && (
+              <div className="admin-image-grid">
+                {newProduct.image_urls.map((url) => (
+                  <div key={url} className="admin-image-chip">
+                    <img className="admin-image-preview" src={url} alt="Preview" />
+                    <button
+                      type="button"
+                      className="admin-btn ghost"
+                      onClick={() =>
+                        setNewProduct({
+                          ...newProduct,
+                          image_urls: newProduct.image_urls.filter((img) => img !== url),
+                        })
+                      }
+                    >
+                      Quitar
+                    </button>
+                  </div>
+                ))}
+              </div>
             )}
           </div>
           <button type="submit" className="admin-btn">Agregar producto</button>
@@ -343,10 +457,12 @@ export function ProductsPanel() {
                         value={editProduct.category}
                         onChange={(event) => {
                           const category = event.target.value;
+                          const normalized = normalizeSubcategoryForForm(category, editProduct.subcategory);
                           setEditProduct({
                             ...editProduct,
                             category,
-                            subcategory: resolveSubcategory(category, editProduct.subcategory),
+                            subcategory: normalized.subcategory,
+                            quillas_type: normalized.finType,
                           });
                         }}
                       >
@@ -358,13 +474,34 @@ export function ProductsPanel() {
                       <label>Subcategoría</label>
                       <select
                         value={editProduct.subcategory}
-                        onChange={(event) => setEditProduct({ ...editProduct, subcategory: event.target.value })}
+                        onChange={(event) => {
+                          const subcategory = event.target.value;
+                          setEditProduct({
+                            ...editProduct,
+                            subcategory,
+                            quillas_type:
+                              subcategory === 'Quillas' ? editProduct.quillas_type : QUILLAS_TYPE_OPTIONS[0],
+                          });
+                        }}
                       >
-                        {(SUBCATEGORY_OPTIONS[editProduct.category] || []).map((opt) => (
+                        {getSubcategoryOptions(editProduct.category).map((opt) => (
                           <option key={opt}>{opt}</option>
                         ))}
                       </select>
                     </div>
+                    {editProduct.category === 'Accesorios' && editProduct.subcategory === 'Quillas' ? (
+                      <div className="admin-form-row">
+                        <label>Tipo de quilla</label>
+                        <select
+                          value={editProduct.quillas_type}
+                          onChange={(event) => setEditProduct({ ...editProduct, quillas_type: event.target.value })}
+                        >
+                          {QUILLAS_TYPE_OPTIONS.map((opt) => (
+                            <option key={opt}>{opt}</option>
+                          ))}
+                        </select>
+                      </div>
+                    ) : null}
                   </div>
                   <div className="admin-form-grid">
                     <div className="admin-form-row">
@@ -393,21 +530,43 @@ export function ProductsPanel() {
                     </div>
                   </div>
                   <div className="admin-form-row">
-                    <label>Imagen</label>
+                    <label>Imágenes del producto</label>
                     <input
                       type="file"
                       accept="image/*"
+                      multiple
                       onChange={async (event) => {
-                        const file = event.target.files?.[0];
-                        if (!file) return;
-                        const url = await uploadImage(file);
-                        if (url) {
-                          setEditProduct({ ...editProduct, image_url: url });
+                        const files = event.target.files ? Array.from(event.target.files) : [];
+                        if (!files.length) return;
+                        const urls = await uploadImages(files);
+                        if (urls.length) {
+                          setEditProduct({
+                            ...editProduct,
+                            image_urls: Array.from(new Set([...editProduct.image_urls, ...urls])),
+                          });
                         }
                       }}
                     />
-                    {editProduct.image_url && (
-                      <img className="admin-image-preview" src={editProduct.image_url} alt="Preview" />
+                    {editProduct.image_urls.length > 0 && (
+                      <div className="admin-image-grid">
+                        {editProduct.image_urls.map((url) => (
+                          <div key={url} className="admin-image-chip">
+                            <img className="admin-image-preview" src={url} alt="Preview" />
+                            <button
+                              type="button"
+                              className="admin-btn ghost"
+                              onClick={() =>
+                                setEditProduct({
+                                  ...editProduct,
+                                  image_urls: editProduct.image_urls.filter((img) => img !== url),
+                                })
+                              }
+                            >
+                              Quitar
+                            </button>
+                          </div>
+                        ))}
+                      </div>
                     )}
                   </div>
                   <label className="admin-checkbox">
@@ -427,10 +586,15 @@ export function ProductsPanel() {
                 <div className="admin-product-row">
                   <div>
                     <strong>{product.name}</strong>
-                    <p>{product.category} · {product.subcategory}</p>
+                    <p>{product.category} · {displaySubcategory(product.subcategory)}</p>
                     <span>{formatMoney(product.price_cents)}</span>
                     <p>Stock: {product.stock ?? 0}</p>
                   </div>
+                  <img
+                    className="admin-image-preview mini"
+                    src={getPrimaryProductImage(product.image_url)}
+                    alt={product.name}
+                  />
                   <div className="admin-actions">
                     <button className="admin-btn ghost" onClick={() => startEdit(product)}>Editar</button>
                     <button className="admin-btn danger" onClick={() => handleDeleteProduct(product.id)}>Eliminar</button>

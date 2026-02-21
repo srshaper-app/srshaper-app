@@ -1,6 +1,8 @@
 import Link from 'next/link';
 import { ProductDetailClient } from '@/components/ProductDetailClient';
+import { ProductImageGallery } from '@/components/ProductImageGallery';
 import { supabasePublic } from '@/lib/supabase/public';
+import { parseProductImageUrls, getPrimaryProductImage } from '@/lib/productImages';
 
 export const dynamic = 'force-dynamic';
 
@@ -27,22 +29,29 @@ export default async function ProductoDetallePage({ params }: { params: Promise<
     );
   }
 
+  const productImages = parseProductImageUrls(product.image_url);
+  const primaryImage = getPrimaryProductImage(product.image_url);
+  const subcategoryLabel =
+    typeof product.subcategory === 'string'
+      ? product.subcategory.replace('Quillas - ', 'Quillas · ')
+      : product.subcategory;
+
   return (
     <main>
       <section className="page-hero">
-        <p className="breadcrumb">Inicio / {product.category} / {product.subcategory}</p>
+        <p className="breadcrumb">Inicio / {product.category} / {subcategoryLabel}</p>
         <h1>{product.name}</h1>
         <p className="lead preserve-lines">{product.description}</p>
       </section>
 
       <section className="section split">
         <div className="media-banner product-detail-media">
-          <img src={product.image_url || '/logo-srshaper.svg'} alt={product.name} />
+          <ProductImageGallery images={productImages.length ? productImages : [primaryImage]} name={product.name} />
         </div>
         <div>
           <div className="badges">
             <span className="badge">{product.category}</span>
-            <span className="badge">{product.subcategory}</span>
+            <span className="badge">{subcategoryLabel}</span>
             {product.stock === 0 && <span className="badge danger">Agotado</span>}
             {product.stock > 0 && product.stock < 3 && (
               <span className="badge warn">Quedan pocas unidades</span>
@@ -61,7 +70,7 @@ export default async function ProductoDetallePage({ params }: { params: Promise<
               name={product.name}
               price_cents={product.price_cents}
               currency={product.currency}
-              image_url={product.image_url}
+              image_url={primaryImage}
               stock={product.stock}
             />
           </div>

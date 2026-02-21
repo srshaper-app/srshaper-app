@@ -3,25 +3,49 @@ import { ProductCard } from '@/components/ProductCard';
 
 export const dynamic = 'force-dynamic';
 
-export default async function QuillasPage() {
-  const { data: products } = await supabasePublic
+const QUILLAS_TYPES = ['Single', 'Twin', 'Thruster', 'Quad'] as const;
+
+type Props = {
+  searchParams: Promise<{ tipo?: string }>;
+};
+
+export default async function QuillasPage({ searchParams }: Props) {
+  const params = await searchParams;
+  const requestedType = typeof params?.tipo === 'string' ? params.tipo : '';
+  const currentType = QUILLAS_TYPES.find((type) => type.toLowerCase() === requestedType.toLowerCase());
+
+  let query = supabasePublic
     .from('products')
     .select('*')
     .eq('active', true)
-    .eq('category', 'Accesorios')
-    .eq('subcategory', 'Quillas')
-    .order('created_at', { ascending: false });
+    .eq('category', 'Accesorios');
+
+  if (currentType) {
+    query = query.eq('subcategory', `Quillas - ${currentType}`);
+  } else {
+    query = query.in('subcategory', ['Quillas', ...QUILLAS_TYPES.map((type) => `Quillas - ${type}`)]);
+  }
+
+  const { data: products } = await query.order('created_at', { ascending: false });
 
   return (
     <main>
       <section className="page-hero">
         <p className="breadcrumb">Inicio / Accesorios / Quillas</p>
         <h1>Quillas diseñadas para velocidad y control.</h1>
-        <p className="lead">Sets thruster, twin y quad para adaptarte a cada ola.</p>
+        <p className="lead">
+          {currentType
+            ? `Mostrando quillas tipo ${currentType}.`
+            : 'Selecciona tipo de quilla: Single, Twin, Thruster o Quad.'}
+        </p>
         <details className="category-drop" open>
           <summary>Categorías de accesorios</summary>
           <div className="subnav">
             <a href="/accesorios/quillas">Quillas</a>
+            <a href="/accesorios/quillas?tipo=single">Single</a>
+            <a href="/accesorios/quillas?tipo=twin">Twin</a>
+            <a href="/accesorios/quillas?tipo=thruster">Thruster</a>
+            <a href="/accesorios/quillas?tipo=quad">Quad</a>
             <a href="/accesorios/wax">Wax</a>
             <a href="/accesorios/fundas">Fundas</a>
             <a href="/accesorios/cuerdas-amarres">Cuerdas amarres</a>

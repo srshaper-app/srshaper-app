@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import { NewsletterForm } from '@/components/NewsletterForm';
-import { ImageCarousel } from '@/components/ImageCarousel';
 
 export const dynamic = 'force-dynamic';
 
@@ -12,7 +11,6 @@ export default async function Home() {
       title: 'Princess',
       description: 'Round / Roundpin',
       href: '/tablas/modelos/princess',
-      actionLabel: 'Ver modelo',
     },
     {
       src: '/models/gentleman.png',
@@ -20,7 +18,6 @@ export default async function Home() {
       title: 'Gentleman',
       description: 'Wider Squash / Bump Squash / Squash',
       href: '/tablas/modelos/gentleman',
-      actionLabel: 'Ver modelo',
     },
     {
       src: '/models/gangster.png',
@@ -28,7 +25,6 @@ export default async function Home() {
       title: 'Gangster',
       description: 'Retro Bonzer / Single',
       href: '/tablas/modelos/gangster',
-      actionLabel: 'Ver modelo',
     },
     {
       src: '/models/shark-attack.png',
@@ -36,7 +32,6 @@ export default async function Home() {
       title: 'Shark Attack',
       description: 'Retro Twinzer / Quad',
       href: '/tablas/modelos/shark-attack',
-      actionLabel: 'Ver modelo',
     },
   ];
 
@@ -91,7 +86,16 @@ export default async function Home() {
           <h2>Modelos de tablas Sr.Shaper</h2>
           <p>Estos son nuestros modelos base. Cada compra inicia fabricación a medida en taller.</p>
         </div>
-        <ImageCarousel items={modelLogos} className="logo-carousel" />
+        <div className="grid model-grid">
+          {modelLogos.map((model) => (
+            <Link key={model.title} className="model-card" href={model.href || '/tablas'}>
+              <img src={model.src} alt={model.alt} />
+              <h3>{model.title}</h3>
+              <p>{model.description}</p>
+              <span className="card-link">Ver modelo</span>
+            </Link>
+          ))}
+        </div>
         <div className="hero-actions" style={{ marginTop: 20 }}>
           <Link className="btn" href="/tablas/crea-tu-tabla">Crea tu tabla</Link>
           <Link className="btn btn-ghost" href="/tablas">Ver todas las tablas</Link>
@@ -171,10 +175,19 @@ export default async function Home() {
           <h2>Sesiones del equipo</h2>
           <p>Probamos cada concepto de diseño en el mar, no solo en el taller.</p>
         </div>
-        <div className="catalog-photo-grid">
-          <img src="/photos/home/canteras-session-1.jpg" alt="Surf en Gran Canaria con tabla shortboard" />
-          <img src="/photos/home/canteras-session-2.jpg" alt="Surf de alto rendimiento en olas locales" />
-          <img src="/photos/about/green-board-portrait.png" alt="Tabla personalizada Sr.Shaper color verde" />
+        <div className="team-sessions-grid">
+          <figure className="team-session-main">
+            <img src="/photos/home/canteras-session-1.jpg" alt="Surf en Gran Canaria con tabla shortboard" />
+          </figure>
+          <figure className="team-session-side team-session-side-top">
+            <img src="/photos/home/canteras-session-2.jpg" alt="Surf de alto rendimiento en olas locales" />
+          </figure>
+          <figure className="team-session-side team-session-side-bottom">
+            <img src="/photos/about/purple-board-beach.png" alt="Tabla personalizada Sr.Shaper en la costa rocosa" />
+          </figure>
+          <figure className="team-session-wide">
+            <img src="/photos/about/green-board-portrait.png" alt="Tabla personalizada Sr.Shaper color verde" />
+          </figure>
         </div>
       </section>
 

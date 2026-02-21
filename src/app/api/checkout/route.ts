@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { getStripe } from '@/lib/stripe';
 import { supabaseAdmin } from '@/lib/supabase/admin';
 import { BOARD_MODELS } from '@/lib/boardCatalog';
+import { getPrimaryProductImage } from '@/lib/productImages';
 
 type CheckoutItemPayload = {
   id: string;
@@ -129,7 +130,7 @@ export async function POST(request: Request) {
           currency: product.currency.toLowerCase(),
           product_data: {
             name: item.variant ? `${product.name} · ${item.variant}` : product.name,
-            images: product.image_url ? [product.image_url] : [],
+            images: product.image_url ? [getPrimaryProductImage(product.image_url)] : [],
             metadata: {
               product_id: product.id,
               custom_board: 'false',

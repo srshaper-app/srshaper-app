@@ -3,6 +3,7 @@
 import { useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { useCart } from './CartContext';
+import { getPrimaryProductImage } from '@/lib/productImages';
 
 const formatMoney = (value: number) => {
   return new Intl.NumberFormat('es-ES', {
@@ -60,7 +61,7 @@ export function CartOverlay() {
           {items.length === 0 && <div className="empty-cart">Tu carrito está vacío.</div>}
           {items.map((item) => (
             <div className="cart-item" key={item.id}>
-              <img src={item.image_url || '/logo-srshaper.svg'} alt={item.name} />
+              <img src={getPrimaryProductImage(item.image_url)} alt={item.name} />
               <div>
                 <h4>{item.name}</h4>
                 {item.variant ? <p>{item.variant}</p> : null}
