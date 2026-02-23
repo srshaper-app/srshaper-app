@@ -176,11 +176,17 @@ export default async function Home() {
           <p>Probamos cada concepto de diseño en el mar, no solo en el taller.</p>
         </div>
         <div className="team-sessions-grid">
-          <figure className="team-session-main">
-            <img src="/photos/home/canteras-session-1.jpg" alt="Surf en Gran Canaria con tabla shortboard" />
+          <figure>
+            <img src="/photos/home/team-session-1.jpg" alt="Sesión de surf del equipo en Gran Canaria" />
           </figure>
-          <figure className="team-session-side team-session-side-top">
-            <img src="/photos/home/canteras-session-2.jpg" alt="Surf de alto rendimiento en olas locales" />
+          <figure>
+            <img src="/photos/home/team-session-2.jpg" alt="Proceso de shaping en el taller Sr.Shaper" />
+          </figure>
+          <figure>
+            <img src="/photos/home/team-session-3.jpg" alt="Olas potentes en sesión de prueba del equipo" />
+          </figure>
+          <figure>
+            <img src="/photos/home/team-session-4.jpg" alt="Ajuste de plantilla durante el shaping artesanal" />
           </figure>
         </div>
       </section>
