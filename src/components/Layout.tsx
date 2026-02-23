@@ -45,6 +45,7 @@ export function SiteHeader() {
             <Link href="/accesorios/cuerdas-amarres">Leashes</Link>
           </div>
         </div>
+        <Link href="/surf-skate">Surf Skate</Link>
         <Link href="/sobre-nosotros">Sobre nosotros</Link>
         <Link href="/contacto">Contacto</Link>
       </nav>
@@ -70,6 +71,7 @@ export function SiteFooter() {
         <Link href="/tablas">Tablas</Link>
         <Link href="/academia">Academia</Link>
         <Link href="/accesorios">Accesorios</Link>
+        <Link href="/surf-skate">Surf Skate</Link>
         <Link href="/sobre-nosotros">Sobre nosotros</Link>
         <Link href="/contacto">Contacto</Link>
         <Link href="/terminos">Términos y condiciones</Link>

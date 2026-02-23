@@ -7,6 +7,8 @@ import { parseProductImageUrls, serializeProductImageUrls, getPrimaryProductImag
 const ACCESSORY_OPTIONS = ['Quillas', 'Leashes', 'Grips', 'Fundas', 'Wax'] as const;
 const QUILLAS_TYPE_OPTIONS = ['Single', 'Twin', 'Thruster', 'Quad'] as const;
 const TABLE_MODEL_OPTIONS = ['Princess', 'Gentleman', 'Gangster', 'Shark Attack'] as const;
+const SURF_SKATE_OPTIONS = ['Surfskates', 'Decks', 'Ejes', 'Ruedas', 'Bushings', 'Rodamientos', 'Accesorios'] as const;
+const CATEGORY_OPTIONS = ['Accesorios', 'Tablas', 'Surf Skate'] as const;
 
 const CURRENCY = 'EUR';
 
@@ -49,6 +51,7 @@ const parseEuroInputToCents = (raw: string) => {
 const getSubcategoryOptions = (category: string) => {
   if (category === 'Accesorios') return [...ACCESSORY_OPTIONS];
   if (category === 'Tablas') return [...TABLE_MODEL_OPTIONS];
+  if (category === 'Surf Skate') return [...SURF_SKATE_OPTIONS];
   return [];
 };
 
@@ -70,6 +73,15 @@ const normalizeSubcategoryForForm = (category: string, raw: string | null) => {
       subcategory: ACCESSORY_OPTIONS.includes(safe as (typeof ACCESSORY_OPTIONS)[number])
         ? safe
         : ACCESSORY_OPTIONS[0],
+      finType: QUILLAS_TYPE_OPTIONS[0],
+    };
+  }
+
+  if (category === 'Surf Skate') {
+    return {
+      subcategory: SURF_SKATE_OPTIONS.includes(safe as (typeof SURF_SKATE_OPTIONS)[number])
+        ? safe
+        : SURF_SKATE_OPTIONS[0],
       finType: QUILLAS_TYPE_OPTIONS[0],
     };
   }
@@ -318,8 +330,9 @@ export function ProductsPanel() {
                   });
                 }}
               >
-                <option>Accesorios</option>
-                <option>Tablas</option>
+                {CATEGORY_OPTIONS.map((category) => (
+                  <option key={category}>{category}</option>
+                ))}
               </select>
             </div>
             <div className="admin-form-row">
@@ -466,8 +479,9 @@ export function ProductsPanel() {
                           });
                         }}
                       >
-                        <option>Accesorios</option>
-                        <option>Tablas</option>
+                        {CATEGORY_OPTIONS.map((category) => (
+                          <option key={category}>{category}</option>
+                        ))}
                       </select>
                     </div>
                     <div className="admin-form-row">

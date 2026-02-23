@@ -53,6 +53,8 @@ export function MobileMenu() {
           <Link href="/accesorios/fundas" onClick={() => setOpen(false)}>Fundas</Link>
           <Link href="/accesorios/wax" onClick={() => setOpen(false)}>Wax</Link>
           <Link href="/accesorios/cuerdas-amarres" onClick={() => setOpen(false)}>Leashes</Link>
+          <span className="mobile-group">Surf Skate</span>
+          <Link href="/surf-skate" onClick={() => setOpen(false)}>Surf Skate</Link>
           <Link href="/sobre-nosotros" onClick={() => setOpen(false)}>Sobre nosotros</Link>
           <Link href="/contacto" onClick={() => setOpen(false)}>Contacto</Link>
         </nav>
