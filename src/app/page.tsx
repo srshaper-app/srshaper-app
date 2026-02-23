@@ -136,8 +136,8 @@ export default async function Home() {
         </div>
         <div className="featured featured-media">
           <img
-            src="/photos/home/accessories-pack.jpg"
-            alt="Tabla y accesorios disponibles en Sr.Shaper"
+            src="/photos/home/accessories-pack.png"
+            alt="Pack de leashes, wax y grips en Sr.Shaper"
           />
           <div>
             <h3>Pack Ready</h3>
