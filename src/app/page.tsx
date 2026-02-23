@@ -182,12 +182,6 @@ export default async function Home() {
           <figure className="team-session-side team-session-side-top">
             <img src="/photos/home/canteras-session-2.jpg" alt="Surf de alto rendimiento en olas locales" />
           </figure>
-          <figure className="team-session-side team-session-side-bottom">
-            <img src="/photos/home/canteras-session-1.jpg" alt="Sesión de equipo en olas de Gran Canaria" />
-          </figure>
-          <figure className="team-session-wide">
-            <img src="/photos/home/canteras-session-2.jpg" alt="Sesión de equipo en el mar con olas potentes" />
-          </figure>
         </div>
       </section>
 

@@ -889,27 +889,15 @@ img {
 .team-sessions-grid {
   display: grid;
   gap: 16px;
-  grid-template-columns: 1.4fr 1fr;
-  grid-template-areas:
-    "main side1"
-    "main side2"
-    "wide wide";
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .team-session-main {
-  grid-area: main;
+  grid-column: 1;
 }
 
 .team-session-side-top {
-  grid-area: side1;
-}
-
-.team-session-side-bottom {
-  grid-area: side2;
-}
-
-.team-session-wide {
-  grid-area: wide;
+  grid-column: 2;
 }
 
 .team-sessions-grid figure {
@@ -1362,11 +1350,6 @@ img {
   }
   .team-sessions-grid {
     grid-template-columns: 1fr;
-    grid-template-areas:
-      "main"
-      "side1"
-      "side2"
-      "wide";
   }
   .carousel-track {
     grid-auto-columns: minmax(220px, 280px);
