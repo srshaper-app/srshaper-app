@@ -102,7 +102,7 @@ export default function SobreNosotrosPage() {
           <div className="about-gallery-grid">
             <img src="/photos/about/purple-board-beach.png" alt="Tabla personalizada morada en costa rocosa" />
             <img src="/photos/about/green-board-portrait.png" alt="Tabla personalizada verde en mano del shaper" />
-            <img src="/photos/home/canteras-session-2.jpg" alt="Sesión de surf probando una tabla Sr.Shaper" />
+            <img src="/photos/about/shaper-mint-board.jpg" alt="Shaper de Sr.Shaper sosteniendo una tabla en el exterior del taller" />
           </div>
         </div>
       </section>
