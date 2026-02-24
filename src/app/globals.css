@@ -262,6 +262,15 @@ img {
   align-items: center;
 }
 
+.menu-item::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  height: 12px;
+}
+
 .menu-label {
   cursor: pointer;
   padding-bottom: 4px;
@@ -276,7 +285,7 @@ img {
 
 .dropdown {
   position: absolute;
-  top: 32px;
+  top: calc(100% + 10px);
   left: -10px;
   background: white;
   border-radius: 14px;
@@ -301,6 +310,11 @@ img {
 }
 
 .menu-item:hover .dropdown {
+  display: grid;
+  gap: 4px;
+}
+
+.menu-item:focus-within .dropdown {
   display: grid;
   gap: 4px;
 }

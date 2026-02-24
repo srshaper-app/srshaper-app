@@ -33,7 +33,7 @@ export default function CreaTuTablaPage() {
           <article className="process-card">
             <img src="/photos/custom/workshop-shaping-1.jpg" alt="Ajuste manual de líneas y curvas en la tabla" />
             <h3>2. Shape a mano</h3>
-            <p>Trabajo manual de rails y fondos para lograr respuesta real en agua.</p>
+            <p>Trabajo manual de rails y foil para lograr respuesta real en agua.</p>
           </article>
           <article className="process-card">
             <img src="/photos/custom/workshop-shaping-3.jpg" alt="Blank de tabla listo en banco de trabajo del taller" />
