@@ -184,6 +184,20 @@ export function ProductsPanel() {
     return raw.replace('Quillas - ', 'Quillas · ');
   };
 
+  const autoTranslate = async (name: string, description: string) => {
+    try {
+      const res = await fetch('/api/translate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ texts: [name, description] }),
+      });
+      const json = await res.json() as { translations: string[] };
+      return { name_en: json.translations[0] || name, description_en: json.translations[1] || description };
+    } catch {
+      return { name_en: name, description_en: description };
+    }
+  };
+
   const handleAddProduct = async (event: React.FormEvent) => {
     event.preventDefault();
     const priceCents = parseEuroInputToCents(newProduct.price_eur);
@@ -192,11 +206,15 @@ export function ProductsPanel() {
       return;
     }
 
+    const translated = await autoTranslate(newProduct.name, newProduct.description);
+
     const { data, error } = await supabase
       .from('products')
       .insert({
         name: newProduct.name,
         description: newProduct.description,
+        name_en: translated.name_en,
+        description_en: translated.description_en,
         category: newProduct.category,
         subcategory: buildSubcategoryForSave(
           newProduct.category,
@@ -264,11 +282,15 @@ export function ProductsPanel() {
       return;
     }
 
+    const translated = await autoTranslate(editProduct.name, editProduct.description);
+
     const { data, error } = await supabase
       .from('products')
       .update({
         name: editProduct.name,
         description: editProduct.description,
+        name_en: translated.name_en,
+        description_en: translated.description_en,
         category: editProduct.category,
         subcategory: buildSubcategoryForSave(
           editProduct.category,

@@ -2,6 +2,8 @@
 
 import { useCart } from './CartContext';
 import { getPrimaryProductImage } from '@/lib/productImages';
+import { useLang } from '@/components/LanguageContext';
+import { t } from '@/lib/translations';
 
 type Props = {
   id: string;
@@ -14,6 +16,7 @@ type Props = {
 
 export function ProductDetailClient({ id, name, price_cents, currency, image_url, stock }: Props) {
   const { addItem, openCart } = useCart();
+  const { lang } = useLang();
   const available = (stock ?? 0) > 0;
   const primaryImage = getPrimaryProductImage(image_url);
 
@@ -32,7 +35,7 @@ export function ProductDetailClient({ id, name, price_cents, currency, image_url
         openCart();
       }}
     >
-      {available ? 'Añadir al carrito' : 'Agotado'}
+      {available ? t(lang, 'producto_anadir') : t(lang, 'producto_agotado')}
     </button>
   );
 }

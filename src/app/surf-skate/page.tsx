@@ -1,57 +1,56 @@
+'use client';
+
 import { ProductCard } from '@/components/ProductCard';
 import { supabasePublic } from '@/lib/supabase/public';
+import { useLang } from '@/components/LanguageContext';
+import { t } from '@/lib/translations';
+import { useEffect, useState } from 'react';
+
+type Product = {
+  id: string;
+  name: string;
+  name_en?: string | null;
+  description?: string | null;
+  description_en?: string | null;
+  price_cents: number;
+  currency: string;
+  image_url?: string | null;
+  stock?: number | null;
+  subcategory?: string | null;
+};
 
 export const dynamic = 'force-dynamic';
 
-type Props = {
-  searchParams: Promise<{ tipo?: string }>;
-};
+export default function SurfSkatePage() {
+  const { lang } = useLang();
+  const [allProducts, setAllProducts] = useState<Product[]>([]);
 
-export default async function SurfSkatePage({ searchParams }: Props) {
-  const params = await searchParams;
-  const requestedType = typeof params?.tipo === 'string' ? params.tipo : '';
-
-  const { data: allProducts } = await supabasePublic
-    .from('products')
-    .select('*')
-    .eq('active', true)
-    .eq('category', 'Surf Skate')
-    .order('created_at', { ascending: false });
+  useEffect(() => {
+    supabasePublic
+      .from('products')
+      .select('*')
+      .eq('active', true)
+      .eq('category', 'Surf Skate')
+      .order('created_at', { ascending: false })
+      .then(({ data }) => setAllProducts(data || []));
+  }, []);
 
   const subcategories = Array.from(
-    new Set(
-      (allProducts || [])
-        .map((product) => product.subcategory)
-        .filter((subcategory): subcategory is string => Boolean(subcategory))
-    )
+    new Set(allProducts.map((p) => p.subcategory).filter((s): s is string => Boolean(s)))
   );
-
-  const currentType = subcategories.find(
-    (subcategory) => subcategory.toLowerCase() === requestedType.toLowerCase()
-  );
-
-  const products = currentType
-    ? (allProducts || []).filter((product) => product.subcategory === currentType)
-    : allProducts || [];
 
   return (
     <main>
       <section className="page-hero">
-        <p className="breadcrumb">Inicio / Surf Skate</p>
-        <h1>Surf Skate para entrenar tus giros fuera del agua.</h1>
-        <p className="lead">
-          {currentType
-            ? `Mostrando artículos de: ${currentType}.`
-            : 'Configura tu set de surf skate con tablas, ejes, ruedas y accesorios.'}
-        </p>
+        <p className="breadcrumb">Inicio / {t(lang, 'nav_surf_skate')}</p>
+        <h1>{t(lang, 'surfskate_h1')}</h1>
+        <p className="lead">{t(lang, 'surfskate_lead_all')}</p>
         <details className="category-drop" open>
-          <summary>Categorías de Surf Skate</summary>
+          <summary>{t(lang, 'surfskate_categorias')}</summary>
           <div className="subnav">
-            <a href="/surf-skate">Todos</a>
-            {subcategories.map((subcategory) => (
-              <a key={subcategory} href={`/surf-skate?tipo=${encodeURIComponent(subcategory)}`}>
-                {subcategory}
-              </a>
+            <a href="/surf-skate">{t(lang, 'surfskate_todos')}</a>
+            {subcategories.map((s) => (
+              <a key={s} href={`/surf-skate?tipo=${encodeURIComponent(s)}`}>{s}</a>
             ))}
           </div>
         </details>
@@ -59,14 +58,21 @@ export default async function SurfSkatePage({ searchParams }: Props) {
 
       <section className="section wave">
         <div className="section-head">
-          <h2>Artículos disponibles</h2>
-          <p>Material real para practicar técnica de surf en asfalto.</p>
+          <h2>{t(lang, 'surfskate_disponibles')}</h2>
+          <p>{t(lang, 'surfskate_disponibles_p')}</p>
         </div>
         <div className="grid cards">
-          {products.length ? (
-            products.map((product) => <ProductCard key={product.id} {...product} />)
+          {allProducts.length ? (
+            allProducts.map((product) => (
+              <ProductCard
+                key={product.id}
+                {...product}
+                name={lang === 'en' && product.name_en ? product.name_en : product.name}
+                name_en={product.name_en}
+              />
+            ))
           ) : (
-            <p>No hay artículos de Surf Skate cargados todavía.</p>
+            <p>{t(lang, 'surfskate_vacio')}</p>
           )}
         </div>
       </section>
