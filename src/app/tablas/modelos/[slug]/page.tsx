@@ -59,6 +59,11 @@ const MODELS: Record<string, ModelInfo> = {
         alt: 'Princess vista inferior para quillas y configuración',
         label: 'Princess · Vista inferior',
       },
+      {
+        src: '/photos/models/princess/princess-roundpin.jpg',
+        alt: 'Princess Roundpin con gráficos en azul y rojo',
+        label: 'Princess · Roundpin',
+      },
     ],
   },
   'gentleman': {
@@ -219,9 +224,16 @@ export default async function ModeloPage({ params }: { params: Promise<{ slug: s
   return (
     <main>
       <section className="page-hero model-hero">
-        <p className="breadcrumb">Inicio / Tablas / {model.name}</p>
-        <h1>{model.name}</h1>
-        <p className="lead">{model.tagline}</p>
+        <div className="model-hero-header">
+          <div className="model-hero-text">
+            <p className="breadcrumb">Inicio / Tablas / {model.name}</p>
+            <h1>{model.name}</h1>
+            <p className="lead">{model.tagline}</p>
+          </div>
+          <div className="model-hero-logo">
+            <img src="/logo-srshaper.svg" alt="SRShaper logo" />
+          </div>
+        </div>
       </section>
 
       <section className="section split">
