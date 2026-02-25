@@ -1,8 +1,15 @@
+'use client';
+
 import Link from 'next/link';
 import { CartButton } from './CartDrawer';
 import { MobileMenu } from './MobileMenu';
+import { LangSelector } from './LangSelector';
+import { useLang } from './LanguageContext';
+import { t } from '@/lib/translations';
 
 export function SiteHeader() {
+  const { lang } = useLang();
+
   return (
     <header className="nav">
       <Link className="brand header-brand" href="/">
@@ -14,10 +21,10 @@ export function SiteHeader() {
       </Link>
       <nav className="links">
         <div className="menu-item">
-          <Link className="menu-label" href="/tablas">Tablas</Link>
+          <Link className="menu-label" href="/tablas">{t(lang, 'nav_tablas')}</Link>
           <div className="dropdown">
-            <Link href="/tablas">Todas las tablas</Link>
-            <Link href="/tablas/crea-tu-tabla">Crea tu tabla</Link>
+            <Link href="/tablas">{t(lang, 'nav_tablas_todas')}</Link>
+            <Link href="/tablas/crea-tu-tabla">{t(lang, 'nav_tablas_crea')}</Link>
             <Link href="/tablas/modelos/princess">Princess</Link>
             <Link href="/tablas/modelos/gentleman">Gentleman</Link>
             <Link href="/tablas/modelos/gangster">Gangster</Link>
@@ -25,31 +32,32 @@ export function SiteHeader() {
           </div>
         </div>
         <div className="menu-item">
-          <Link className="menu-label" href="/academia">Academia</Link>
+          <Link className="menu-label" href="/academia">{t(lang, 'nav_academia')}</Link>
           <div className="dropdown">
-            <Link href="/academia/curso-shape">Curso de shape</Link>
-            <Link href="/academia/curso-laminacion">Curso de laminación</Link>
-            <Link href="/academia/curso-glassing-sanding">Curso de glassing and sanding</Link>
-            <Link href="/academia/curso-completo">Curso completo 0 a 100</Link>
-            <Link href="/academia/curso-reparacion">Curso de reparación</Link>
+            <Link href="/academia/curso-shape">{t(lang, 'nav_academia_shape')}</Link>
+            <Link href="/academia/curso-laminacion">{t(lang, 'nav_academia_laminacion')}</Link>
+            <Link href="/academia/curso-glassing-sanding">{t(lang, 'nav_academia_glassing')}</Link>
+            <Link href="/academia/curso-completo">{t(lang, 'nav_academia_completo')}</Link>
+            <Link href="/academia/curso-reparacion">{t(lang, 'nav_academia_reparacion')}</Link>
           </div>
         </div>
         <div className="menu-item">
-          <Link className="menu-label" href="/accesorios">Accesorios</Link>
+          <Link className="menu-label" href="/accesorios">{t(lang, 'nav_accesorios')}</Link>
           <div className="dropdown">
-            <Link href="/accesorios">Todos los accesorios</Link>
-            <Link href="/accesorios/quillas">Quillas</Link>
-            <Link href="/accesorios/grips">Grips</Link>
-            <Link href="/accesorios/fundas">Fundas</Link>
-            <Link href="/accesorios/wax">Wax</Link>
-            <Link href="/accesorios/cuerdas-amarres">Leashes</Link>
+            <Link href="/accesorios">{t(lang, 'nav_accesorios_todos')}</Link>
+            <Link href="/accesorios/quillas">{t(lang, 'nav_quillas')}</Link>
+            <Link href="/accesorios/grips">{t(lang, 'nav_grips')}</Link>
+            <Link href="/accesorios/fundas">{t(lang, 'nav_fundas')}</Link>
+            <Link href="/accesorios/wax">{t(lang, 'nav_wax')}</Link>
+            <Link href="/accesorios/cuerdas-amarres">{t(lang, 'nav_leashes')}</Link>
           </div>
         </div>
-        <Link href="/surf-skate">Surf Skate</Link>
-        <Link href="/sobre-nosotros">Sobre nosotros</Link>
-        <Link href="/contacto">Contacto</Link>
+        <Link href="/surf-skate">{t(lang, 'nav_surf_skate')}</Link>
+        <Link href="/sobre-nosotros">{t(lang, 'nav_sobre_nosotros')}</Link>
+        <Link href="/contacto">{t(lang, 'nav_contacto')}</Link>
       </nav>
       <div className="nav-actions">
+        <LangSelector />
         <MobileMenu />
         <CartButton />
       </div>
@@ -58,6 +66,8 @@ export function SiteHeader() {
 }
 
 export function SiteFooter() {
+  const { lang } = useLang();
+
   return (
     <footer className="footer">
       <div className="brand footer-brand">
@@ -68,12 +78,12 @@ export function SiteFooter() {
         </span>
       </div>
       <div className="footer-links">
-        <Link href="/tablas">Tablas</Link>
-        <Link href="/academia">Academia</Link>
-        <Link href="/accesorios">Accesorios</Link>
-        <Link href="/surf-skate">Surf Skate</Link>
-        <Link href="/sobre-nosotros">Sobre nosotros</Link>
-        <Link href="/contacto">Contacto</Link>
+        <Link href="/tablas">{t(lang, 'nav_tablas')}</Link>
+        <Link href="/academia">{t(lang, 'nav_academia')}</Link>
+        <Link href="/accesorios">{t(lang, 'nav_accesorios')}</Link>
+        <Link href="/surf-skate">{t(lang, 'nav_surf_skate')}</Link>
+        <Link href="/sobre-nosotros">{t(lang, 'nav_sobre_nosotros')}</Link>
+        <Link href="/contacto">{t(lang, 'nav_contacto')}</Link>
         <Link href="/terminos">Términos y condiciones</Link>
         <Link href="/privacidad">Privacidad</Link>
         <Link href="/cookies">Cookies</Link>
@@ -104,7 +114,7 @@ export function SiteFooter() {
           Instagram
         </a>
       </div>
-      <div className="footer-note">© 2026 Sr.Shaper Surfboards. Hecho con sal y madera.</div>
+      <div className="footer-note">{t(lang, 'footer_note')}</div>
     </footer>
   );
 }

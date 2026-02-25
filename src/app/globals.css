@@ -2261,3 +2261,48 @@ img {
     grid-template-columns: 1fr;
   }
 }
+
+/* ── Language selector ── */
+.lang-selector {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(7, 44, 58, 0.07);
+  border-radius: 999px;
+  padding: 4px 8px;
+}
+
+.lang-selector button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #4b5a60;
+  padding: 2px 6px;
+  border-radius: 999px;
+  transition: background 0.18s ease, color 0.18s ease;
+}
+
+.lang-selector button.active {
+  background: var(--deep);
+  color: white;
+}
+
+.lang-selector button:hover:not(.active) {
+  color: var(--deep);
+}
+
+.lang-divider {
+  font-size: 11px;
+  color: #b0bec5;
+  user-select: none;
+}
+
+.mobile-lang-selector {
+  padding: 16px 0 8px;
+  border-top: 1px solid rgba(7, 44, 58, 0.08);
+  margin-top: 8px;
+}

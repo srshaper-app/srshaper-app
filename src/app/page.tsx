@@ -1,70 +1,70 @@
+'use client';
+
 import Link from 'next/link';
 import { NewsletterForm } from '@/components/NewsletterForm';
+import { useLang } from '@/components/LanguageContext';
+import { t } from '@/lib/translations';
 
 export const dynamic = 'force-dynamic';
 
-export default async function Home() {
-  const modelLogos = [
-    {
-      src: '/models/princess.png',
-      alt: 'Logo del modelo Princess',
-      title: 'Princess',
-      description: 'Round / Roundpin',
-      href: '/tablas/modelos/princess',
-    },
-    {
-      src: '/models/gentleman.png',
-      alt: 'Logo del modelo Gentleman',
-      title: 'Gentleman',
-      description: 'Wider Squash / Bump Squash / Squash',
-      href: '/tablas/modelos/gentleman',
-    },
-    {
-      src: '/models/gangster.png',
-      alt: 'Logo del modelo Gangster',
-      title: 'Gangster',
-      description: 'Retro Bonzer / Single',
-      href: '/tablas/modelos/gangster',
-    },
-    {
-      src: '/models/shark-attack.png',
-      alt: 'Logo del modelo Shark Attack',
-      title: 'Shark Attack',
-      description: 'Retro Twinzer / Quad',
-      href: '/tablas/modelos/shark-attack',
-    },
-  ];
+const modelLogos = [
+  {
+    src: '/models/princess.png',
+    alt: 'Logo del modelo Princess',
+    title: 'Princess',
+    description: 'Round / Roundpin',
+    href: '/tablas/modelos/princess',
+  },
+  {
+    src: '/models/gentleman.png',
+    alt: 'Logo del modelo Gentleman',
+    title: 'Gentleman',
+    description: 'Wider Squash / Bump Squash / Squash',
+    href: '/tablas/modelos/gentleman',
+  },
+  {
+    src: '/models/gangster.png',
+    alt: 'Logo del modelo Gangster',
+    title: 'Gangster',
+    description: 'Retro Bonzer / Single',
+    href: '/tablas/modelos/gangster',
+  },
+  {
+    src: '/models/shark-attack.png',
+    alt: 'Logo del modelo Shark Attack',
+    title: 'Shark Attack',
+    description: 'Retro Twinzer / Quad',
+    href: '/tablas/modelos/shark-attack',
+  },
+];
+
+export default function Home() {
+  const { lang } = useLang();
 
   return (
     <main>
       <section className="hero">
         <div>
-          <p className="eyebrow">Tablas personalizadas · Envíos a todo el país</p>
-          <h1>Diseña tu tabla a medida o elige una de nuestro catálogo para surfear.</h1>
-          <p className="lead">
-            Priorizamos el shaping personalizado con opciones listas para entrega.
-            Todo con estilo surfero, funcional y auténtico.
-          </p>
+          <p className="eyebrow">{t(lang, 'home_eyebrow')}</p>
+          <h1>{t(lang, 'home_h1')}</h1>
+          <p className="lead">{t(lang, 'home_lead')}</p>
           <div className="hero-actions">
-            <Link className="btn" href="/tablas/crea-tu-tabla">Crea tu tabla</Link>
-            <Link className="btn btn-ghost" href="/tablas">Comprar tablas</Link>
+            <Link className="btn" href="/tablas/crea-tu-tabla">{t(lang, 'home_cta_crea')}</Link>
+            <Link className="btn btn-ghost" href="/tablas">{t(lang, 'home_cta_compra')}</Link>
           </div>
           <div className="badges">
-            <span className="badge">Custom shaping</span>
-            <span className="badge">Catálogo inmediato</span>
-            <span className="badge">Asesoría experta</span>
+            <span className="badge">{t(lang, 'home_badge_custom')}</span>
+            <span className="badge">{t(lang, 'home_badge_catalogo')}</span>
+            <span className="badge">{t(lang, 'home_badge_asesoria')}</span>
           </div>
         </div>
         <div className="hero-card">
-          <span className="tag">Sesión real · Las Palmas</span>
-          <h3>Olas reales, tablas reales</h3>
-          <p>
-            Nuestra referencia está en el agua: condiciones reales para
-            diseñar tablas que respondan de verdad cuando toca surfear.
-          </p>
+          <span className="tag">{t(lang, 'home_card_tag')}</span>
+          <h3>{t(lang, 'home_card_h3')}</h3>
+          <p>{t(lang, 'home_card_p')}</p>
           <div className="hero-actions">
-            <Link className="btn btn-small" href="/tablas">Ver tablas</Link>
-            <Link className="btn btn-small btn-ghost" href="/tablas/crea-tu-tabla">Crear a medida</Link>
+            <Link className="btn btn-small" href="/tablas">{t(lang, 'home_card_ver')}</Link>
+            <Link className="btn btn-small btn-ghost" href="/tablas/crea-tu-tabla">{t(lang, 'home_card_crear')}</Link>
           </div>
           <img
             src="/photos/home/canteras-session-1.jpg"
@@ -83,8 +83,8 @@ export default async function Home() {
 
       <section className="section wave">
         <div className="section-head">
-          <h2>Modelos de tablas Sr.Shaper</h2>
-          <p>Estos son nuestros modelos base. Cada compra inicia fabricación a medida en taller.</p>
+          <h2>{t(lang, 'home_modelos_h2')}</h2>
+          <p>{t(lang, 'home_modelos_p')}</p>
         </div>
         <div className="grid model-grid">
           {modelLogos.map((model) => (
@@ -92,44 +92,44 @@ export default async function Home() {
               <img src={model.src} alt={model.alt} />
               <h3>{model.title}</h3>
               <p>{model.description}</p>
-              <span className="card-link">Ver modelo</span>
+              <span className="card-link">{t(lang, 'home_modelos_ver')}</span>
             </Link>
           ))}
         </div>
         <div className="hero-actions" style={{ marginTop: 20 }}>
-          <Link className="btn" href="/tablas/crea-tu-tabla">Crea tu tabla</Link>
-          <Link className="btn btn-ghost" href="/tablas">Ver todas las tablas</Link>
+          <Link className="btn" href="/tablas/crea-tu-tabla">{t(lang, 'home_cta_crea')}</Link>
+          <Link className="btn btn-ghost" href="/tablas">{t(lang, 'home_modelos_cta_ver')}</Link>
         </div>
       </section>
 
       <section className="section">
         <div className="section-head">
-          <h2>Accesorios esenciales</h2>
-          <p>Quillas, wax, fundas y grips seleccionados para sesiones fuertes.</p>
+          <h2>{t(lang, 'home_accesorios_h2')}</h2>
+          <p>{t(lang, 'home_accesorios_p')}</p>
         </div>
         <div className="grid category-grid">
           <Link className="category" href="/accesorios/quillas">
-            <span>Quillas</span>
+            <span>{t(lang, 'nav_quillas')}</span>
             <h3>Control + velocidad</h3>
             <p>Sets thruster, twin y quad para cada ola.</p>
           </Link>
           <Link className="category" href="/accesorios/wax">
-            <span>Wax</span>
+            <span>{t(lang, 'nav_wax')}</span>
             <h3>Grip inmediato</h3>
             <p>Fórmulas tropical, templada y fría.</p>
           </Link>
           <Link className="category" href="/accesorios/fundas">
-            <span>Fundas</span>
+            <span>{t(lang, 'nav_fundas')}</span>
             <h3>Viaje seguro</h3>
             <p>Boardbags térmicos y travel bags.</p>
           </Link>
           <Link className="category" href="/accesorios/cuerdas-amarres">
-            <span>Leashes</span>
+            <span>{t(lang, 'nav_leashes')}</span>
             <h3>Seguridad</h3>
-            <p>Leashs reforzados 6' a 9'.</p>
+            <p>Leashs reforzados 6&apos; a 9&apos;.</p>
           </Link>
           <Link className="category" href="/accesorios/grips">
-            <span>Grips</span>
+            <span>{t(lang, 'nav_grips')}</span>
             <h3>Tracción final</h3>
             <p>Arch bar y kick tail de alto agarre.</p>
           </Link>
@@ -143,37 +143,34 @@ export default async function Home() {
             <h3>Pack Ready</h3>
             <p>Leash + wax + grips para tu próxima sesión.</p>
           </div>
-          <Link className="btn btn-small" href="/accesorios">Ver accesorios</Link>
+          <Link className="btn btn-small" href="/accesorios">{t(lang, 'nav_accesorios')}</Link>
         </div>
       </section>
 
       <section className="section split">
         <div>
-          <h2>Recursos Sr.Shaper</h2>
-          <p>
-            Guías, recomendaciones y contenido práctico sobre shaping,
-            mantenimiento y elección de tablas.
-          </p>
+          <h2>{t(lang, 'home_recursos_h2')}</h2>
+          <p>{t(lang, 'home_recursos_p')}</p>
           <div className="badges">
             <span className="badge">Guías de shaping</span>
             <span className="badge">Cuidado de tablas</span>
             <span className="badge">Performance</span>
           </div>
           <div className="hero-actions">
-            <Link className="btn" href="/academia">Ver contenidos</Link>
-            <Link className="btn btn-outline" href="/contacto">Contactar</Link>
+            <Link className="btn" href="/academia">{t(lang, 'home_recursos_cta')}</Link>
+            <Link className="btn btn-outline" href="/contacto">{t(lang, 'nav_contacto')}</Link>
           </div>
         </div>
         <div className="quote">
-          "Moldeamos a mano cada tabla como si fuera única, porque lo es. Creamos más que equipos;
-          esculpimos la conexión entre el surfista y la ola perfecta, donde tu estilo y tu pasión por el mar cobran vida."
+          &quot;Moldeamos a mano cada tabla como si fuera única, porque lo es. Creamos más que equipos;
+          esculpimos la conexión entre el surfista y la ola perfecta, donde tu estilo y tu pasión por el mar cobran vida.&quot;
         </div>
       </section>
 
       <section className="section">
         <div className="section-head">
-          <h2>Sesiones del equipo</h2>
-          <p>Probamos cada concepto de diseño en el mar, no solo en el taller.</p>
+          <h2>{t(lang, 'home_sesiones_h2')}</h2>
+          <p>{t(lang, 'home_sesiones_p')}</p>
         </div>
         <div className="team-sessions-grid">
           <figure>
@@ -192,8 +189,8 @@ export default async function Home() {
       </section>
 
       <section className="newsletter">
-        <h2>Únete a la comunidad Sr.Shaper</h2>
-        <p>Noticias, drops y tips de entrenamiento directo a tu correo.</p>
+        <h2>{t(lang, 'newsletter_h2')}</h2>
+        <p>{t(lang, 'newsletter_p')}</p>
         <NewsletterForm />
       </section>
     </main>
