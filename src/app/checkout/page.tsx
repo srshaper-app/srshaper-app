@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from 'react';
 import { useCart } from '@/components/CartContext';
+import { formatMoney } from '@/lib/format';
 
 export default function CheckoutPage() {
   const { items, totalCents } = useCart();
@@ -26,21 +27,10 @@ export default function CheckoutPage() {
     subscribe: false,
   });
 
-  const totalFormatted = useMemo(() => {
-    const amount = Math.max(totalCents - discountCents, 0);
-    return new Intl.NumberFormat('es-ES', {
-      style: 'currency',
-      currency: 'EUR',
-      maximumFractionDigits: 2,
-    }).format(amount / 100);
-  }, [totalCents, discountCents]);
-
-  const formatMoney = (valueCents: number) =>
-    new Intl.NumberFormat('es-ES', {
-      style: 'currency',
-      currency: 'EUR',
-      maximumFractionDigits: 2,
-    }).format(valueCents / 100);
+  const totalFormatted = useMemo(
+    () => formatMoney(Math.max(totalCents - discountCents, 0)),
+    [totalCents, discountCents],
+  );
 
   const validateCoupon = async () => {
     if (!form.coupon.trim()) {
@@ -115,13 +105,13 @@ export default function CheckoutPage() {
             address: pickup
               ? null
               : {
-                  line1: form.addressLine1.trim(),
-                  line2: form.addressLine2.trim() || null,
-                  city: form.city.trim(),
-                  region: form.region.trim(),
-                  postalCode: form.postalCode.trim(),
-                  country: form.country.trim(),
-                },
+                line1: form.addressLine1.trim(),
+                line2: form.addressLine2.trim() || null,
+                city: form.city.trim(),
+                region: form.region.trim(),
+                postalCode: form.postalCode.trim(),
+                country: form.country.trim(),
+              },
           },
           coupon: form.coupon.trim(),
           subscribe: form.subscribe,

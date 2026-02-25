@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useCart } from './CartContext';
 import { getPrimaryProductImage } from '@/lib/productImages';
+import { formatMoney } from '@/lib/format';
 
 type ProductCardProps = {
   id: string;
@@ -12,14 +13,6 @@ type ProductCardProps = {
   currency: string;
   image_url?: string | null;
   stock?: number | null;
-};
-
-const formatMoney = (value: number, currency = 'EUR') => {
-  return new Intl.NumberFormat('es-ES', {
-    style: 'currency',
-    currency,
-    maximumFractionDigits: 2,
-  }).format(value / 100);
 };
 
 export function ProductCard({ id, name, price_cents, currency, image_url, stock }: ProductCardProps) {

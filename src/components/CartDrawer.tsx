@@ -4,14 +4,7 @@ import { useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { useCart } from './CartContext';
 import { getPrimaryProductImage } from '@/lib/productImages';
-
-const formatMoney = (value: number) => {
-  return new Intl.NumberFormat('es-ES', {
-    style: 'currency',
-    currency: 'EUR',
-    maximumFractionDigits: 2,
-  }).format(value / 100);
-};
+import { formatMoney } from '@/lib/format';
 
 export function CartButton() {
   const { count, openCart } = useCart();

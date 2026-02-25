@@ -40,6 +40,8 @@ type ProductRow = {
   stock: number | null;
 };
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://srshaper-app-tv3i.vercel.app';
+
 export async function POST(request: Request) {
   const stripe = getStripe();
   const { items, customer, shipping, coupon, subscribe } = await request.json();
@@ -101,7 +103,7 @@ export async function POST(request: Request) {
             currency: 'eur',
             product_data: {
               name: displayName,
-              images: model.image ? [`${process.env.NEXT_PUBLIC_SITE_URL || 'https://srshaper-app-tv3i.vercel.app'}${model.image}`] : [],
+              images: model.image ? [`${SITE_URL}${model.image}`] : [],
               metadata: {
                 product_id: '',
                 custom_board: 'true',
@@ -191,15 +193,13 @@ export async function POST(request: Request) {
     }
   }
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://srshaper-app-tv3i.vercel.app';
-
-    const session = await stripe.checkout.sessions.create({
+  const session = await stripe.checkout.sessions.create({
     mode: 'payment',
     line_items: lineItems,
     discounts: stripeCouponId ? [{ coupon: stripeCouponId }] : undefined,
     customer_email: customer.email,
-    success_url: `${siteUrl}/success`,
-    cancel_url: `${siteUrl}/checkout`,
+    success_url: `${SITE_URL}/success`,
+    cancel_url: `${SITE_URL}/checkout`,
     metadata: {
       customer_name: customer.name,
       customer_phone: customer.phone,
