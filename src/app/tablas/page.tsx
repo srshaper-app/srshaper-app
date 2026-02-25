@@ -30,28 +30,28 @@ export default async function TablasPage() {
         </div>
         <div className="grid model-grid">
           <Link className="model-card" href="/tablas/modelos/princess">
-            <img src="/photos/models/princess/princess-front.jpg" alt="Modelo Princess" />
+            <img src="/models/princess.png" alt="Logo del modelo Princess" />
             <h3>Princess</h3>
-            <p>Se fabrica a medida. Configura outline y medida.</p>
-            <span className="card-link">Configurar modelo</span>
+            <p>Round / Roundpin</p>
+            <span className="card-link">Ver modelo</span>
           </Link>
           <Link className="model-card" href="/tablas/modelos/gentleman">
-            <img src="/photos/models/gentleman/wider-squash.jpg" alt="Modelo Gentleman" />
+            <img src="/models/gentleman.png" alt="Logo del modelo Gentleman" />
             <h3>Gentleman</h3>
-            <p>Se fabrica a medida. Configura outline y medida.</p>
-            <span className="card-link">Configurar modelo</span>
+            <p>Wider Squash / Bump Squash / Squash</p>
+            <span className="card-link">Ver modelo</span>
           </Link>
           <Link className="model-card" href="/tablas/modelos/gangster">
-            <img src="/models/gangster.png" alt="Modelo Gangster" />
+            <img src="/models/gangster.png" alt="Logo del modelo Gangster" />
             <h3>Gangster</h3>
-            <p>Se fabrica a medida. Configura outline y medida.</p>
-            <span className="card-link">Configurar modelo</span>
+            <p>Retro Bonzer / Single</p>
+            <span className="card-link">Ver modelo</span>
           </Link>
           <Link className="model-card" href="/tablas/modelos/shark-attack">
-            <img src="/photos/models/shark-attack/retro-twinzer.jpg" alt="Modelo Shark Attack" />
+            <img src="/models/shark-attack.png" alt="Logo del modelo Shark Attack" />
             <h3>Shark Attack</h3>
-            <p>Se fabrica a medida. Configura outline y medida.</p>
-            <span className="card-link">Configurar modelo</span>
+            <p>Retro Twinzer / Quad</p>
+            <span className="card-link">Ver modelo</span>
           </Link>
         </div>
       </section>
