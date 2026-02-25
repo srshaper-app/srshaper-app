@@ -1,46 +1,55 @@
-import { supabasePublic } from '@/lib/supabase/public';
+'use client';
+
 import { ProductCard } from '@/components/ProductCard';
+import { supabasePublic } from '@/lib/supabase/public';
+import { useLang } from '@/components/LanguageContext';
+import { t } from '@/lib/translations';
+import { useEffect, useState } from 'react';
+
+type Product = {
+  id: string; name: string; name_en?: string | null;
+  description?: string | null; description_en?: string | null;
+  price_cents: number; currency: string; image_url?: string | null; stock?: number | null;
+};
 
 export const dynamic = 'force-dynamic';
 
-export default async function CuerdasPage() {
-  const { data: products } = await supabasePublic
-    .from('products')
-    .select('*')
-    .eq('active', true)
-    .eq('category', 'Accesorios')
-    .eq('subcategory', 'Leashes')
-    .order('created_at', { ascending: false });
+export default function CuerdasPage() {
+  const { lang } = useLang();
+  const [products, setProducts] = useState<Product[]>([]);
+
+  useEffect(() => {
+    supabasePublic.from('products').select('*').eq('active', true).eq('category', 'Accesorios')
+      .eq('subcategory', 'Leashes').order('created_at', { ascending: false })
+      .then(({ data }) => setProducts(data || []));
+  }, []);
 
   return (
     <main>
       <section className="page-hero">
-        <p className="breadcrumb">Inicio / Accesorios / Leashes</p>
-        <h1>Leashes y amarras seguras.</h1>
-        <p className="lead">Sistemas de doble swivel y uretano reforzado.</p>
+        <p className="breadcrumb">Inicio / {t(lang, 'nav_accesorios')} / {t(lang, 'nav_leashes')}</p>
+        <h1>{t(lang, 'leashes_h1')}</h1>
+        <p className="lead">{t(lang, 'leashes_lead')}</p>
         <details className="category-drop" open>
-          <summary>Categorías de accesorios</summary>
+          <summary>{t(lang, 'quillas_categorias')}</summary>
           <div className="subnav">
-            <a href="/accesorios/quillas">Quillas</a>
-            <a href="/accesorios/grips">Grips</a>
-            <a href="/accesorios/fundas">Fundas</a>
-            <a href="/accesorios/wax">Wax</a>
-            <a href="/accesorios/cuerdas-amarres">Leashes</a>
+            <a href="/accesorios/quillas">{t(lang, 'nav_quillas')}</a>
+            <a href="/accesorios/grips">{t(lang, 'nav_grips')}</a>
+            <a href="/accesorios/fundas">{t(lang, 'nav_fundas')}</a>
+            <a href="/accesorios/wax">{t(lang, 'nav_wax')}</a>
+            <a href="/accesorios/cuerdas-amarres">{t(lang, 'nav_leashes')}</a>
           </div>
         </details>
       </section>
-
       <section className="section wave">
         <div className="section-head">
-          <h2>Leashes disponibles</h2>
-          <p>Largos de 6' a 9' según tu tabla.</p>
+          <h2>{t(lang, 'leashes_disponibles')}</h2>
+          <p>{t(lang, 'leashes_disponibles_p')}</p>
         </div>
         <div className="grid cards">
-          {products?.length ? (
-            products.map((product) => <ProductCard key={product.id} {...product} />)
-          ) : (
-            <p>No hay leashes cargados.</p>
-          )}
+          {products.length ? products.map((p) => (
+            <ProductCard key={p.id} {...p} name={lang === 'en' && p.name_en ? p.name_en : p.name} name_en={p.name_en} />
+          )) : <p>{t(lang, 'leashes_vacio')}</p>}
         </div>
       </section>
     </main>

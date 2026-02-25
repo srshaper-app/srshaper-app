@@ -1,17 +1,24 @@
+'use client';
+
+import Link from 'next/link';
 import { CustomBoardForm } from '@/components/CustomBoardForm';
+import { useLang } from '@/components/LanguageContext';
+import { t } from '@/lib/translations';
 
 export default function CreaTuTablaPage() {
+  const { lang } = useLang();
+
   return (
     <main>
       <section className="page-hero">
-        <p className="breadcrumb">Inicio / Tablas / Crea tu tabla</p>
-        <h1>Diseña tu tabla a medida.</h1>
-        <p className="lead">Completa tu perfil de surf, olas favoritas y estilo para que nuestro shaper diseñe el outline perfecto.</p>
+        <p className="breadcrumb">Inicio / {t(lang, 'nav_tablas')} / {lang === 'en' ? 'Build your board' : 'Crea tu tabla'}</p>
+        <h1>{t(lang, 'crea_h1')}</h1>
+        <p className="lead">{t(lang, 'crea_lead')}</p>
         <details className="category-drop" open>
-          <summary>Opciones de tablas</summary>
+          <summary>{t(lang, 'crea_opciones')}</summary>
           <div className="subnav">
-            <a href="/tablas">Todas las tablas</a>
-            <a href="/tablas/crea-tu-tabla">Crea tu tabla a medida</a>
+            <Link href="/tablas">{t(lang, 'nav_tablas_todas')}</Link>
+            <Link href="/tablas/crea-tu-tabla">{t(lang, 'nav_tablas_crea')}</Link>
           </div>
         </details>
         <div className="media-banner">
@@ -21,32 +28,32 @@ export default function CreaTuTablaPage() {
 
       <section className="section">
         <div className="section-head">
-          <h2>Proceso en el taller</h2>
-          <p>Diseño, medición y shape con trabajo artesanal en cada etapa.</p>
+          <h2>{t(lang, 'crea_proceso_h2')}</h2>
+          <p>{t(lang, 'crea_proceso_p')}</p>
         </div>
         <div className="process-grid">
           <article className="process-card">
             <img src="/photos/custom/workshop-shaping-2.jpg" alt="Medición inicial del blank antes del shape" />
-            <h3>1. Medición y concepto</h3>
-            <p>Definimos outline, rocker y volumen según tu estilo y ola objetivo.</p>
+            <h3>{t(lang, 'crea_paso1_h3')}</h3>
+            <p>{t(lang, 'crea_paso1_p')}</p>
           </article>
           <article className="process-card">
             <img src="/photos/custom/workshop-shaping-1.jpg" alt="Ajuste manual de líneas y curvas en la tabla" />
-            <h3>2. Shape a mano</h3>
-            <p>Trabajo manual de rails y foil para lograr respuesta real en agua.</p>
+            <h3>{t(lang, 'crea_paso2_h3')}</h3>
+            <p>{t(lang, 'crea_paso2_p')}</p>
           </article>
           <article className="process-card">
             <img src="/photos/custom/workshop-shaping-3.jpg" alt="Blank de tabla listo en banco de trabajo del taller" />
-            <h3>3. Revisión final</h3>
-            <p>Control de medidas y detalles antes de pasar a laminación y acabado.</p>
+            <h3>{t(lang, 'crea_paso3_h3')}</h3>
+            <p>{t(lang, 'crea_paso3_p')}</p>
           </article>
         </div>
       </section>
 
       <section className="section wave">
         <div className="section-head">
-          <h2>Brief de shaping</h2>
-          <p>Te respondemos en 24h con propuesta de diseño y tiempos.</p>
+          <h2>{t(lang, 'crea_brief_h2')}</h2>
+          <p>{t(lang, 'crea_brief_p')}</p>
         </div>
         <CustomBoardForm />
       </section>

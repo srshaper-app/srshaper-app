@@ -5,19 +5,23 @@ import { useRouter } from 'next/navigation';
 import { useCart } from './CartContext';
 import { getPrimaryProductImage } from '@/lib/productImages';
 import { formatMoney } from '@/lib/format';
+import { useLang } from '@/components/LanguageContext';
+import { t } from '@/lib/translations';
 
 export function CartButton() {
   const { count, openCart } = useCart();
+  const { lang } = useLang();
 
   return (
     <button className="btn btn-outline" onClick={openCart}>
-      Carrito (<span>{count}</span>)
+      {t(lang, 'cart_titulo')} (<span>{count}</span>)
     </button>
   );
 }
 
 export function CartOverlay() {
   const { items, removeItem, clear, totalCents, isOpen, closeCart } = useCart();
+  const { lang } = useLang();
   const drawerRef = useRef<HTMLDivElement | null>(null);
   const router = useRouter();
 
@@ -45,35 +49,35 @@ export function CartOverlay() {
       <div className={`cart-backdrop ${isOpen ? 'open' : ''}`} />
       <aside className={`cart-drawer ${isOpen ? 'open' : ''}`} ref={drawerRef}>
         <div className="cart-header">
-          <h3>Tu carrito</h3>
+          <h3>{t(lang, 'cart_titulo')}</h3>
           <button className="cart-close" type="button" onClick={closeCart}>
-            Cerrar
+            {t(lang, 'cart_cerrar')}
           </button>
         </div>
         <div className="cart-items">
-          {items.length === 0 && <div className="empty-cart">Tu carrito está vacío.</div>}
+          {items.length === 0 && <div className="empty-cart">{t(lang, 'cart_vacio')}</div>}
           {items.map((item) => (
             <div className="cart-item" key={item.id}>
               <img src={getPrimaryProductImage(item.image_url)} alt={item.name} />
               <div>
                 <h4>{item.name}</h4>
                 {item.variant ? <p>{item.variant}</p> : null}
-                <p>{formatMoney(item.price_cents)} · Cantidad {item.quantity}</p>
+                <p>{formatMoney(item.price_cents)} · {lang === 'en' ? 'Qty' : 'Cantidad'} {item.quantity}</p>
               </div>
-              <button onClick={() => removeItem(item.id)}>Quitar</button>
+              <button onClick={() => removeItem(item.id)}>{t(lang, 'cart_quitar')}</button>
             </div>
           ))}
         </div>
         <div className="cart-summary">
           <div>
-            <span>Total</span>
+            <span>{t(lang, 'cart_total')}</span>
             <strong>{formatMoney(totalCents)}</strong>
           </div>
           <button className="btn" type="button" onClick={handleCheckout} disabled={items.length === 0}>
-            Finalizar compra
+            {t(lang, 'cart_pagar')}
           </button>
           <button className="btn btn-ghost" type="button" onClick={clear}>
-            Vaciar carrito
+            {lang === 'en' ? 'Clear cart' : 'Vaciar carrito'}
           </button>
         </div>
       </aside>
