@@ -52,7 +52,19 @@ export function SiteHeader() {
             <Link href="/accesorios/cuerdas-amarres">{t(lang, 'nav_leashes')}</Link>
           </div>
         </div>
-        <Link href="/surf-skate">{t(lang, 'nav_surf_skate')}</Link>
+        <div className="menu-item">
+          <Link className="menu-label" href="/surf-skate">{t(lang, 'nav_surf_skate')}</Link>
+          <div className="dropdown">
+            <Link href="/surf-skate">{t(lang, 'surfskate_todos')}</Link>
+            <Link href="/surf-skate?tipo=Surfskates">Surfskates</Link>
+            <Link href="/surf-skate?tipo=Decks">Decks</Link>
+            <Link href="/surf-skate?tipo=Ejes">Ejes</Link>
+            <Link href="/surf-skate?tipo=Ruedas">Ruedas</Link>
+            <Link href="/surf-skate?tipo=Bushings">Bushings</Link>
+            <Link href="/surf-skate?tipo=Rodamientos">Rodamientos</Link>
+            <Link href="/surf-skate?tipo=Accesorios">{t(lang, 'nav_accesorios_todos')}</Link>
+          </div>
+        </div>
         <Link href="/sobre-nosotros">{t(lang, 'nav_sobre_nosotros')}</Link>
         <Link href="/contacto">{t(lang, 'nav_contacto')}</Link>
       </nav>

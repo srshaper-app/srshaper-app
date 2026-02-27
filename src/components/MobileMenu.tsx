@@ -58,7 +58,14 @@ export function MobileMenu() {
           <Link href="/accesorios/wax" onClick={() => setOpen(false)}>{t(lang, 'nav_wax')}</Link>
           <Link href="/accesorios/cuerdas-amarres" onClick={() => setOpen(false)}>{t(lang, 'nav_leashes')}</Link>
           <span className="mobile-group">{t(lang, 'nav_surf_skate')}</span>
-          <Link href="/surf-skate" onClick={() => setOpen(false)}>{t(lang, 'nav_surf_skate')}</Link>
+          <Link href="/surf-skate" onClick={() => setOpen(false)}>{t(lang, 'surfskate_todos')}</Link>
+          <Link href="/surf-skate?tipo=Surfskates" onClick={() => setOpen(false)}>Surfskates</Link>
+          <Link href="/surf-skate?tipo=Decks" onClick={() => setOpen(false)}>Decks</Link>
+          <Link href="/surf-skate?tipo=Ejes" onClick={() => setOpen(false)}>Ejes</Link>
+          <Link href="/surf-skate?tipo=Ruedas" onClick={() => setOpen(false)}>Ruedas</Link>
+          <Link href="/surf-skate?tipo=Bushings" onClick={() => setOpen(false)}>Bushings</Link>
+          <Link href="/surf-skate?tipo=Rodamientos" onClick={() => setOpen(false)}>Rodamientos</Link>
+          <Link href="/surf-skate?tipo=Accesorios" onClick={() => setOpen(false)}>{t(lang, 'nav_accesorios_todos')}</Link>
           <Link href="/sobre-nosotros" onClick={() => setOpen(false)}>{t(lang, 'nav_sobre_nosotros')}</Link>
           <Link href="/contacto" onClick={() => setOpen(false)}>{t(lang, 'nav_contacto')}</Link>
           <div className="mobile-lang-selector">
