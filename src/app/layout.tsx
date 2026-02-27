@@ -9,6 +9,11 @@ export const metadata = {
   title: 'Sr.Shaper — Surfboards a medida',
   description:
     'Tablas de surf personalizadas, catálogo inmediato y accesorios. Shaping artesanal desde Gran Canaria.',
+  icons: {
+    icon: [
+      { url: '/logo-srshaper.svg', type: 'image/svg+xml' },
+    ],
+  },
   openGraph: {
     title: 'Sr.Shaper — Surfboards a medida',
     description:
