@@ -47,11 +47,11 @@ export default function ContactoPage() {
               title="Ubicación Sr.Shaper"
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
-              src="https://www.google.com/maps?q=28.47763,-16.24780&z=16&output=embed"
+              src="https://www.google.com/maps?q=C.+Mary+S%C3%A1nchez+41%2C+35009+Las+Palmas+de+Gran+Canaria&z=16&output=embed"
             />
             <a
               className="btn btn-outline"
-              href="https://www.google.com/maps?q=28.47763,-16.24780"
+              href="https://www.google.com/maps/search/?api=1&query=C.+Mary+S%C3%A1nchez+41%2C+35009+Las+Palmas+de+Gran+Canaria"
               target="_blank"
               rel="noreferrer"
             >

@@ -58,7 +58,8 @@ export default function SobreNosotrosPage() {
           <div className="about-gallery-grid">
             <img src="/photos/about/purple-board-beach.png" alt="Tabla personalizada morada en costa rocosa" />
             <img src="/photos/about/green-board-portrait.png" alt="Tabla personalizada verde en mano del shaper" />
-            <img src="/photos/about/shaper-mint-board.jpg" alt="Shaper de Sr.Shaper sosteniendo una tabla en el exterior del taller" />
+            <img src="/photos/about/blue-board-shaper.jpg" alt="Shaper sosteniendo tabla azul con diseño artístico en el taller" />
+            <img src="/photos/about/shaper-fish-door.jpg" alt="Shaper con tabla fish verde apoyado en puerta del taller" />
           </div>
         </div>
       </section>
