@@ -1,5 +1,6 @@
 'use client';
 
+import { Suspense } from 'react';
 import { ProductCard } from '@/components/ProductCard';
 import { supabasePublic } from '@/lib/supabase/public';
 import { useLang } from '@/components/LanguageContext';
@@ -24,7 +25,7 @@ export const dynamic = 'force-dynamic';
 
 const SURF_SKATE_SUBCATS = ['Surfskates', 'Decks', 'Ejes', 'Ruedas', 'Bushings', 'Rodamientos', 'Accesorios'];
 
-export default function SurfSkatePage() {
+function SurfSkateContent() {
   const { lang } = useLang();
   const searchParams = useSearchParams();
   const tipoParam = searchParams.get('tipo');
@@ -40,7 +41,6 @@ export default function SurfSkatePage() {
       .then(({ data }) => setAllProducts(data || []));
   }, []);
 
-  // Filter client-side by the ?tipo= query param
   const filteredProducts = tipoParam
     ? allProducts.filter((p) => p.subcategory === tipoParam)
     : allProducts;
@@ -71,11 +71,7 @@ export default function SurfSkatePage() {
 
       <section className="section wave">
         <div className="section-head">
-          <h2>
-            {tipoParam
-              ? tipoParam
-              : t(lang, 'surfskate_disponibles')}
-          </h2>
+          <h2>{tipoParam ? tipoParam : t(lang, 'surfskate_disponibles')}</h2>
           <p>{t(lang, 'surfskate_disponibles_p')}</p>
         </div>
         <div className="grid cards">
@@ -94,5 +90,13 @@ export default function SurfSkatePage() {
         </div>
       </section>
     </main>
+  );
+}
+
+export default function SurfSkatePage() {
+  return (
+    <Suspense fallback={<main><section className="page-hero"><h1>Surf Skate</h1></section></main>}>
+      <SurfSkateContent />
+    </Suspense>
   );
 }
