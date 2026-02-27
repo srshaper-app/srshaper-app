@@ -5,6 +5,7 @@ import { supabasePublic } from '@/lib/supabase/public';
 import { useLang } from '@/components/LanguageContext';
 import { t } from '@/lib/translations';
 import { useEffect, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 
 type Product = {
   id: string;
@@ -21,8 +22,12 @@ type Product = {
 
 export const dynamic = 'force-dynamic';
 
+const SURF_SKATE_SUBCATS = ['Surfskates', 'Decks', 'Ejes', 'Ruedas', 'Bushings', 'Rodamientos', 'Accesorios'];
+
 export default function SurfSkatePage() {
   const { lang } = useLang();
+  const searchParams = useSearchParams();
+  const tipoParam = searchParams.get('tipo');
   const [allProducts, setAllProducts] = useState<Product[]>([]);
 
   useEffect(() => {
@@ -35,35 +40,47 @@ export default function SurfSkatePage() {
       .then(({ data }) => setAllProducts(data || []));
   }, []);
 
-  const subcategories = Array.from(
-    new Set(allProducts.map((p) => p.subcategory).filter((s): s is string => Boolean(s)))
-  );
+  // Filter client-side by the ?tipo= query param
+  const filteredProducts = tipoParam
+    ? allProducts.filter((p) => p.subcategory === tipoParam)
+    : allProducts;
 
   return (
     <main>
       <section className="page-hero">
         <p className="breadcrumb">Inicio / {t(lang, 'nav_surf_skate')}</p>
         <h1>{t(lang, 'surfskate_h1')}</h1>
-        <p className="lead">{t(lang, 'surfskate_lead_all')}</p>
-        <details className="category-drop" open>
-          <summary>{t(lang, 'surfskate_categorias')}</summary>
-          <div className="subnav">
-            <a href="/surf-skate">{t(lang, 'surfskate_todos')}</a>
-            {subcategories.map((s) => (
-              <a key={s} href={`/surf-skate?tipo=${encodeURIComponent(s)}`}>{s}</a>
-            ))}
-          </div>
-        </details>
+        <p className="lead">
+          {tipoParam
+            ? `${t(lang, 'surfskate_mostrando')} ${tipoParam}`
+            : t(lang, 'surfskate_lead_all')}
+        </p>
+        <div className="subnav">
+          <a href="/surf-skate" className={!tipoParam ? 'active' : ''}>{t(lang, 'surfskate_todos')}</a>
+          {SURF_SKATE_SUBCATS.map((s) => (
+            <a
+              key={s}
+              href={`/surf-skate?tipo=${encodeURIComponent(s)}`}
+              className={tipoParam === s ? 'active' : ''}
+            >
+              {s}
+            </a>
+          ))}
+        </div>
       </section>
 
       <section className="section wave">
         <div className="section-head">
-          <h2>{t(lang, 'surfskate_disponibles')}</h2>
+          <h2>
+            {tipoParam
+              ? tipoParam
+              : t(lang, 'surfskate_disponibles')}
+          </h2>
           <p>{t(lang, 'surfskate_disponibles_p')}</p>
         </div>
         <div className="grid cards">
-          {allProducts.length ? (
-            allProducts.map((product) => (
+          {filteredProducts.length ? (
+            filteredProducts.map((product) => (
               <ProductCard
                 key={product.id}
                 {...product}
