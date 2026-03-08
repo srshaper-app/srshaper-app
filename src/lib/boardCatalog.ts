@@ -2,6 +2,7 @@ export type BoardOutlineOption = {
   label: string;
   price_cents: number;
   preview_image?: string;
+  preview_image_back?: string;
   outline_image?: string;
 };
 
@@ -19,8 +20,8 @@ export const BOARD_MODELS: Record<string, BoardModelConfig> = {
     name: 'Princess',
     image: '/photos/models/princess/princess-front.jpg',
     outlineOptions: [
-      { label: 'Round', price_cents: 45000, preview_image: '/photos/models/princess/princess-front.jpg' },
-      { label: 'Roundpin', price_cents: 45000, preview_image: '/photos/models/princess/princess-back.jpg' },
+      { label: 'Round', price_cents: 45000, preview_image: '/photos/models/princess/princess-round-front.jpg', preview_image_back: '/photos/models/princess/princess-round-back.jpg' },
+      { label: 'Roundpin', price_cents: 45000, preview_image: '/photos/models/princess/princess-roundpin-new.jpg' },
     ],
     measures: [
       `5'5" x 19" x 2 1/4" Round`,
@@ -75,8 +76,8 @@ export const BOARD_MODELS: Record<string, BoardModelConfig> = {
     name: 'Gangster',
     image: '/models/gangster.png',
     outlineOptions: [
-      { label: 'Retro Bonzer', price_cents: 56000 },
-      { label: 'Single', price_cents: 48000 },
+      { label: 'Retro Bonzer', price_cents: 56000, outline_image: '/photos/models/gangster/outline-retro-bonzer.jpg' },
+      { label: 'Single', price_cents: 48000, outline_image: '/photos/models/gangster/outline-single.jpg' },
     ],
     measures: [
       `5'4" x 19.25" x 2 1/2" Single`,

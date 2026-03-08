@@ -71,9 +71,7 @@ const MODELS: Record<string, ModelInfo> = {
     ],
     prices: ['Round / Roundpin: 450€'],
     gallery: [
-      { src: '/photos/models/princess/princess-front.jpg', alt: 'Princess vista superior', label: 'Princess · Vista superior', label_en: 'Princess · Top view' },
-      { src: '/photos/models/princess/princess-back.jpg', alt: 'Princess vista inferior', label: 'Princess · Vista inferior', label_en: 'Princess · Bottom view' },
-      { src: '/photos/models/princess/princess-roundpin.jpg', alt: 'Princess Roundpin', label: 'Princess · Roundpin', label_en: 'Princess · Roundpin' },
+      { src: '/photos/models/princess/princess-roundpin-new.jpg', alt: 'Princess Roundpin', label: 'Roundpin', label_en: 'Roundpin' },
     ],
   },
   'gentleman': {
@@ -259,7 +257,7 @@ export default function ModeloPage({ params }: { params: Promise<{ slug: string 
             <p className="lead">{tagline}</p>
           </div>
           <div className="model-hero-logo">
-            <img src="/logo-srshaper.svg" alt="SRShaper logo" />
+            <img src={model.image} alt={`${model.name} logo`} />
           </div>
         </div>
       </section>
@@ -302,10 +300,12 @@ export default function ModeloPage({ params }: { params: Promise<{ slug: string 
             <h2>{t(lang, 'modelo_variaciones')}</h2>
             <p>{t(lang, 'modelo_variaciones_p')} {model.name}.</p>
           </div>
-          <div className="catalog-photo-grid">
+          <div className="board-gallery-grid">
             {model.gallery.map((image) => (
-              <figure key={`${model.name}-${image.src}`} className="model-gallery-card">
-                <img src={image.src} alt={image.alt} />
+              <figure key={`${model.name}-${image.src}`} className="board-gallery-card">
+                <div className="board-gallery-img-wrap">
+                  <img src={image.src} alt={image.alt} />
+                </div>
                 {image.label ? <figcaption>{lang === 'en' && image.label_en ? image.label_en : image.label}</figcaption> : null}
               </figure>
             ))}

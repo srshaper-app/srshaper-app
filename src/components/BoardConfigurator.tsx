@@ -36,6 +36,7 @@ export function BoardConfigurator({
   );
   const priceCents = selectedOutline?.price_cents || 0;
   const previewImage = selectedOutline?.preview_image || imageUrl;
+  const previewImageBack = selectedOutline?.preview_image_back;
   const outlineImage = selectedOutline?.outline_image;
   const variant = `${outline} · ${measure}`;
   const itemId = `${modelSlug}::${outline}::${measure}`;
@@ -68,9 +69,15 @@ export function BoardConfigurator({
 
       <div className="board-config-preview">
         <div className="board-preview-card">
-          <p>Vista del modelo seleccionado</p>
-          <img src={previewImage} alt={`${modelName} ${outline}`} />
+          <p>Frontal</p>
+          <img src={previewImage} alt={`${modelName} ${outline} frontal`} />
         </div>
+        {previewImageBack ? (
+          <div className="board-preview-card">
+            <p>Trasera</p>
+            <img src={previewImageBack} alt={`${modelName} ${outline} trasera`} />
+          </div>
+        ) : null}
         {outlineImage ? (
           <div className="board-preview-card">
             <p>Outline</p>
