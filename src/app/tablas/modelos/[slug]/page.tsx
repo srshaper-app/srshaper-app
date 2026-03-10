@@ -322,6 +322,28 @@ export default function ModeloPage({ params }: { params: Promise<{ slug: string 
                     </figure>
                   ) : null}
                 </div>
+                {opt.extra_images?.length ? (
+                  <div className="board-variation-extras">
+                    {opt.extra_images.map((src) => (
+                      <div key={src} className="board-variation-pair">
+                        <figure className="board-gallery-card">
+                          <div className="board-gallery-img-wrap">
+                            <img src={src} alt={`${model.name} ${opt.label}`} />
+                          </div>
+                          <figcaption>{opt.label}</figcaption>
+                        </figure>
+                        {opt.outline_image ? (
+                          <figure className="board-gallery-card">
+                            <div className="board-gallery-img-wrap">
+                              <img src={opt.outline_image} alt={`Outline ${opt.label}`} />
+                            </div>
+                            <figcaption>Outline</figcaption>
+                          </figure>
+                        ) : null}
+                      </div>
+                    ))}
+                  </div>
+                ) : null}
               </div>
             ))}
           </div>

@@ -4,6 +4,7 @@ export type BoardOutlineOption = {
   preview_image?: string;
   preview_image_back?: string;
   outline_image?: string;
+  extra_images?: string[];
 };
 
 export type BoardModelConfig = {
@@ -21,7 +22,7 @@ export const BOARD_MODELS: Record<string, BoardModelConfig> = {
     image: '/photos/models/princess/princess-front.jpg',
     outlineOptions: [
       { label: 'Round', price_cents: 45000, preview_image: '/photos/models/princess/princess-round-front.jpg', outline_image: '/photos/models/princess/outline-round.png' },
-      { label: 'Roundpin', price_cents: 45000, preview_image: '/photos/models/princess/princess-roundpin-photo.jpg', outline_image: '/photos/models/princess/outline-roundpin.png' },
+      { label: 'Roundpin', price_cents: 45000, preview_image: '/photos/models/princess/princess-roundpin-photo.jpg', outline_image: '/photos/models/princess/outline-roundpin.png', extra_images: ['/photos/models/princess/princess-roundpin-photo2.jpg', '/photos/models/princess/princess-roundpin-photo3.jpg'] },
     ],
     measures: [
       `5'5" x 19" x 2 1/4" Round`,
@@ -54,7 +55,7 @@ export const BOARD_MODELS: Record<string, BoardModelConfig> = {
       {
         label: 'Squash',
         price_cents: 45000,
-        preview_image: '/photos/models/gentleman/squash-new.jpg',
+        preview_image: '/photos/models/gentleman/squash-photo.jpg',
         outline_image: '/photos/models/gentleman/outline-squash.png',
       },
     ],

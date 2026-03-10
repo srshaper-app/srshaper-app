@@ -1123,6 +1123,12 @@ img {
   align-items: stretch;
 }
 
+.board-variation-extras {
+  display: grid;
+  gap: 24px;
+  margin-top: 24px;
+}
+
 @media (max-width: 640px) {
   .board-variation-pair {
     grid-template-columns: 1fr;
