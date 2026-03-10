@@ -1103,6 +1103,32 @@ img {
   text-align: center;
 }
 
+.board-variations {
+  display: grid;
+  gap: 48px;
+}
+
+.board-variation-row h3 {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 28px;
+  letter-spacing: 2px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.board-variation-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  align-items: stretch;
+}
+
+@media (max-width: 640px) {
+  .board-variation-pair {
+    grid-template-columns: 1fr;
+  }
+}
+
 .about-section {
   display: grid;
   gap: 24px;

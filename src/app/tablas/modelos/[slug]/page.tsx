@@ -294,20 +294,35 @@ export default function ModeloPage({ params }: { params: Promise<{ slug: string 
         </section>
       ) : null}
 
-      {model.gallery?.length ? (
+      {boardConfig?.outlineOptions?.some((o) => o.preview_image || o.outline_image) ? (
         <section className="section">
           <div className="section-head">
             <h2>{t(lang, 'modelo_variaciones')}</h2>
             <p>{t(lang, 'modelo_variaciones_p')} {model.name}.</p>
           </div>
-          <div className="board-gallery-grid">
-            {model.gallery.map((image) => (
-              <figure key={`${model.name}-${image.src}`} className="board-gallery-card">
-                <div className="board-gallery-img-wrap">
-                  <img src={image.src} alt={image.alt} />
+          <div className="board-variations">
+            {boardConfig.outlineOptions.map((opt) => (
+              <div key={opt.label} className="board-variation-row">
+                <h3>{opt.label}</h3>
+                <div className="board-variation-pair">
+                  {opt.preview_image ? (
+                    <figure className="board-gallery-card">
+                      <div className="board-gallery-img-wrap">
+                        <img src={opt.preview_image} alt={`${model.name} ${opt.label}`} />
+                      </div>
+                      <figcaption>{opt.label}</figcaption>
+                    </figure>
+                  ) : null}
+                  {opt.outline_image ? (
+                    <figure className="board-gallery-card">
+                      <div className="board-gallery-img-wrap">
+                        <img src={opt.outline_image} alt={`Outline ${opt.label}`} />
+                      </div>
+                      <figcaption>Outline</figcaption>
+                    </figure>
+                  ) : null}
                 </div>
-                {image.label ? <figcaption>{lang === 'en' && image.label_en ? image.label_en : image.label}</figcaption> : null}
-              </figure>
+              </div>
             ))}
           </div>
         </section>
