@@ -21,7 +21,7 @@ export const BOARD_MODELS: Record<string, BoardModelConfig> = {
     image: '/photos/models/princess/princess-front.jpg',
     outlineOptions: [
       { label: 'Round', price_cents: 45000, preview_image: '/photos/models/princess/princess-round-front.jpg', outline_image: '/photos/models/princess/outline-round.png' },
-      { label: 'Roundpin', price_cents: 45000, preview_image: '/photos/models/princess/princess-roundpin-new.jpg' },
+      { label: 'Roundpin', price_cents: 45000, preview_image: '/photos/models/princess/princess-roundpin-new.jpg', outline_image: '/photos/models/princess/outline-roundpin.png' },
     ],
     measures: [
       `5'5" x 19" x 2 1/4" Round`,
