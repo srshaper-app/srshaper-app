@@ -87,7 +87,7 @@ export function StatsPanel() {
           {orders.length === 0 && (
             <p>
               No hay ventas registradas todavía. Verifica el webhook de Stripe y
-              que el pago se complete en modo test.
+              que el pago se complete correctamente.
             </p>
           )}
           {orders.map((order) => (
